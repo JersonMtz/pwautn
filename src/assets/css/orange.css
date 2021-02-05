@@ -1,0 +1,27 @@
+.sidebar .nav li .nav-link:hover,
+body>.navbar-collapse .nav li .nav-link:hover {
+    border-left: solid 3px #FFA040;
+}
+
+.sidebar .nav li.active .nav-link,
+body>.navbar-collapse .nav li.active .nav-link {
+    border-left: solid 3px #FFA040;
+}
+
+.sidebar .logo,
+body>.navbar-collapse .logo {
+    background: #C43E00;
+}
+
+.navbar {
+    background: #FF6F00;
+}
+
+.navbar .navbar-brand {
+    color: #FFFFFF;
+}
+
+ul.nav li.nav-item a.nav-link[aria-expanded="true"] {
+    border-left: solid 3px #FFA040;
+    background: #222424;
+}

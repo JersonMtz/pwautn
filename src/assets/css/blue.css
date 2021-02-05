@@ -1,0 +1,30 @@
+.sidebar .nav li .nav-link:hover,
+body>.navbar-collapse .nav li .nav-link:hover {
+    border-left: solid 3px #5472d3;
+    background: #222424;
+}
+
+.sidebar .nav li.active .nav-link,
+body>.navbar-collapse .nav li.active .nav-link {
+    border-left: solid 3px #5472d3;
+    background: #222424;
+}
+
+
+.sidebar .logo,
+body>.navbar-collapse .logo {
+    background: #002171;
+}
+
+.navbar {
+    background: #0D47A1;
+}
+
+.navbar .navbar-brand {
+    color: #FFFFFF;
+}
+
+ul.nav li.nav-item a.nav-link[aria-expanded="true"] {
+    border-left: solid 3px #5472d3;
+    background: #222424;
+}
