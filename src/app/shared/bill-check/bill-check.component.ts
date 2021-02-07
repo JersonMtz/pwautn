@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
+  selector: 'bill-check',
+  templateUrl: './bill-check.component.html',
   styles: [
   ]
 })
-export class FormComponent implements OnInit {
+export class BillCheckComponent implements OnInit {
 
   constructor() { }
 

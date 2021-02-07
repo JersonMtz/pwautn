@@ -7,6 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BreadcrumbComponent implements OnInit {
 
+  /*TODO: CREAR DINAMICAMENTE BEADCRUMB;
+  obj = {
+    url: '',
+    icon: '',
+    title: ''
+  }*/
+
   constructor() { }
 
   ngOnInit(): void {

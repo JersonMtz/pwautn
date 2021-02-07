@@ -1,36 +1,84 @@
 <div class="sidebar">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="#" class="simple-text">GESTION DE INVENTARIO</a>
+            <a [routerLink]="['/dashboard']" class="simple-text">GESTIÓN DE INVENTARIO</a>
         </div>
         <ul class="nav">
-            <li class="nav-item text-center mb-3 d-none d-md-block"><span class="text-muted"><i class="fas fa-ellipsis-v"></i> Menú</span></li>
-            <li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-graduation-cap"></i> Academía</a></li>
+            <li class="nav-item text-center mb-3 d-none d-lg-block">
+                <span class="text-muted">
+                    <small><i class="fas fa-ellipsis-v"></i> Menú</small>
+                </span>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" [routerLink]="['/dashboard']">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+            <!-- <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-graduation-cap"></i> Academía</a></li> -->
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#buySubmenu" aria-expanded="false" aria-controls="buySubmenu">
                     <i class="fas fa-dolly"></i> Compras <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="buySubmenu">
-                    <li><a class="nav-link" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-cart-plus"></i> Nueva compra</a></li>
-                    <li><a class="nav-link" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-list"></i> Historial de compras</a></li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/purchase/new']">
+                            <i class="fas fa-cart-plus pl-2"></i> Nueva compra
+                        </a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/purchases']">
+                            <i class="fas fa-list pl-2"></i> Historial de compras
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-chalkboard-teacher"></i> Clientes</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="'/dashboard/product'"><i class="fas fa-cubes"></i> Productos</a></li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dashboard/clients']">
+                    <i class="fas fa-chalkboard-teacher"></i> Clientes
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dashboard/products']">
+                    <i class="fas fa-cubes"></i> Productos
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#saleSubmenu" aria-expanded="false" aria-controls="saleSubmenu">
                     <i class="fas fa-cash-register"></i> Ventas <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="saleSubmenu">
-                    <li class="nav-item"><a class="nav-link" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-shopping-basket"></i> Nueva venta</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-list"></i> Administrar ventas</a></li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/sale/new']">
+                            <i class="fas fa-shopping-basket pl-2"></i> Nueva venta
+                        </a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/sales']">
+                            <i class="fas fa-list pl-2"></i> Administrar ventas
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-users"></i> Usuarios</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" ><i class="fas fa-house-user"></i> Sucursales</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-city"></i> Proveedores</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-hand-holding-usd"></i> Impuestos</a></li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dashboard/users']">
+                    <i class="fas fa-users"></i> Usuarios
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dashboard/warehouses']">
+                    <i class="fas fa-house-user"></i> Sucursales
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dashboard/providers']">
+                    <i class="fas fa-city"></i> Proveedores
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/dashboard/taxes']">
+                    <i class="fas fa-hand-holding-usd"></i> Impuestos
+                </a>
+            </li>
         </ul>
     </div>
 </div>

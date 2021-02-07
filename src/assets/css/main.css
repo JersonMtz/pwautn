@@ -201,8 +201,6 @@ h1 .subtitle {
 }
 
 /*     General overwrite     */
-
-/* TODO: CSS MAIN 1 */
 body,
 .wrapper {
     min-height: 100vh;
@@ -260,7 +258,6 @@ input:focus {
     margin-top: 50px;
 }
 
-/* TODO: CSS MAIN 2 */
 .wrapper {
     position: relative;
     top: 0;
@@ -772,7 +769,8 @@ body>.navbar-collapse[data-color="purple"]:after {
     right: -15px;
 }
 
-/*TODO: .modal.show .modal-dialog {
+/*TODO: REVISAR*/
+.modal.show .modal-dialog {
     -webkit-transform: translate(0, 30%);
     -o-transform: translate(0, 30%);
     transform: translate(0, 30%);
@@ -836,7 +834,7 @@ body>.navbar-collapse[data-color="purple"]:after {
 .modal .modal-content .modal-footer .btn:hover,
 .modal .modal-content .modal-footer .btnfocus {
     text-decoration: none;
-} */
+}
 
 .btn-round {
     border-width: 1px;

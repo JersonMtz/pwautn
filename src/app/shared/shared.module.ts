@@ -9,17 +9,21 @@ import { FooterComponent } from './footer/footer.component';
 
 import { AppRoutingModule } from '../app-routing.module';
 import { RouterModule } from '@angular/router';
+import { BillCheckComponent } from './bill-check/bill-check.component';
+import { StockComponent } from './stock/stock.component';
 
 const sharedComponents = [
   BreadcrumbComponent,
   SidebarComponent,
   NavbarComponent,
-  FooterComponent
+  FooterComponent,
+  BillCheckComponent,
+  StockComponent,
 ];
 
 @NgModule({
   declarations: [
-    sharedComponents,
+    sharedComponents
   ],
   exports: [
     sharedComponents

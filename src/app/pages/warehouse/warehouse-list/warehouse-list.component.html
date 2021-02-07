@@ -1,0 +1,72 @@
+<div class="animate__animated animate__fadeIn">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]=" !edit ? 'active':'' " id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" 
+            [attr.aria-selected]="!edit">
+                <i class="fas fa-list-ol"></i> Lista de Sucursales
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]=" edit ? 'active':'' " id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" 
+            [attr.aria-selected]="edit">
+            <span *ngIf="!edit"><i class="fas fa-plus-circle"></i> Nueva Sucursal</span>
+            <span *ngIf="edit"><i class="fas fa-edit"></i> Editar Sucursal</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade" [ngClass]=" !edit ? 'active show':'' " id="list" role="tabpanel" aria-labelledby="list-tab">
+            <div class="table-responsive bg-white pt-4">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><small>Sucursal 1</small></th>
+                            <td><small>Alajuela, Upala</small></td>
+                            <td><small>87328393</small></td>
+                            <td><small><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></small>
+                            </td>
+                            <td>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt" ></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><small>Sucrusal 2</small></th>
+                            <td><small>Guanacaste, Liberia</small></td>
+                            <td><small>2838490</small></td>
+                            <td><small><span class="badge badge-secondary badge-pill">inactivo</span></small></td>
+                            <td>
+                                <button (click)="change()"  style="cursor: pointer;" class="rounded-circle btn btn-warning mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt" ></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" [ngClass]=" edit ? 'active show':'' " id="new" role="tabpanel" aria-labelledby="new-tab">
+            <warehouse-form></warehouse-form>
+        </div>
+    </div>
+
+
+    
+</div>
