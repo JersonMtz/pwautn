@@ -1,1 +1,72 @@
-<p>tax-list works!</p>
+<ul class="nav nav-tabs" id="tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="taxesList-tab" data-toggle="tab" href="#taxesList" role="tab"
+            aria-controls="taxesList" aria-selected="true"><i class="fas fa-list-ol"></i> Lista de Impuestos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="taxesEditAdd-tab" data-toggle="tab" href="#taxesEditAdd" role="tab"
+            aria-controls="taxesEditAdd" aria-selected="false"><i class="fas fa-plus-circle"></i> Nuevo Impuesto
+        </a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active bg-white p-4" id="taxesList" role="tabpanel" aria-labelledby="taxesList-tab">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Valor (%)</th>
+                        <th>Estado</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><small>IVA</small></th>
+                        <td><small>13</small></td>
+                        <td><small><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></small></td>
+                        <td>
+                            <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><small>IVA</small></th>
+                        <td><small>13</small></td>
+                        <td><small><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></small></td>
+                        <td>
+                            <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><small>IVA</small></th>
+                        <td><small>13</small></td>
+                        <td><small><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></small></td>
+                        <td>
+                            <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane fade bg-white p-4" id="taxesEditAdd" role="tabpanel" aria-labelledby="taxesEditAdd-tab">
+        <tax-form></tax-form>
+    </div>
+</div>

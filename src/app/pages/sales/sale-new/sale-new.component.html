@@ -1,55 +1,44 @@
 <div class="animate__animated animate__fadeIn">
-    <section class="row">
-        <div class="col-md-12 p-0">
-            <ul class="nav nav-tabs mt-3 px-auto" id="tabPurchase" role="tablist">
-                <li class="nav-item bg-white" role="presentation">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#newPurchase" role="tab"
-                        aria-controls="newPurchase" rel="tooltip"
-                        title="Facture y guarde el registro de sus compras o ventas" aria-selected="true"><i
-                            class="fas fa-pencil-alt"></i> Facturación</a>
-                </li>
-                <li class="nav-item bg-white" role="presentation">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#productsList" role="tab"
-                        aria-controls="productsList" rel="tooltip" title="Busque y agregue los productos a la factura"
-                        aria-selected="false"><i class="fas fa-list-ol"></i> Productos</a>
-                </li>
-            </ul>
-            <div class="tab-content bg-white border" id="tabPurchaseContent">
-
-                <div class="tab-pane fade show active" id="newPurchase" role="tabpanel" aria-labelledby="purchase-tab">
-                    <section class="container py-5">
+    <ul class="nav nav-tabs" id="tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="newSale-tab" data-toggle="tab" href="#newSale" role="tab"
+                aria-controls="newSale" aria-selected="true" aria-expanded="true">
+                <i class="fas fa-pencil-alt"></i> Facturación
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="productList-tab" data-toggle="tab" href="#productList" role="tab"
+                aria-controls="productList" aria-selected="false" aria-expanded="false">
+                <i class="fas fa-list-ol"></i> Productos
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active bg-white" id="newSale" role="tabpanel" aria-labelledby="newSale-tab">
+            <section class="container py-4">
+                <section class="row">
+                    <article class="col-md-5 order-md-6">
                         <section class="row">
-                            <article class="col-md-3 order-md-12">
-                                <p class="text-center">
-                                    Factura N° <span><b>{{ num }}</b></span>
-                                </p>
-                            </article>
-                            <article class="col-md-4 order-md-6">
-                                <section class="row">
-                                    <label for="fecha" class="control-label col-sm-3">Fecha</label>
-                                    <div class="form-group col-sm-9">
-                                        <input type="date" class="form-control" [value]="date">
-                                    </div>
-                                </section>
-                            </article>
-                            <article class="col-md-3 order-md-2">
-                                <h5>Cliente: <span><b>FULANITO</b></span></h5>
-                            </article>
-                            <article class="col-md-2 order-md-1">
-                                <button class="btn btn-sm btn-primary">Buscar Cliente <i
-                                        class="fas fa-search"></i></button>
-                            </article>
+                            <label for="fecha" class="control-label col-sm-3">Fecha</label>
+                            <div class="form-group col-sm-9">
+                                <input type="date" class="form-control" [value]="date">
+                            </div>
                         </section>
-                        <bill-check></bill-check>
-                    </section>
-                </div>
-
-                <div class="tab-pane fade" id="productsList" role="tabpanel" aria-labelledby="products-tab">
-                    <section class="container py-4">
-                        <stock></stock>
-                    </section>
-                </div>
-            </div>
+                    </article>
+                    <article class="col-md-3 order-md-1 mb-3">
+                        <button class="btn btn-sm btn-primary">Buscar Cliente <i class="fas fa-search"></i></button>
+                    </article>
+                    <article class="col-md-4 order-md-2">
+                        <h5>Cliente: <b>FULANITO</b></h5>
+                    </article>
+                </section>
+                <bill-check></bill-check>
+            </section>
         </div>
-    </section>
+        <div class="tab-pane fade bg-white" id="productList" role="tabpanel" aria-labelledby="productList-tab">
+            <section class="container py-4">
+                <stock></stock>
+            </section>
+        </div>
+    </div>
 </div>

@@ -32,8 +32,8 @@ import { TaxFormComponent } from './taxes/tax-form/tax-form.component';
 import { ProviderListComponent } from './providers/provider-list/provider-list.component';
 import { ProviderFormComponent } from './providers/provider-form/provider-form.component';
 
-import { WarehouseFormComponent } from './warehouse/warehouse-form/warehouse-form.component';
-import { WarehouseListComponent } from './warehouse/warehouse-list/warehouse-list.component';
+import { WarehouseFormComponent } from './warehouses/warehouse-form/warehouse-form.component';
+import { WarehouseListComponent } from './warehouses/warehouse-list/warehouse-list.component';
 
 const pagesComponents = [
   PagesComponent,

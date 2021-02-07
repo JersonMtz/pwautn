@@ -1,1 +1,133 @@
-<p>client-list works!</p>
+<div class="animate__animated animate__fadeIn">
+    <ul class="nav nav-tabs" id="tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="clientList-tab" data-toggle="tab" href="#clientList" role="tab"
+                aria-controls="clientList" aria-selected="true" aria-expanded="true">
+                <i class="fas fa-list-ol"></i> Lista de Clientes
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="clientAddEdit-tab" data-toggle="tab" href="#clientAddEdit" role="tab"
+                aria-controls="clientAddEdit" aria-selected="false" aria-expanded="false">
+                <i class="fas fa-plus-circle"></i> Nuevo Cliente
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active bg-white p-4" id="clientList" role="tabpanel" aria-labelledby="clientList-tab">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Cédula</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Contacto</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><small>124653241</small></th>
+                            <td><small>Mark</small></td>
+                            <td><small>Otto</small></td>
+                            <td>
+                                <ul>
+                                    <li><small><b>Teléfono:</b> 23456246</small></li>
+                                    <li><small><b>Correo:</b> micorreo@mail.com</small></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><small>124653241</small></th>
+                            <td><small>Mark</small></td>
+                            <td><small>Otto</small></td>
+                            <td>
+                                <ul>
+                                    <li><small><b>Teléfono:</b> 23456246</small></li>
+                                    <li><small><b>Correo:</b> micorreo@mail.com</small></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><small>124653241</small></th>
+                            <td><small>Mark</small></td>
+                            <td><small>Otto</small></td>
+                            <td>
+                                <ul>
+                                    <li><small><b>Teléfono:</b> 23456246</small></li>
+                                    <li><small><b>Correo:</b> micorreo@mail.com</small></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><small>124653241</small></th>
+                            <td><small>Mark</small></td>
+                            <td><small>Otto</small></td>
+                            <td>
+                                <ul>
+                                    <li><small><b>Teléfono:</b> 23456246</small></li>
+                                    <li><small><b>Correo:</b> micorreo@mail.com</small></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><small>124653241</small></th>
+                            <td><small>Mark</small></td>
+                            <td><small>Otto</small></td>
+                            <td>
+                                <ul>
+                                    <li><small><b>Teléfono:</b> 23456246</small></li>
+                                    <li><small><b>Correo:</b> micorreo@mail.com</small></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade bg-white p-4" id="clientAddEdit" role="tabpanel" aria-labelledby="clientAddEdit-tab">
+            <client-form></client-form>
+        </div>
+    </div>
+</div>

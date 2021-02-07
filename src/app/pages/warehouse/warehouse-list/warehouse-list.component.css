@@ -1,9 +1,0 @@
-ul.nav li.nav-item a.nav-link[aria-expanded="false"], ul.nav li.nav-item a.nav-link {
-    color: #868E96;
-}
-
-ul.nav li.nav-item a.nav-link[aria-expanded="true"] {
-    border-left: solid 3px #057F48;
-    color: #057F48;
-    background: #fff;
-}

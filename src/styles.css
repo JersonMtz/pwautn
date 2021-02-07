@@ -1,0 +1,13 @@
+ul#tab.nav li.nav-item a.nav-link[aria-expanded="false"], ul#tab.nav li.nav-item a.nav-link {
+    color: #868E96;
+}
+
+ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
+    background: #fff;
+    color: #343434;
+}
+
+.btn.btn-info {
+    background: #592C98;
+    border-color: #593196;
+}

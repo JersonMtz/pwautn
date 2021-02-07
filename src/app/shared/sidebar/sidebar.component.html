@@ -1,7 +1,7 @@
 <div class="sidebar">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a [routerLink]="['/dashboard']" class="simple-text">GESTIÓN DE INVENTARIO</a>
+            <a class="simple-text">GESTIÓN DE INVENTARIO</a>
         </div>
         <ul class="nav">
             <li class="nav-item text-center mb-3 d-none d-lg-block">
@@ -21,7 +21,7 @@
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="buySubmenu">
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <a class="nav-link" [routerLink]="['/dashboard/purchase/new']">
+                        <a class="nav-link" [routerLink]="['/dashboard/purchases/new']">
                             <i class="fas fa-cart-plus pl-2"></i> Nueva compra
                         </a>
                     </li>
@@ -48,7 +48,7 @@
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="saleSubmenu">
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <a class="nav-link" [routerLink]="['/dashboard/sale/new']">
+                        <a class="nav-link" [routerLink]="['/dashboard/sales/new']">
                             <i class="fas fa-shopping-basket pl-2"></i> Nueva venta
                         </a>
                     </li>

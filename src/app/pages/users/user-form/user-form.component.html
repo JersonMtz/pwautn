@@ -1,1 +1,56 @@
-<p>user-form works!</p>
+<div class="row animate__animated animate__fadeIn">
+    <div class="col-md-4 text-center">
+        <h3 class="mb-3 d-none d-md-block"><i class="fas fa-plus-circle"></i> Usuario Nuevo</h3>
+        <h4 class="d-md-none d-block"><i class="fas fa-plus-circle"></i> Usuario Nuevo</h4>
+        <img src="../../../../assets/img/avatar.png" width="50%" alt="product" class="rounded-circle mb-3">
+        <br>
+        <input type="file" class="d-none" #filePhoto>
+        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()">Subir imágen</button>
+    </div>
+    <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
+        <form action="#" class="px-3 py-5">
+            <article class="form-group row">
+                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="text" class="form-control" id="name" placeholder="Brayan Eduardo">
+                </div>
+                <label for="surname" class="col-sm-2 control-label">Apellidos</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="text" class="form-control" id="surname" placeholder="Piedra Ríos">
+                </div>
+            </article>
+
+            <article class="form-group row">
+                <label for="estado" class="col-sm-2 control-label">Estado</label>
+                <div class="col-sm-4 mb-2">
+                    <select id="estado" class="form-control">
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+                </div>
+                <label for="status" class="col-sm-2 control-label">Rol</label>
+                <div class="col-sm-4 mb-2">
+                    <select id="status" class="form-control">
+                        <option value="1">Administrador</option>
+                        <option value="0" selected>Estandar</option>
+                    </select>
+                </div>
+            </article>
+
+            <article class="form-group row">
+                <label for="mail" class="col-sm-2 control-label">Correo</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="email" class="form-control" id="mail" placeholder="correo@mail.com">
+                </div>
+                <label for="password" class="col-sm-2 control-label">Contraseña</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="password" class="form-control" id="password" placeholder="********">
+                </div>
+            </article>
+
+            <article class="form-group">
+                <button class="btn btn-info text-white btn-sm btn-round float-right" disabled>Guardar</button>
+            </article>
+        </form>
+    </div>
+</div>
