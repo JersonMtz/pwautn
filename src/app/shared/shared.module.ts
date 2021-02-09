@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 /* COMPONENTS SHARED */
@@ -7,18 +8,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 
-import { AppRoutingModule } from '../app-routing.module';
-import { RouterModule } from '@angular/router';
-import { BillCheckComponent } from './bill-check/bill-check.component';
-import { StockComponent } from './stock/stock.component';
 
 const sharedComponents = [
   BreadcrumbComponent,
   SidebarComponent,
   NavbarComponent,
-  FooterComponent,
-  BillCheckComponent,
-  StockComponent,
+  FooterComponent
 ];
 
 @NgModule({

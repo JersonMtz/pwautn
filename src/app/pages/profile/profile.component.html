@@ -1,3 +1,71 @@
-<div class="animate__animated animate__fadeIn">
-    <h1>SOY EL PERFIL</h1>
+<div class="row animate__animated animate__fadeIn">
+    <div class="col-md-4 text-center">
+        <h3 class="mb-3 d-none d-md-block"><b>Perfil de Usuario</b></h3>
+        <h4 class="d-md-none d-block"><b>Perfil de Usuario</b></h4>
+        <img src="../../../../assets/img/avatar.png" width="40%" alt="product" class="rounded-circle mb-3">
+        <br>
+        <input type="file" class="d-none" #filePhoto>
+        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()"><i class="fas fa-upload"></i> Imágen</button>
+    </div>
+    <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
+        <form action="#" class="px-3 pb-5">
+            <h3 class="text-center mb-3 d-none d-md-block"><b>Datos Personales</b></h3>
+            <h4 class="text-center d-md-none d-block"><b>Datos Personales</b></h4>
+            <br>
+            <article class="form-group row">
+                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="text" class="form-control" id="name" value="Brayan Eduardo" disabled>
+                </div>
+                <label for="surname" class="col-sm-2 control-label">Apellidos</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="text" class="form-control" id="surname" value="Piedra Ríos" disabled>
+                </div>
+            </article>
+
+            <article class="form-group row">
+                <label for="mail" class="col-sm-2 control-label">Correo</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="email" class="form-control" id="mail" value="correo@mail.com" disabled>
+                </div>
+                <label for="status" class="col-sm-2 control-label">Rol</label>
+                <div class="col-sm-4 mb-2">
+                    <input type="text" class="form-control" value="Administrador" disabled>
+                </div>
+            </article>
+
+            <article class="form-group row">
+                <label for="password" class="col-sm-4 control-label">Cambiar Contraseña</label>
+                <div class="col-sm-6 mb-2">
+                    <input type="password" class="form-control" id="password" placeholder="********">
+                    <small class="text-muted">Ingrese una contraseña de 8 digitos</small>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-warning btn-block"><i class="fas fa-lock"></i> Aceptar</button>
+                </div>
+            </article>
+            <br>
+            <hr class="text-center w-75 text-muted">
+            <h3 class="text-center mb-3 d-none d-md-block"><b>Cambiar Colores</b></h3>
+            <h4 class="text-center d-md-none d-block"><b>Cambiar Colores</b></h4>
+            <article class="form-group row">
+                <div class="col-sm-3">
+                    VERDE
+                </div>
+                <div class="col-sm-3">
+                    MORADO
+                </div>
+                <div class="col-sm-3">
+                    NARANJA
+                </div>
+                <div class="col-sm-3">
+                    AZUL
+                </div>
+            </article>
+            <br>
+            <article class="form-group text-center">
+                <button class="btn btn-info btn-sm"><i class="fas fa-save"></i> Guardar</button>
+            </article>
+        </form>
+    </div>
 </div>
