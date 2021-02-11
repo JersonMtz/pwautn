@@ -9,8 +9,8 @@
     </div>
     <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
         <form action="#" class="px-3 pb-5">
-            <h3 class="text-center mb-3 d-none d-md-block"><b>Datos Personales</b></h3>
-            <h4 class="text-center d-md-none d-block"><b>Datos Personales</b></h4>
+            <h3 class="text-center mb-3 d-none d-md-block mt-3"><b>Datos Personales</b></h3>
+            <h4 class="text-center d-md-none d-block mt-3"><b>Datos Personales</b></h4>
             <br>
             <article class="form-group row">
                 <label for="name" class="col-sm-2 control-label">Nombre</label>
@@ -36,12 +36,16 @@
 
             <article class="form-group row">
                 <label for="password" class="col-sm-4 control-label">Cambiar Contraseña</label>
-                <div class="col-sm-6 mb-2">
-                    <input type="password" class="form-control" id="password" placeholder="********">
+                <div class class="col-sm-6 mb-2">
+                    <div class="ui labeled input w-100">
+                        <div class="ui label bg-dark"><i class="fas fa-lock text-white"></i></div>
+                        <input type="password" placeholder="#C0ntr@señA#">
+                    </div>
+                    <br>
                     <small class="text-muted">Ingrese una contraseña de 8 digitos</small>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-warning btn-block"><i class="fas fa-lock"></i> Aceptar</button>
+                    <button class="btn btn-warning btn-block">Aceptar</button>
                 </div>
             </article>
             <br>
@@ -61,10 +65,6 @@
                 <div class="col-sm-3">
                     AZUL
                 </div>
-            </article>
-            <br>
-            <article class="form-group text-center">
-                <button class="btn btn-info btn-sm"><i class="fas fa-save"></i> Guardar</button>
             </article>
         </form>
     </div>

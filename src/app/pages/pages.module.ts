@@ -37,6 +37,7 @@ import { WarehouseListComponent } from './warehouses/warehouse-list/warehouse-li
 /* COMPONENTS */
 import { BillCheckComponent } from './components/bill-check/bill-check.component';
 import { StockComponent } from './components/stock/stock.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const pagesComponents = [
   PagesComponent,
@@ -73,6 +74,7 @@ const pagesComponents = [
     CommonModule,
     PagesRoutingModule,
     SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

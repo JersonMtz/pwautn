@@ -1,43 +1,64 @@
 <div class="row animate__animated animate__fadeIn mt-4">
     <div class="container">
-        <form action="#" class="px-3">
+        <form action="#" class="px-3" [formGroup]="form">
             <article class="form-group row">
                 <label for="idNumber" class="col-sm-2 control-label">Cédula</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="number" class="form-control" id="idNumber" placeholder="208370234">
+                    <input type="number" class="form-control" [ngClass]="hasErrorIdCard() ? 'is-invalid':''" id="idNumber" placeholder="208370234" formControlName="idCard" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorIdCard()">
+                        <span *ngIf="requiredIdCard()">Número de identificación es requerido</span> 
+                        <span *ngIf="incompletedIdCard()">Número de identificación incompleto</span> 
+                        <span *ngIf="patternIdCard()">Formato incorrecto. Digite números del 0 al 9</span> 
+                    </div>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="name" class="col-sm-2 control-label">Nombre</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" id="name" placeholder="Marcos Antonio">
+                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Marcos Antonio" formControlName="name" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorName()">
+                        Nombre es requerido
+                    </div>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="surname" class="col-sm-2 control-label">Apellidos</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" id="surname" placeholder="Ruíz Rojas">
+                    <input type="text" class="form-control" [ngClass]="hasErrorSurname() ? 'is-invalid':''" id="surname" placeholder="Ruíz Rojas" formControlName="surname" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorSurname()">
+                        Apellido es requerido
+                    </div>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="telephone" class="col-sm-2 control-label">Teléfono</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="number" class="form-control" id="telephone" placeholder="24356324 - 87654321">
+                    <input type="number" class="form-control" [ngClass]="hasErrorPhone() ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorPhone()">
+                        <span *ngIf="requiredPhone()">Numero de teléfono es requerido</span>
+                        <span *ngIf="incompletedPhone()">Número de teléfono incompleto</span>
+                        <span *ngIf="patternPhone()">Formato incorrecto. Ingrese solo números del 0 al 9</span> 
+                    </div>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="mail" class="col-sm-2 control-label">Correo</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="email" class="form-control" id="mail" placeholder="correo@mail.com">
+                    <input type="email" class="form-control" [ngClass]="hasErrorMail() ? 'is-invalid':''" id="mail" placeholder="correo@mail.com" formControlName="mail">
+                    <div class="invalid-feedback" *ngIf="hasErrorMail()">
+                        Formato de correo es incorrecto
+                    </div>
                 </div>
             </article>
 
             <article class="form-group">
-                <button class="btn btn-info text-white btn-sm btn-round" disabled>Guardar</button>
+                <button class="btn text-white btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-secondary':'btn-info'" 
+                [disabled]="formValid()">Guardar</button>
             </article>
         </form>
     </div>

@@ -7,13 +7,15 @@ import { BreadcrumbComponent  } from "./breadcrumb/breadcrumb.component";
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 const sharedComponents = [
   BreadcrumbComponent,
   SidebarComponent,
   NavbarComponent,
-  FooterComponent
+  FooterComponent,
+  SpinnerComponent
 ];
 
 @NgModule({

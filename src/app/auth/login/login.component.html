@@ -1,58 +1,27 @@
-<div class="animate__animated animate__fadeIn">
-    <div class="container-fluid">
-        <section class="pt-5">
-            <section class="text-center mt-5 mb-0">
-                <img class="rounded-circle shadow" width="140px" height="140px" src="../../../assets/img/login.png">
-            </section>
-            <section class="card mx-auto pb-4">
-                <form class="form-signin pt-5">
-                    <article class="form-group mb-4">
-                        <div class="inner-icon left-icon">
-                            <i class="fas fa-at"></i>
-                            <input type="email" class="form-control" placeholder="Email" required autofocus>
-                        </div>
-                    </article>
-
-                    <article class="form-group mb-5">
-                        <div class="inner-icon left-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" class="form-control" placeholder="Contraseña" required>
-                        </div>
-                    </article>
-
-                    <button class="btn btn-lg btn-block btn-info mb-3 ripple">Aceptar</button>
-                </form>
-                <a href="#" data-toggle="modal" data-target="#forgot"><small>Recuperar contraseña</small></a>
-            </section>
-        </section>
-    </div>
-
-    <section class="modal fade" id="forgot" tabindex="-1" aria-labelledby="forgot" aria-hidden="true"
-        data-backdrop="static">
-        <article class="modal-dialog">
-            <section class="modal-content">
-                <article class="modal-header">
-                    <h5 class="modal-title" id="forgotLabel">Recuperar Contraseña</h5>
-                    <span class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </span>
-                </article>
-                <article class="modal-body">
-                    <div class="form-group">
-                        <input type="email" class="form-control mb-3" placeholder="¿Olvidó su contraseña?" required>
-                        <small class="text-muted">Digite su email regitrado en el sistema.</small> <br>
-                        <small class="text-danger">El correo brindado no esta asociado al sistema. Por favor intente con
-                            otro.</small> <br>
-                        <small class="text-success">Se envió un enlace de recuperación de contraseña a su correo
-                            asociado.
-                            Revise su bandeja de entrada y siga los pasos.</small>
-                    </div>
-                </article>
-                <article class="modal-footer">
-                    <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-warning btn-sm">Recuperar</button>
-                </article>
-            </section>
-        </article>
+<section class="pt-5 animate__animated" [ngClass]="!exit ? 'animate__backInLeft' : 'animate__backOutLeft' ">
+    <section class="text-center mt-5 mb-0">
+        <img width="130px" height="130px" class="rounded-circle" src="../../../assets/img/login.png">
     </section>
-</div>
+    <section class="card mx-auto pb-4">
+        <form class="form-signin pt-3" [formGroup]="form">
+            <h2 class="text-center">Iniciar Sesión</h2>
+            <br>
+            <article class="form-group mb-4">
+                <div class="inner-icon left-icon">
+                    <i class="fas fa-at"></i>
+                    <input type="email" class="form-control" placeholder="Email" required autofocus formControlName="mail">
+                </div>
+            </article>
+
+            <article class="form-group mb-5">
+                <div class="inner-icon left-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-control" placeholder="Contraseña" required formControlName="pass">
+                </div>
+            </article>
+
+            <button (click)="onSubmit()" class="btn btn-lg btn-block mb-3" [disabled]="isValid()">Aceptar</button>
+        </form>
+        <a class="link" (click)="redirect()">Recuperar contraseña</a>
+    </section>
+</section>

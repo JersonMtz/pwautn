@@ -1,0 +1,35 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+div.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgb(0, 0, 0, 0.95);
+}
+
+i.fas.fa-user {
+    position: relative;
+    color: white;
+    font-size: 8rem;
+    text-shadow: 0 0 50px teal,
+                0 0 100px teal,
+                0 0 150px teal,
+                0 0 200px teal,
+                0 0 250px teal;
+    animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
