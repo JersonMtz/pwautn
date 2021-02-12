@@ -56,9 +56,13 @@
             </article>
 
             <article class="form-group">
-                <button class="btn text-white btn-sm btn-round" 
-                [ngClass]="formValid() ? 'btn-secondary':'btn-info'" 
-                [disabled]="formValid()">Guardar</button>
+                <button *ngIf="!editing" class="btn text-white btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
+                [disabled]="!formValid()">Guardar</button>
+
+                <button *ngIf="editing" class="btn text-white btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-info':'btn-secondary'" 
+                [disabled]="!formValid()">Actualizar</button>
             </article>
         </form>
     </div>

@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ClientInterface } from '../../../interfaces/client.interface';
 
 @Component({
   selector: 'client-form',
-  templateUrl: './client-form.component.html',
-  styles: [
-  ]
+  templateUrl: './client-form.component.html'
 })
-export class ClientFormComponent {
+export class ClientFormComponent implements OnChanges {
   
   form:FormGroup;
   expNumber:any = /^([0-9])*$/;
+  @Input('edit') editing:boolean = false;
+  @Input('data') client:ClientInterface;
 
-  constructor(private fb:FormBuilder) { this.createForm(); }
+  constructor(private fb:FormBuilder) { this.initForm(); }
 
-  // TODO: crear validadción asincrona para la cédula
-  createForm() {
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.editing) {
+      this.updateForm();
+    } else {
+      this.form.reset();
+    }
+  }
+
+  // TODO: crear validación asincrona para la cédula
+  initForm() {
     this.form = this.fb.group({
       idCard: ['', Validators.compose([ Validators.required, Validators.min(100000000), Validators.pattern(this.expNumber) ])],
       name: ['', Validators.required],
@@ -25,6 +34,14 @@ export class ClientFormComponent {
     })
   }
 
+  updateForm() {
+    let temp = this.client;
+    delete temp.id;
+    this.form.setValue(temp);
+  }
+
+
+  /* METHODS FORM */
   hasErrorIdCard():boolean {
     return (this.form.controls['idCard'].errors && this.form.controls['idCard'].dirty)
   }
@@ -70,6 +87,6 @@ export class ClientFormComponent {
   }
 
   formValid():boolean {
-    return this.form.invalid;
+    return this.form.valid;
   }
 }
