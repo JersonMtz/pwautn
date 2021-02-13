@@ -2,7 +2,7 @@
     <div class="col-md-4 text-center">
         <h3 class="mb-3 d-none d-md-block"><b>Perfil de Usuario</b></h3>
         <h4 class="d-md-none d-block"><b>Perfil de Usuario</b></h4>
-        <img src="../../../../assets/img/avatar.png" width="40%" alt="product" class="rounded-circle mb-3">
+        <img src="../../../../assets/img/avatar.png" width="50%" alt="product" class="rounded-circle mb-3">
         <br>
         <input type="file" class="d-none" #filePhoto>
         <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()"><i class="fas fa-upload"></i> Imágen</button>
@@ -35,18 +35,26 @@
             </article>
 
             <article class="form-group row">
-                <label for="password" class="col-sm-4 control-label">Cambiar Contraseña</label>
-                <div class class="col-sm-6 mb-2">
+                <label for="passNow" class="col-sm-2 control-label">Contraseña Actual</label>
+                <div class="col-sm-4 mb-3">
                     <div class="ui labeled input w-100">
                         <div class="ui label bg-dark"><i class="fas fa-lock text-white"></i></div>
-                        <input type="password" placeholder="#C0ntr@señA#">
+                        <input type="password" id="passNow" placeholder="●●●●●●●●">
                     </div>
+                </div>
+                <label for="passChange" class="col-sm-2 control-label">Contraseña Nueva</label>
+                <div class="col-sm-4 mb-3">
+                    <div class="ui labeled input w-100">
+                        <div class="ui label bg-dark"><i class="fas fa-lock text-white"></i></div>
+                        <input type="password" id="passChange" placeholder="●●●●●●●●">
+                    </div>                    
                     <br>
-                    <small class="text-muted">Ingrese una contraseña de 8 digitos</small>
+                    <small class="text-muted">»Ingrese una contraseña de 8 digitos</small>
                 </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-warning btn-block">Aceptar</button>
-                </div>
+            </article>
+
+            <article class="form-group text-center">
+                <button class="btn btn-warning"><i class="fas fa-save"></i> Aceptar</button>
             </article>
             <br>
             <hr class="text-center w-75 text-muted">

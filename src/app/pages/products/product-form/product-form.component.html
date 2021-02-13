@@ -5,18 +5,18 @@
         <img src="./assets/img/product.png" width="80%" alt="product" class="img-thumbnail mb-3">
         <br>
         <input type="file" class="d-none" #filePhoto>
-        <button class="btn btn-warning btn-sm text-white mb-3" (click)="filePhoto.click()">Subir imágen</button>
+        <button class="btn btn-warning btn-sm text-white mb-3" (click)="filePhoto.click()"><i class="fas fa-upload"></i> Imágen</button>
     </div>
     <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
-        <form action="#" class="px-3 py-5">
+        <form action="#" class="px-3 py-5" [formGroup]="form">
             <article class="form-group row">
-                <label for="costo" class="col-sm-2 control-label">Código</label>
+                <label for="code" class="col-sm-2 control-label">Código</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="codigo" placeholder="A4DF">
+                    <input type="text" class="form-control" id="code" placeholder="A4DF" formControlName="code">
                 </div>
-                <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+                <label for="name" class="col-sm-2 control-label">Nombre</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="nombre" placeholder="Caja vacía">
+                    <input type="text" class="form-control" id="name" placeholder="Caja vacía" formControlName="name">
                 </div>
             </article>
 
@@ -25,28 +25,40 @@
                 <div class="col-sm-4 mb-2">
                     <div class="ui labeled input w-100">
                         <div class="ui label">₡</div>
-                        <input type="number" placeholder="0.0">
+                        <input type="number" placeholder="0.0" id="cost" formControlName="cost">
                     </div>
                 </div>
 
-                <label for="precio" class="col-sm-2 control-label">Precio Venta</label>
+                <label for="price" class="col-sm-2 control-label">Precio Venta</label>
                 <div class="col-sm-4 mb-2">
                     <div class="ui labeled input w-100">
                         <div class="ui label">₡</div>
-                        <input type="number" placeholder="0.0">
+                        <input type="number" placeholder="0.0" id="price" formControlName="price">
                     </div>
                 </div>
             </article>
 
             <article class="form-group row">
-                <label for="stock" class="col-sm-2 control-label float-right">Stock</label>
+                <label for="stock" class="col-sm-2 control-label">Stock</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="number" class="form-control" id="stock" placeholder="0">
+                    <input type="number" class="form-control" id="stock" placeholder="0" formControlName="stock">
                 </div>
-                <label for="estado" class="col-sm-2 control-label">Estado</label>
+                <label for="category" class="col-sm-2 control-label">Categoría</label>
                 <div class="col-sm-4 mb-2">
-                    <select id="estado" class="form-control">
-                        <option value="1">Disponible</option>
+                    <select class="form-control" id="category" formControlName="category">
+                        <option value="0" disabled selected>Seleccionar</option>
+                        <option value="1A">Shampu</option>
+                        <option value="2B">Tintes</option>
+                        <option value="3C">Keratina</option>
+                    </select>
+                </div>
+            </article>
+
+            <article class="form-group row">
+                <label for="status" class="control-label col-sm-3">Estado</label>
+                <div class="col-sm-9 mb-2">
+                    <select class="form-control" id="status" formControlName="status">
+                        <option value="1" selected>Disponible</option>
                         <option value="0">No disponible</option>
                     </select>
                 </div>
@@ -55,17 +67,15 @@
             <article class="form-group row">
                 <label for="description" class="col-sm-2 control-label">Descripción</label>
                 <div class="col-sm-10">
-                    <textarea id="description" class="form-control" rows="10" placeholder="Detalles del producto" style="height: 10rem;"></textarea>
+                    <textarea class="form-control" rows="10" placeholder="Detalles del producto" 
+                    style="height: 10rem;" id="description"  formControlName="description"></textarea>
                 </div>
             </article>
 
             <article class="form-group">
-                <div class="ui animated button disabled loading small purple btn-round float-right mb-3" tabindex="0">
-                    <div class="visible content text-white">Guardar</div>
-                    <div class="hidden content">
-                        <i class="right fas fa-save text-white"></i>
-                    </div>
-                </div>
+                <button class="btn btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
+                [disabled]="!formValid()"><i class="right fas fa-save"></i> Guardar</button>
             </article>
         </form>
     </div>

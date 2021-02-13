@@ -7,7 +7,11 @@ ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
     color: #343434;
 }
 
-.btn.btn-info {
+.btn-info, .btn-info:hover, .ui.purple.button, .ui.purple.buttons {
     background: #592C98;
     border-color: #593196;
+}
+
+.btn {
+    cursor: pointer;
 }

@@ -1,5 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { ClientInterface } from '../../../interfaces/client.interface';
+import { MessagesService } from '../../../services/messages.service';
 
 @Component({
   selector: 'client-list',
@@ -37,7 +38,7 @@ export class ClientListComponent {
     }
   ];
 
-  constructor(private dect: ChangeDetectorRef) { }
+  constructor(private dect:ChangeDetectorRef, private popup:MessagesService) { }
 
   ngAfterViewChecked() {
     this.dect.detectChanges();
@@ -52,5 +53,14 @@ export class ClientListComponent {
     if (this.edit){ 
       setTimeout(() => this.edit = false, 500);
     }
+  }
+
+  deleteClient(person:ClientInterface) {
+    this.popup.smsDelete(person.name).then(resp => {
+      if (resp.isConfirmed) {
+        //TODO: LÓGICA ELIMINAR EN FIREBASE 
+        this.popup.notification('success', `<span class="text-white">Se elimino a ${ person.name } con éxito</span>`,'#52B256');
+      }
+    });
   }
 }

@@ -9,7 +9,7 @@ import { ClientInterface } from '../../../interfaces/client.interface';
 export class ClientFormComponent implements OnChanges {
   
   form:FormGroup;
-  expNumber:any = /^([0-9])*$/;
+  expNumber:RegExp = /^([0-9])*$/;
   @Input('edit') editing:boolean = false;
   @Input('data') client:ClientInterface;
 

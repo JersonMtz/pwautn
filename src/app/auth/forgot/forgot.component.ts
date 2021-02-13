@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,14 +7,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './forgot.component.html',
   styleUrls: ['../login/login.component.css']
 })
-export class ForgotComponent implements OnDestroy {
+export class ForgotComponent {
   
   form:FormGroup;
   exit:boolean = false;
-  private interval: any;
-  private reExp: any = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
+  private reExp:any = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
 
-  constructor(private url:Router, private fb:FormBuilder) { 
+  constructor(private router:Router, private fb:FormBuilder) { 
     this.form = this.fb.group({
       mail: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.reExp)])]
     });
@@ -30,8 +29,6 @@ export class ForgotComponent implements OnDestroy {
 
   redirect(){
     this.exit = true;
-    this.interval = setInterval(() => this.url.navigateByUrl('auth/login'), 500);
+    setTimeout(() => this.router.navigateByUrl('auth/login'), 500);
   }
-
-  ngOnDestroy() { clearInterval(this.interval) }
 }
