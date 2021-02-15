@@ -5,7 +5,8 @@ import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
   providedIn: 'root'
 })
 export class MessagesService {
-
+  
+  error:any = { active: false, text: ''};
   constructor() { }
 
   smsDelete(text:string):Promise<SweetAlertResult> {
@@ -32,13 +33,19 @@ export class MessagesService {
       toast: true,
       position: 'bottom',
       showConfirmButton: false,
-      timer: 3000,
+      timer: 5000,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
         toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
     });
-    Toast.fire({ icon: type, title: text, background: backColor });
+    Toast.fire({ 
+      icon: type, 
+      title: text, 
+      background: backColor, 
+      showClass: { popup: 'animate__animated animate__fadeIn' }, 
+      hideClass: { popup: 'animate__animated animate__fadeOut' }
+    });
   }
 }

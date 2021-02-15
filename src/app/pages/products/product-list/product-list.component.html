@@ -16,7 +16,10 @@
             <tbody>
                 <tr *ngFor="let product of productList">
                     <th>{{ product.code }}</th>
-                    <td><img [src]="product.photo" width="50" alt="Producto" class="img-thumbnail"></td>
+                    <td>
+                        <img *ngIf="product.photo"  [src]="product.photo" width="50" alt="Producto" class="img-thumbnail">
+                        <img *ngIf="!product.photo"  src="../../../../assets/img/product.png" width="50" alt="Producto" class="img-thumbnail">
+                    </td>
                     <td>{{ product.name }}</td>
                     <td>
                         <span *ngIf="product.status" class="badge badge-success badge-pill">Sí</span>
@@ -25,7 +28,7 @@
                     <td>{{ product.stock }}</td>
                     <td>₡ {{ product.price }}</td>
                     <td style="border-left: solid 2px #E9ECEF;">
-                        <button class="btn btn-sm btn-warning rounded-circle mx-1"><i class="fas fa-edit"></i></button>
+                        <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1"><i class="fas fa-edit"></i></button>
                         <button (click)="deleteProduct(product)" class="btn btn-sm btn-danger rounded-circle mx-1"><i class="fas fa-times-circle"></i></button>
                     </td>
                 </tr>
