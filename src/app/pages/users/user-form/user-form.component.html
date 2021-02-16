@@ -2,54 +2,91 @@
     <div class="col-md-4 text-center">
         <h3 class="mb-3 d-none d-md-block"><i class="fas fa-plus-circle"></i> Usuario Nuevo</h3>
         <h4 class="d-md-none d-block"><i class="fas fa-plus-circle"></i> Usuario Nuevo</h4>
-        <img src="../../../../assets/img/avatar.png" width="50%" alt="product" class="rounded-circle mb-3">
+        <img [src]="defaultPhoto" width="50%" alt="product" class="rounded-circle mb-3">
         <br>
-        <input type="file" class="d-none" #filePhoto>
-        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()">Subir imágen</button>
+        <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*" 
+        (click)="$event.target.value = ''">
+        <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
+        <br><br>
+        <button class="btn btn-sm mb-3 text-white mx-1" [ngClass]="form.controls['name'].invalid ? 'btn-secondary':'btn-info'"  
+        *ngIf="!btnReset" (click)="filePhoto.click()" [disabled]="form.controls['name'].invalid">
+            <i class="fas fa-upload"></i> Imágen
+        </button>
+        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
+            <i class="fas fa-minus-circle"></i> Remover
+        </button>
     </div>
     <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
-        <form action="#" class="px-3 py-5">
+        <form class="px-3 py-5" [formGroup]="form">
             <article class="form-group row">
-                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="name" placeholder="Brayan Eduardo">
+                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" 
+                    formControlName="name" (change)="builNamePhoto()" placeholder="Brayan Eduardo">
+                    <div class="invalid-feedback" *ngIf="hasErrorName()">Nombre es requerido</div>
                 </div>
                 <label for="surname" class="col-sm-2 control-label">Apellidos</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="surname" placeholder="Piedra Ríos">
+                    <input type="text" class="form-control" id="surname" formControlName="surname"  placeholder="Piedra Ríos">
                 </div>
             </article>
 
             <article class="form-group row">
-                <label for="estado" class="col-sm-2 control-label">Estado</label>
+                <label for="estado" class="col-sm-2 control-label">Estado <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <select id="estado" class="form-control">
-                        <option value="1">Activo</option>
-                        <option value="0">Inactivo</option>
+                    <select id="estado" formControlName="status" class="form-control">
+                        <option [ngValue]=true  [selected]="form.get('status').value === true">Activo</option>
+                        <option [ngValue]=false  [selected]="form.get('status').value === false">Inactivo</option>
                     </select>
                 </div>
-                <label for="status" class="col-sm-2 control-label">Rol</label>
+                <label for="status" class="col-sm-2 control-label">Rol <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <select id="status" class="form-control">
-                        <option value="1">Administrador</option>
-                        <option value="0" selected>Estandar</option>
+                    <select id="role" formControlName="role" class="form-control">
+                        <option [ngValue]=true [selected]="form.get('role').value === true">Administrador</option>
+                        <option [ngValue]=false [selected]="form.get('role').value === false">Estandar</option>
                     </select>
                 </div>
             </article>
 
             <article class="form-group row">
-                <label for="mail" class="col-sm-2 control-label">Correo</label>
+                <label for="mail" class="col-sm-2 control-label">Correo <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="email" class="form-control" id="mail" placeholder="correo@mail.com">
+                    <input type="email" class="form-control" [ngClass]="hasErrorMail() ? 'is-invalid':''" id="mail" 
+                    formControlName="mail" placeholder="correo@mail.com">
+                    <div class="invalid-feedback" *ngIf="hasErrorMail()">
+                        <span *ngIf="requiredMail()">Correo es requerido. </span>
+                        <span *ngIf="notMail()">No es un correo. </span>
+                        <span *ngIf="formatMail()">Formato de correo incorrecto. </span>
+                    </div>
                 </div>
-                <label for="password" class="col-sm-2 control-label">Contraseña</label>
+                <label for="password" class="col-sm-2 control-label">Contraseña <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="password" class="form-control" id="password" placeholder="********">
+                    <input type="password" class="form-control" [ngClass]="hasErrorPassword() ? 'is-invalid':''" id="password" 
+                    formControlName="password" placeholder="●●●●●●●●">
+                    <div class="invalid-feedback" *ngIf="hasErrorPassword()">
+                        <span *ngIf="requiredPassword()">Contraseña es requerido. </span>
+                        <span *ngIf="formatPassword()">La contraseña no cumple con lo necesario. </span>
+                    </div>
                 </div>
             </article>
 
-            <article class="form-group">
-                <button class="btn btn-info text-white btn-sm btn-round float-right">Guardar</button>
+            <article class="form-group row">
+                <div class="col-sm-6 order-md-2">
+                    <small>Es necesario que la contraseña cumpla lo siguiente:
+                        <ul>
+                            <li>Mínimo 8 caracteres. </li>
+                            <li>Mínimo una letra mayúscula. </li>
+                            <li>Mínimo una letra minúscula. </li>
+                            <li>Mínimo un número. </li>
+                            <li>Mínimo un caracter especial "<b>@ $ % ? ! * &</b>"</li>
+                        </ul>
+                    </small>
+                </div>
+                <div class="col-sm-6 order-md-1">
+                    <button class="btn text-white btn-sm btn-round mt-5" 
+                    [ngClass]="formValid() ? 'btn-info':'btn-secondary'" [disabled]="!formValid()">
+                    <i class="fas fa-save"></i> Guardar</button>
+                </div>
             </article>
         </form>
     </div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+declare function ready();
 
 @Component({
   selector: 'pages',
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
 })
 export class PagesComponent {
 
-  constructor() { }
+  constructor() { 
+    ready();
+  }
 
   ngOnInit(): void {
   }

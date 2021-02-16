@@ -6,9 +6,9 @@
                 <div class="col-sm-6 mb-2">
                     <input type="number" class="form-control" [ngClass]="hasErrorIdCard() ? 'is-invalid':''" id="idNumber" placeholder="208370234" formControlName="idCard" required>
                     <div class="invalid-feedback" *ngIf="hasErrorIdCard()">
-                        <span *ngIf="requiredIdCard()">Número de identificación es requerido</span> 
-                        <span *ngIf="incompletedIdCard()">Número de identificación incompleto</span> 
-                        <span *ngIf="patternIdCard()">Formato incorrecto. Digite números del 0 al 9</span> 
+                        <span *ngIf="requiredIdCard()">Número de identificación es requerido. </span> 
+                        <span *ngIf="incompletedIdCard()">Número de identificación incompleto. </span> 
+                        <span *ngIf="patternIdCard()">Formato incorrecto. Digite números del 0 al 9. </span> 
                     </div>
                 </div>
             </article>
@@ -38,9 +38,9 @@
                 <div class="col-sm-6 mb-2">
                     <input type="number" class="form-control" [ngClass]="hasErrorPhone() ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
                     <div class="invalid-feedback" *ngIf="hasErrorPhone()">
-                        <span *ngIf="requiredPhone()">Numero de teléfono es requerido</span>
-                        <span *ngIf="incompletedPhone()">Número de teléfono incompleto</span>
-                        <span *ngIf="patternPhone()">Formato incorrecto. Ingrese solo números del 0 al 9</span> 
+                        <span *ngIf="requiredPhone()">Numero de teléfono es requerido. </span>
+                        <span *ngIf="incompletedPhone()">Número de teléfono incompleto. </span>
+                        <span *ngIf="patternPhone()">Formato incorrecto. Ingrese solo números del 0 al 9. </span> 
                     </div>
                 </div>
             </article>
@@ -62,7 +62,7 @@
 
                 <button *ngIf="editing" class="btn btn-sm btn-round" 
                 [ngClass]="formValid() ? 'btn-info':'btn-secondary'" 
-                [disabled]="!formValid()">Actualizar</button>
+                [disabled]="!formValid()"><i class="fas fa-check-circle"></i> Actualizar</button>
             </article>
         </form>
     </div>

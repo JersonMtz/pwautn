@@ -1,1 +1,102 @@
-var $sidebar,isWindows,searchVisible=0,transparent=!0,transparentDemo=!0,fixedTop=!1,navbar_initialized=!1,mobile_menu_visible=0,mobile_menu_initialized=!1,toggle_initialized=!1,bootstrap_nav_initialized=!1;function debounce(e,i,n){var a;return function(){var o=this,t=arguments;clearTimeout(a),a=setTimeout(function(){a=null,n||e.apply(o,t)},i),n&&!a&&e.apply(o,t)}}$(document).ready(function(){window_width=$(window).width(),lbd.checkSidebarImage(),window_width<=991&&lbd.initRightMenu(),$('[rel="tooltip"]').tooltip(),0!=$("[data-toggle='switch']").length&&$("[data-toggle='switch']").bootstrapSwitch(),$(".form-control").on("focus",function(){$(this).parent(".input-group").addClass("input-group-focus")}).on("blur",function(){$(this).parent(".input-group").removeClass("input-group-focus")}),$("body").on("touchstart.dropdown",".dropdown-menu",function(e){e.stopPropagation()})}),$(window).resize(function(){$(window).width()<=991&&lbd.initRightMenu()}),lbd={misc:{navbar_menu_visible:0},checkSidebarImage:function(){$sidebar=$(".sidebar"),image_src=$sidebar.data("image"),void 0!==image_src?(sidebar_container='<div class="sidebar-background" style="background-image: url('+image_src+') "/>',$sidebar.append(sidebar_container)):1==mobile_menu_initialized&&($sidebar_wrapper.find(".navbar-form").remove(),$sidebar_wrapper.find(".nav-mobile-menu").remove(),mobile_menu_initialized=!1)},initRightMenu:function(){$sidebar_wrapper=$(".sidebar-wrapper"),mobile_menu_initialized?$(window).width()>991&&($sidebar_wrapper.find(".navbar-form").remove(),$sidebar_wrapper.find(".nav-mobile-menu").remove(),mobile_menu_initialized=!1):($navbar=$("nav").find(".navbar-collapse").first().clone(!0),nav_content="",mobile_menu_content="",$navbar.children("ul").each(function(){content_buff=$(this).html(),nav_content+=content_buff}),nav_content='<ul class="nav nav-mobile-menu">'+nav_content+"</ul>",$navbar_form=$("nav").find(".navbar-form").clone(!0),$sidebar_nav=$sidebar_wrapper.find(" > .nav"),$nav_content=$(nav_content),$nav_content.insertBefore($sidebar_nav),$navbar_form.insertBefore($nav_content),$(".sidebar-wrapper .dropdown .dropdown-menu > li > a").click(function(e){e.stopPropagation()}),mobile_menu_initialized=!0),toggle_initialized||($toggle=$(".navbar-toggler"),$toggle.click(function(){1==mobile_menu_visible?($("html").removeClass("nav-open"),$(".close-layer").remove(),setTimeout(function(){$toggle.removeClass("toggled")},400),mobile_menu_visible=0):(setTimeout(function(){$toggle.addClass("toggled")},430),main_panel_height=$(".main-panel")[0].scrollHeight,$layer=$('<div class="close-layer"></div>'),$layer.css("height",main_panel_height+"px"),$layer.appendTo(".main-panel"),setTimeout(function(){$layer.addClass("visible")},100),$layer.click(function(){$("html").removeClass("nav-open"),mobile_menu_visible=0,$layer.removeClass("visible"),setTimeout(function(){$layer.remove(),$toggle.removeClass("toggled")},400)}),$("html").addClass("nav-open"),mobile_menu_visible=1)}),toggle_initialized=!0)}};
+function ready() {
+    var searchVisible = 0;
+    var transparent = true;
+
+    var transparentDemo = true;
+    var fixedTop = false;
+
+    var navbar_initialized = false;
+
+    $(document).ready(function () {
+        window_width = $(window).width();
+
+        // check if there is an image set for the sidebar's background
+        lbd.checkSidebarImage();
+
+        //  Activate the tooltips
+        $('[rel="tooltip"]').tooltip();
+
+        $('.form-control').on("focus", function () {
+            $(this).parent('.input-group').addClass("input-group-focus");
+        }).on("blur", function () {
+            $(this).parent(".input-group").removeClass("input-group-focus");
+        });
+
+        // Fixes sub-nav not working as expected on IOS
+        $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+    });
+
+    $(document).on('click', '.navbar-toggler', function () {
+        $toggle = $(this);
+
+        if (lbd.misc.navbar_menu_visible == 1) {
+            $('html').removeClass('nav-open');
+            lbd.misc.navbar_menu_visible = 0;
+            $('#bodyClick').remove();
+            setTimeout(function () {
+                $toggle.removeClass('toggled');
+            }, 550);
+        } else {
+            setTimeout(function () {
+                $toggle.addClass('toggled');
+            }, 580);
+            div = '<div id="bodyClick"></div>';
+            $(div).appendTo('body').click(function () {
+                $('html').removeClass('nav-open');
+                lbd.misc.navbar_menu_visible = 0;
+                setTimeout(function () {
+                    $toggle.removeClass('toggled');
+                    $('#bodyClick').remove();
+                }, 550);
+            });
+
+            $('html').addClass('nav-open');
+            lbd.misc.navbar_menu_visible = 1;
+        }
+    });
+
+    $(window).on('resize', function () {
+        if (navbar_initialized) {
+            lbd.initRightMenu();
+            navbar_initialized = true;
+        }
+    });
+
+    lbd = {
+        misc: {
+            navbar_menu_visible: 0
+        },
+
+        checkSidebarImage: function () {
+            $sidebar = $('.sidebar');
+            image_src = $sidebar.data('image');
+
+            if (image_src !== undefined) {
+                sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>'
+                $sidebar.append(sidebar_container);
+            }
+        },
+
+
+    }
+
+
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            }, wait);
+            if (immediate && !timeout) func.apply(context, args);
+        };
+    };
+
+}

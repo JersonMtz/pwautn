@@ -1,7 +1,7 @@
 <div class="row animate__animated animate__fadeIn">
     <div class="col-md-4 text-center">
-        <h2 *ngIf="!edit" class="text-warning mb-3">Nuevo Producto <i class="far fa-clipboard"></i></h2>
-        <h2 *ngIf="edit" class="text-warning mb-3">Editar Producto <i class="far fa-clipboard"></i></h2>
+        <h2 *ngIf="!editing" class="text-warning mb-3">Nuevo Producto <i class="far fa-clipboard"></i></h2>
+        <h2 *ngIf="editing" class="text-warning mb-3">Editar Producto <i class="far fa-clipboard"></i></h2>
         <img [src]="defaultPhoto" alt="product" class="img-thumbnail mb-3" style="max-height: 250px; max-width: 250px;">
     
         <br>
@@ -24,7 +24,7 @@
                 <div class="col-sm-4 mb-2">
                     <input type="text" class="form-control" id="code" placeholder="A4DF" formControlName="code">
                 </div>
-                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Caja vacía" 
                     formControlName="name" (change)="builNamePhoto()">
@@ -35,7 +35,7 @@
             </article>
 
             <article class="form-group row">
-                <label for="cost" class="col-sm-2 control-label">Costo</label>
+                <label for="cost" class="col-sm-2 control-label">Costo <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <div class="ui form">
                         <div class="field" [ngClass]="hasErrorCost() ? 'error':''">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <label for="price" class="col-sm-2 control-label">Precio Venta</label>
+                <label for="price" class="col-sm-2 control-label">Precio Venta <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <div class="ui form">
                         <div class="field" [ngClass]="hasErrorPrice() ? 'error':''">
@@ -69,7 +69,7 @@
             </article>
 
             <article class="form-group row">
-                <label for="stock" class="col-sm-2 control-label">Stock</label>
+                <label for="stock" class="col-sm-2 control-label">Stock <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <input type="number" class="form-control" [ngClass]="hasErrorStock() ? 'is-invalid':''" id="stock" placeholder="0" formControlName="stock">
                     <div class="invalid-feedback" *ngIf="hasErrorStock()">
@@ -77,7 +77,7 @@
                         <span *ngIf="patternStock()">Formato no es el correcto</span>
                     </div>
                 </div>
-                <label for="category" class="col-sm-2 control-label">Categoría</label>
+                <label for="category" class="col-sm-2 control-label">Categoría <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <select class="form-control" id="category" formControlName="category">
 
@@ -93,11 +93,11 @@
             </article>
 
             <article class="form-group row">
-                <label for="status" class="control-label col-sm-3">Estado</label>
+                <label for="status" class="control-label col-sm-3">Estado <span class="text-danger">*</span></label>
                 <div class="col-sm-9 mb-2">
                     <select class="form-control" id="status" formControlName="status">
-                        <option value="1" [selected]>Disponible</option>
-                        <option value="0">No disponible</option>
+                        <option value="1" [selected]="form.get('status').value === true">Disponible</option>
+                        <option value="0" [selected]="form.get('status').value === false">No disponible</option>
                     </select>
                 </div>
             </article>
@@ -111,9 +111,13 @@
             </article>
 
             <article class="form-group">
-                <button class="btn btn-sm btn-round" 
+                <button *ngIf="!editing" class="btn btn-sm btn-round" 
                 [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
-                [disabled]="!formValid()"><i class="right fas fa-save"></i> Guardar</button>
+                [disabled]="!formValid()"><i class="fas fa-save"></i> Guardar</button>
+
+                <button *ngIf="editing" class="btn btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
+                [disabled]="!formValid()"><i class="fas fa-check-circle"></i> Actualizar</button>
             </article>
         </form>
     </div>

@@ -16,7 +16,7 @@ export class ProductFormComponent implements OnDestroy {
   form:FormGroup;
   private expNumber:RegExp = /^([0-9])*$/;
   private product:ProductInterface;
-  edit:boolean = false;
+  editing:boolean = false;
 
   defaultPhoto:string;
   btnReset:boolean;
@@ -62,7 +62,7 @@ export class ProductFormComponent implements OnDestroy {
 
   initForm() {
     if (this.router.url === "/dashboard/products/add") {
-      this.edit = false;
+      this.editing = false;
       this.newProduct();
     } else {
       if (this.product === undefined) {
@@ -70,7 +70,7 @@ export class ProductFormComponent implements OnDestroy {
         this.note.error.text = 'Seleccione un producto antes de editar'
         this.router.navigateByUrl('/dashboard/products')
       } else {
-        this.edit = true;
+        this.editing = true;
         this.editProduct();
       }
     }
@@ -162,7 +162,7 @@ export class ProductFormComponent implements OnDestroy {
   }
 
   public onResetPhoto() {
-    this.defaultPhoto = (this.edit && this.product.photo) ? this.product.photo :  '../../../../assets/img/product.png';
+    this.defaultPhoto = (this.editing && this.product.photo) ? this.product.photo :  '../../../../assets/img/product.png';
     this.uploadPhoto = null;
     this.pathCollection = null;
     this.btnReset = false;
