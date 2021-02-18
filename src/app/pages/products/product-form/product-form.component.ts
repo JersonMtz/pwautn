@@ -2,14 +2,12 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessagesService } from 'src/app/services/messages.service';
-import { ProductInterface } from '../../../interfaces/product.interface';
+import { ProductInterface } from '../../../models/product.interface';
 import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'product-form',
-  templateUrl: './product-form.component.html',
-  styles: [
-  ]
+  templateUrl: './product-form.component.html'
 })
 export class ProductFormComponent implements OnDestroy {
 
@@ -33,6 +31,7 @@ export class ProductFormComponent implements OnDestroy {
   }
 
   private newProduct() {
+    // TODO: en categoria hay que traer los datos de la coleccion
     this.form = this.fb.group({
       code: [''],
       name: ['', Validators.required],
@@ -40,7 +39,7 @@ export class ProductFormComponent implements OnDestroy {
       price: ['', Validators.compose([Validators.required, Validators.pattern(this.expNumber)])],
       stock: ['', Validators.compose([Validators.required, Validators.pattern(this.expNumber)])],
       category: ['', Validators.required],
-      status: ['', Validators.required],
+      status: [true, Validators.required],
       description: [''],
       photo: ['']
     });

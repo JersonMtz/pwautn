@@ -24,15 +24,18 @@ import { ProviderListComponent } from './providers/provider-list/provider-list.c
 
 import { TaxListComponent } from './taxes/tax-list/tax-list.component';
 import { UserFormComponent } from './users/user-form/user-form.component';
+import { CategoryListComponent } from './category/category-list/category-list.component';
 
 const childreRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'profile', component: ProfileComponent },
+    /* CLIENTS VIEW */
+    { path: 'clients', component: ClientListComponent},
+    /* CATEGORY VIEW */
+    { path: 'categories', component: CategoryListComponent },
     /* PURCHASE VIEW */
     { path: 'purchases', component: PurchaseListComponent },
     { path: 'purchases/new', component: PurchaseNewComponent },
-    /* CLIENTS VIEW */
-    { path: 'clients', component: ClientListComponent},
     /* PRODUCTS VIEW */
     { path: 'products', component: ProductListComponent },
     { path: 'products/edit', component: ProductFormComponent },
@@ -44,12 +47,12 @@ const childreRoutes: Routes = [
     { path: 'users', component: UserListComponent },
     { path: 'users/edit', component: UserFormComponent },
     { path: 'users/add', component: UserFormComponent },
-    /* WAREHOUSES VIEW */
-    { path: 'warehouses', component: WarehouseListComponent },
     /* PROVIDERS VIEW */
     { path: 'providers', component: ProviderListComponent },
     /* TAXES VIEW */
     { path: 'taxes', component: TaxListComponent },
+    /* WAREHOUSES VIEW */
+    { path: 'warehouses', component: WarehouseListComponent },
 ];
 
 @NgModule({

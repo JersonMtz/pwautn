@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'provider-form',
-  templateUrl: './provider-form.component.html',
-  styles: [
-  ]
+  templateUrl: './provider-form.component.html'
 })
-export class ProviderFormComponent implements OnInit {
+export class ProviderFormComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

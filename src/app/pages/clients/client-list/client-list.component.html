@@ -30,13 +30,13 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let person of clients">
-                            <th><small>{{ person.idCard }}</small></th>
-                            <td><small>{{ person.name }}</small></td>
-                            <td><small>{{ person.surname }}</small></td>
+                            <th>{{ person.idCard }}</th>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.surname }}</td>
                             <td>
                                 <ul>
-                                    <li><small><b>Teléfono:</b> {{ person.phone }}</small></li>
-                                    <li><small><b>Correo:</b> {{ person.mail }}</small></li>
+                                    <li><b>Teléfono:</b> {{ person.phone }}</li>
+                                    <li><b>Correo:</b> {{ person.mail }}</li>
                                 </ul>
                             </td>
                             <td>

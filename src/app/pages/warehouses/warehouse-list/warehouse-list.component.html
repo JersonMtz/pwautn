@@ -1,22 +1,21 @@
 <div class="animate__animated animate__fadeIn">
     <ul class="nav nav-tabs" id="tab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" [ngClass]=" !edit ? 'active':'' " id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" 
-            [attr.aria-selected]="!edit" [attr.aria-expanded]="!edit">
+        <li class="nav-item" (click)="reload()">
+            <a class="nav-link" [ngClass]="!edit ? 'active':''" id="warehouseList-tab" data-toggle="tab" href="#warehouseList" role="tab" 
+            aria-controls="warehouseList" [attr.aria-selected]="!edit" [attr.aria-expanded]="!edit">
                 <i class="fas fa-list-ol"></i> Lista de Sucursales
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" [ngClass]=" edit ? 'active':'' " id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" 
-            [attr.aria-selected]="edit" [attr.aria-expanded]="edit">
-            <span *ngIf="!edit"><i class="fas fa-plus-circle"></i> Nueva Sucursal</span>
-            <span *ngIf="edit"><i class="fas fa-edit"></i> Editar Sucursal</span>
+            <a class="nav-link" [ngClass]="edit ? 'active':''" id="warehouseAddEdit-tab" data-toggle="tab" href="#warehouseAddEdit" role="tab" 
+                aria-controls="warehouseAddEdit" [attr.aria-selected]="edit" [attr.aria-expanded]="edit">
+                <span *ngIf="!edit" class="animate__animated animate__fadeIn"><i class="fas fa-plus-circle"></i> Nueva Sucursal</span>
+                <span *ngIf="edit" class="animate__animated animate__fadeIn"><i class="fas fa-edit"></i> Editar Sucursal</span>
             </a>
         </li>
     </ul>
-
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade bg-white p-4" [ngClass]=" !edit ? 'active show':'' " id="list" role="tabpanel" aria-labelledby="list-tab">
+        <div class="tab-pane fade bg-white p-4" [ngClass]="!edit ? 'active show':''" id="warehouseList" role="tabpanel" aria-labelledby="warehouseList-tab">
             <div class="table-responsive">
                 <table class="table">
                     <thead class="thead-dark">
@@ -29,31 +28,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>Sucursal 1</th>
-                            <td>Alajuela, Upala</td>
-                            <td>87328393</td>
-                            <td><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
+                        <tr *ngFor="let warehouse of warehouses">
+                            <th>{{ warehouse.name }}</th>
+                            <td>{{ warehouse.direction }}</td>
+                            <td>{{ warehouse.phone }}</td>
+                            <td>
+                                <span *ngIf="warehouse.status" class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
+                                <span *ngIf="!warehouse.status" class="badge badge-secondary badge-pill">inactivo</span>
                             </td>
                             <td>
-                                <button style="cursor: pointer;" class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip" title="Editar registro">
+                                <button (click)="editWarehouse(warehouse)" class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip" title="Editar registro">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
-                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip" title="Eliminar registro">
-                                    <i class="fas fa-trash-alt" ></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Sucrusal 2</th>
-                            <td>Guanacaste, Liberia</td>
-                            <td>2838490</td>
-                            <td><span class="badge badge-secondary badge-pill">inactivo</span></td>
-                            <td>
-                                <button (click)="change()"  style="cursor: pointer;" class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip" title="Editar registro">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button style="cursor: pointer;" class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip" title="Eliminar registro">
+                                <button (click)="deleteWarehouse(warehouse)" class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip" title="Eliminar registro">
                                     <i class="fas fa-trash-alt" ></i>
                                 </button>
                             </td>
@@ -62,9 +49,8 @@
                 </table>
             </div>
         </div>
-        <div class="tab-pane fade bg-white p-4" [ngClass]=" edit ? 'active show':'' " id="new" role="tabpanel" aria-labelledby="new-tab">
-            <warehouse-form></warehouse-form>
-            <button (click)="edit=!edit">regresar</button>
+        <div class="tab-pane fade bg-white p-4" [ngClass]="edit ? 'active show':''" id="warehouseAddEdit" role="tabpanel" aria-labelledby="warehouseAddEdit-tab">
+            <warehouse-form [edit]="edit" [data]="warehouseEdit"></warehouse-form>
         </div>
     </div>
 </div>

@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'tax-form',
-  templateUrl: './tax-form.component.html',
-  styles: [
-  ]
+  templateUrl: './tax-form.component.html'
 })
-export class TaxFormComponent implements OnInit {
+export class TaxFormComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

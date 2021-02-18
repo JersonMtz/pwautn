@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductInterface } from '../../../interfaces/product.interface';
+import { ProductInterface } from '../../../models/product.interface';
 import { MessagesService } from '../../../services/messages.service';
 import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'product-list',
-  templateUrl: './product-list.component.html',
-  styles: [
-  ]
+  templateUrl: './product-list.component.html'
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent {
   productList:ProductInterface[] = [
     {
       id: 'a1A1',
@@ -58,8 +56,6 @@ export class ProductListComponent implements OnInit {
       this.sms.error = {active: false, text: ''};
     }
   }
-
-  ngOnInit(): void {  }
 
   editProduct(product:ProductInterface) {
     this.productService.setProduct = product;

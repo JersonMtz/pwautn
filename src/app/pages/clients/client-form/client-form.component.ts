@@ -1,6 +1,6 @@
-import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ClientInterface } from '../../../interfaces/client.interface';
+import { ClientInterface } from '../../../models/client.interface';
 
 @Component({
   selector: 'client-form',
@@ -15,17 +15,10 @@ export class ClientFormComponent implements OnChanges {
 
   constructor(private fb:FormBuilder) { this.initForm(); }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.editing) {
-      this.updateForm();
-    } else {
-      this.form.reset();
-    }
-  }
-
   // TODO: crear validación asincrona para la cédula
   initForm() {
     this.form = this.fb.group({
+      id: ['', Validators.required],
       idCard: ['', Validators.compose([ Validators.required, Validators.min(100000000), Validators.pattern(this.expNumber) ])],
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -34,12 +27,13 @@ export class ClientFormComponent implements OnChanges {
     })
   }
 
-  updateForm() {
-    let temp = this.client;
-    delete temp.id;
-    this.form.setValue(temp);
+  ngOnChanges() {
+    if (this.editing) {
+      this.form.setValue(this.client);
+    } else {
+      this.form.reset();
+    }
   }
-
 
   /* METHODS FORM */
   hasErrorIdCard():boolean {

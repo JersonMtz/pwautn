@@ -7,11 +7,6 @@ declare function ready();
 })
 export class PagesComponent {
 
-  constructor() { 
-    ready();
-  }
-
-  ngOnInit(): void {
-  }
+  constructor() { ready(); }
 
 }

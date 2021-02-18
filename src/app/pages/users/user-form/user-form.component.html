@@ -61,8 +61,16 @@
                 </div>
                 <label for="password" class="col-sm-2 control-label">Contraseña <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="password" class="form-control" [ngClass]="hasErrorPassword() ? 'is-invalid':''" id="password" 
+                    <input [type]="text" class="form-control" [ngClass]="hasErrorPassword() ? 'is-invalid':''" id="password" 
                     formControlName="password" placeholder="●●●●●●●●">
+                    <button class="btn btn-warning btn-sm btn-block mt-2" (click)="show()" [disabled]="!form.get('password').dirty">
+                        <span class="animate__animated animate__fadeIn" *ngIf="!showPass">
+                            <i class="far fa-eye"></i> Mostrar contraseña
+                        </span>
+                        <span class="animate__animated animate__fadeIn" *ngIf="showPass">
+                            <i class="far fa-eye-slash"></i> Ocultar contraseña
+                        </span>
+                    </button>
                     <div class="invalid-feedback" *ngIf="hasErrorPassword()">
                         <span *ngIf="requiredPassword()">Contraseña es requerido. </span>
                         <span *ngIf="formatPassword()">La contraseña no cumple con lo necesario. </span>

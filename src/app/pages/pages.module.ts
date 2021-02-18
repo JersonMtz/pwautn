@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 /* MODULE ROUTING */
 import { PagesRoutingModule } from './pages-routing.module';
@@ -37,28 +38,31 @@ import { WarehouseListComponent } from './warehouses/warehouse-list/warehouse-li
 /* COMPONENTS */
 import { BillCheckComponent } from './components/bill-check/bill-check.component';
 import { StockComponent } from './components/stock/stock.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CategoryListComponent } from './category/category-list/category-list.component';
+import { CategoryFormComponent } from './category/category-form/category-form.component';
 
 const pagesComponents = [
-  PagesComponent,
-  HomeComponent,
-  ProfileComponent,
-  ProductListComponent,
-  ProductFormComponent,
   BillCheckComponent,
-  StockComponent,
-  SaleListComponent,
-  SaleNewComponent,
+  CategoryListComponent,
+  CategoryFormComponent,
+  ClientFormComponent,
+  ClientListComponent,
+  HomeComponent,
+  PagesComponent,
+  ProductFormComponent,
+  ProductListComponent,
+  ProfileComponent,
+  ProviderFormComponent,
+  ProviderListComponent,
   PurchaseListComponent,
   PurchaseNewComponent,
-  ClientListComponent,
-  ClientFormComponent,
-  UserListComponent,
-  UserFormComponent,
-  TaxListComponent,
+  SaleListComponent,
+  SaleNewComponent,
+  StockComponent,
   TaxFormComponent,
-  ProviderListComponent,
-  ProviderFormComponent,
+  TaxListComponent,
+  UserFormComponent,
+  UserListComponent,
   WarehouseFormComponent,
   WarehouseListComponent
 ]

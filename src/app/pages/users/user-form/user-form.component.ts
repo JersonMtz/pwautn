@@ -13,6 +13,8 @@ export class UserFormComponent {
   defaultPhoto:string;
   btnReset:boolean;
 
+  showPass:boolean = false;
+  text:string = 'password';
   form:FormGroup;
   private reExpMail:RegExp = /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
   private reExpPass:RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{7,9}[^'\s]/;
@@ -32,6 +34,11 @@ export class UserFormComponent {
       password: ['', Validators.compose([Validators.required, Validators.pattern(this.reExpPass)])],
       photo: ['']
     });
+  }
+
+  show() {
+    this.showPass = !this.showPass;
+    this.text = this.showPass ? 'text' : 'password';
   }
 
   /* METHODS FORM */

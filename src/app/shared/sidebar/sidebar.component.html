@@ -50,11 +50,30 @@
                     <i class="fas fa-chalkboard-teacher"></i> Clientes
                 </a>
             </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['/dashboard/products']">
-                    <i class="fas fa-cubes"></i> Productos
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#productSubmenu" aria-expanded="false" aria-controls="productSubmenu">
+                    <i class="fas fa-cubes"></i> Productos <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
+                <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="productSubmenu">
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/products/add']">
+                            <i class="fas fa-cube pl-2"></i> Nuevo producto
+                        </a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/categories']">
+                            <i class="fas fa-tags pl-2"></i> Categorias
+                        </a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/products']">
+                            <i class="fas fa-list pl-2"></i> Lista de productos
+                        </a>
+                    </li>
+                </ul>
             </li>
+            
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#saleSubmenu" aria-expanded="false" aria-controls="saleSubmenu">
                     <i class="fas fa-cash-register"></i> Ventas <i class="fas fa-angle-down float-right mt-2"></i>

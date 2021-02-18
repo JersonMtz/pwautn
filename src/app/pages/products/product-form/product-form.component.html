@@ -96,8 +96,8 @@
                 <label for="status" class="control-label col-sm-3">Estado <span class="text-danger">*</span></label>
                 <div class="col-sm-9 mb-2">
                     <select class="form-control" id="status" formControlName="status">
-                        <option value="1" [selected]="form.get('status').value === true">Disponible</option>
-                        <option value="0" [selected]="form.get('status').value === false">No disponible</option>
+                        <option [ngValue]=true [selected]="form.get('status').value">Disponible</option>
+                        <option [ngValue]=false [selected]="!form.get('status').value">No disponible</option>
                     </select>
                 </div>
             </article>

@@ -6,6 +6,7 @@ export interface UserInterface {
     status:boolean;
     role:boolean;
     mail:string;
-    password:string;
+    password?:string;
     photo?:string;
+    created:string;
 }

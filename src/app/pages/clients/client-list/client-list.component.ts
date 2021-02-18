@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { ClientInterface } from '../../../interfaces/client.interface';
+import { ClientInterface } from '../../../models/client.interface';
 import { MessagesService } from '../../../services/messages.service';
 
 @Component({
@@ -11,7 +11,7 @@ export class ClientListComponent {
   edit:boolean = false;
   clientEdit:ClientInterface;
 
-  clients: ClientInterface[] = [
+  clients:ClientInterface[] = [
     {
       id: '1A',
       idCard: 207390988,
@@ -49,12 +49,6 @@ export class ClientListComponent {
     this.clientEdit = person;
   }
 
-  reload() {
-    if (this.edit){ 
-      setTimeout(() => this.edit = false, 500);
-    }
-  }
-
   deleteClient(person:ClientInterface) {
     this.popup.smsDelete(person.name).then(resp => {
       if (resp.isConfirmed) {
@@ -62,5 +56,11 @@ export class ClientListComponent {
         this.popup.notification('success', `<span class="text-white">Se elimino a ${ person.name } con éxito</span>`,'#52B256');
       }
     });
+  }
+
+  reload() {
+    if (this.edit){ 
+      setTimeout(() => this.edit = false, 500);
+    }
   }
 }

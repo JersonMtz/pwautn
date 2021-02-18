@@ -2,7 +2,7 @@
     <div class="container">
         <form action="#" class="px-3" [formGroup]="form">
             <article class="form-group row">
-                <label for="idNumber" class="col-sm-2 control-label">Cédula</label>
+                <label for="idNumber" class="col-sm-2 control-label">Cédula <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
                     <input type="number" class="form-control" [ngClass]="hasErrorIdCard() ? 'is-invalid':''" id="idNumber" placeholder="208370234" formControlName="idCard" required>
                     <div class="invalid-feedback" *ngIf="hasErrorIdCard()">
@@ -14,7 +14,7 @@
             </article>
 
             <article class="form-group row">
-                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
                     <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Marcos Antonio" formControlName="name" required>
                     <div class="invalid-feedback" *ngIf="hasErrorName()">
@@ -24,7 +24,7 @@
             </article>
 
             <article class="form-group row">
-                <label for="surname" class="col-sm-2 control-label">Apellidos</label>
+                <label for="surname" class="col-sm-2 control-label">Apellidos <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
                     <input type="text" class="form-control" [ngClass]="hasErrorSurname() ? 'is-invalid':''" id="surname" placeholder="Ruíz Rojas" formControlName="surname" required>
                     <div class="invalid-feedback" *ngIf="hasErrorSurname()">
@@ -34,7 +34,7 @@
             </article>
 
             <article class="form-group row">
-                <label for="telephone" class="col-sm-2 control-label">Teléfono</label>
+                <label for="telephone" class="col-sm-2 control-label">Teléfono <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
                     <input type="number" class="form-control" [ngClass]="hasErrorPhone() ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
                     <div class="invalid-feedback" *ngIf="hasErrorPhone()">

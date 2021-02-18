@@ -1,19 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { WarehouseInterface } from '../../../models/warehouse.interface';
+import { MessagesService } from '../../../services/messages.service';
 
 @Component({
   selector: 'warehouse-list',
   templateUrl: './warehouse-list.component.html'
 })
-export class WarehouseListComponent implements OnInit {
-
+export class WarehouseListComponent {
+  
   edit:boolean = false;
+  warehouseEdit:WarehouseInterface;
 
-  constructor() { }
+  warehouses:WarehouseInterface[] = [
+    {
+      id: '1A',
+      name: 'Sucursal 1',
+      phone: 85218439,
+      status: true,
+      direction: 'Alajuela, Upala'
+    },
+    {
+      id: '2B',
+      name: 'Sucursal 2',
+      phone: 85218439,
+      status: true,
+      direction: 'Guanacaste, Liberia'
+    },
+    {
+      id: '3C',
+      name: 'Sucursal 3',
+      phone: 85218439,
+      status: false,
+      direction: 'San José, San José'
+    }
+  ];
 
-  ngOnInit(): void {
+  constructor(private dect:ChangeDetectorRef, private popup:MessagesService) { }
+
+  ngAfterViewChecked() {
+    this.dect.detectChanges();
   }
 
-  change(){
-    this.edit = !this.edit;
+  editWarehouse(warehouse:WarehouseInterface) {
+    this.edit = true;
+    this.warehouseEdit = warehouse;
+  }
+
+  deleteWarehouse(warehouse:WarehouseInterface) {
+    this.popup.smsDelete(warehouse.name).then(resp => {
+      if (resp.isConfirmed) {
+        //TODO: LÓGICA ELIMINAR EN FIREBASE 
+        this.popup.notification('success', `Se elimino a ${ warehouse.name } con éxito`);
+      }
+    });
+  }
+
+  reload() {
+    if (this.edit){ 
+      setTimeout(() => this.edit = false, 500);
+    }
   }
 }

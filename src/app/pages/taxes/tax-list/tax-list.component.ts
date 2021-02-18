@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'tax-list',
-  templateUrl: './tax-list.component.html',
-  styles: [
-  ]
+  templateUrl: './tax-list.component.html'
 })
-export class TaxListComponent implements OnInit {
+export class TaxListComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

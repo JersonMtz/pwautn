@@ -28,8 +28,12 @@
                     <td>{{ product.stock }}</td>
                     <td>₡ {{ product.price }}</td>
                     <td style="border-left: solid 2px #E9ECEF;">
-                        <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1"><i class="fas fa-edit"></i></button>
-                        <button (click)="deleteProduct(product)" class="btn btn-sm btn-danger rounded-circle mx-1"><i class="fas fa-times-circle"></i></button>
+                        <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1" rel="tooltip" title="Editar registro">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button (click)="deleteProduct(product)" class="btn btn-sm btn-dark rounded-circle mx-1" rel="tooltip" title="Eliminar registro">
+                            <i class="fas fa-trash-alt" ></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>
