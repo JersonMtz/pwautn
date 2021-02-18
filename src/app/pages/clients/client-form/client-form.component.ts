@@ -18,7 +18,7 @@ export class ClientFormComponent implements OnChanges {
   // TODO: crear validación asincrona para la cédula
   initForm() {
     this.form = this.fb.group({
-      id: ['', Validators.required],
+      id: [''],
       idCard: ['', Validators.compose([ Validators.required, Validators.min(100000000), Validators.pattern(this.expNumber) ])],
       name: ['', Validators.required],
       surname: ['', Validators.required],

@@ -20,6 +20,10 @@ ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
     font-size: 0.9em;
 }
 
-button.rounded-circle.btn.btn-warning.mx-1.btn-sm {
+button.rounded-circle.btn.btn-warning.mx-1.btn-sm, .fas.fa-cart-plus.fa-2x.text-success {
     cursor: pointer;
+}
+
+textarea.form-control {
+    height: 10rem;
 }

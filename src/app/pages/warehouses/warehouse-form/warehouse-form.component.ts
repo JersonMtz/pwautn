@@ -17,7 +17,7 @@ export class WarehouseFormComponent {
 
   initForm() {
     this.form = this.fb.group({
-      id: ['', Validators.required],
+      id: [''],
       name: ['', Validators.required],
       phone: ['', Validators.compose([ Validators.required, Validators.min(10000000), Validators.pattern(this.expNumber) ])],
       direction: [''],

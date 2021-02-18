@@ -26,6 +26,7 @@ export class UserFormComponent {
 
   initForm() {
     this.form = this.fb.group({
+      id: [''],
       name: ['', Validators.required],
       surname: [''],
       status: [true, Validators.required],

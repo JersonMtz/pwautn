@@ -16,7 +16,7 @@ export class CategoryFormComponent implements OnChanges {
 
   initForm(){
     this.form = this.fb.group({
-      id: ['', Validators.required ],
+      id: [''],
       name: ['', Validators.required],
       detail: ['']
     })

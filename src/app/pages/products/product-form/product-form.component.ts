@@ -24,15 +24,20 @@ export class ProductFormComponent implements OnDestroy {
   private uploadPhoto:any;
   private pathCollection:string;
 
-  constructor(private fb:FormBuilder, private productService:ProductService, private router:Router, private note:MessagesService) { 
+  constructor(private fb:FormBuilder, 
+              private productService:ProductService, 
+              private router:Router, 
+              private note:MessagesService) { 
     this.product = this.productService.getProduct;
-    this.initForm(); 
+    this.initForm();
+    this.verifyForm();
     this.onResetPhoto();
   }
 
-  private newProduct() {
-    // TODO: en categoria hay que traer los datos de la coleccion
+  //TODO: en categoria hay que traer los datos de la coleccion
+  initForm() {
     this.form = this.fb.group({
+      id: [''],
       code: [''],
       name: ['', Validators.required],
       cost: ['', Validators.compose([Validators.required, Validators.pattern(this.expNumber)])],
@@ -45,32 +50,15 @@ export class ProductFormComponent implements OnDestroy {
     });
   }
 
-  private editProduct() {
-    this.form = this.fb.group({
-      code: [this.product.code || ''],
-      name: [this.product.name, Validators.required],
-      cost: [this.product.cost, Validators.compose([Validators.required, Validators.pattern(this.expNumber)])],
-      price: [this.product.price, Validators.compose([Validators.required, Validators.pattern(this.expNumber)])],
-      stock: [this.product.stock, Validators.compose([Validators.required, Validators.pattern(this.expNumber)])],
-      category: [this.product.category, Validators.required],
-      status: [this.product.status, Validators.required],
-      description: [this.product.description || ''],
-      photo: [this.product.photo || '']
-    });
-  }
-
-  initForm() {
-    if (this.router.url === "/dashboard/products/add") {
-      this.editing = false;
-      this.newProduct();
-    } else {
+  verifyForm() {
+    if (this.router.url === "/dashboard/products/edit") {
       if (this.product === undefined) {
         this.note.error.active = true;
-        this.note.error.text = 'Seleccione un producto antes de editar'
-        this.router.navigateByUrl('/dashboard/products')
+        this.note.error.text = 'Seleccione un producto antes de editar';
+        this.router.navigateByUrl('/dashboard/products');
       } else {
+        this.form.setValue(this.product);
         this.editing = true;
-        this.editProduct();
       }
     }
   }
@@ -161,7 +149,7 @@ export class ProductFormComponent implements OnDestroy {
   }
 
   public onResetPhoto() {
-    this.defaultPhoto = (this.editing && this.product.photo) ? this.product.photo :  '../../../../assets/img/product.png';
+    this.defaultPhoto = (this.editing && this.product.photo)? this.product.photo : '../../../../assets/img/product.png';
     this.uploadPhoto = null;
     this.pathCollection = null;
     this.btnReset = false;
