@@ -1,3 +1,8 @@
+body {
+    position: fixed; 
+    width: 100%;
+}
+
 ul#tab.nav li.nav-item a.nav-link[aria-expanded="false"], ul#tab.nav li.nav-item a.nav-link {
     color: #868E96;
 }
@@ -7,23 +12,23 @@ ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
     color: #343434;
 }
 
-.btn-info, .btn-info:hover, .ui.purple.button, .ui.purple.buttons {
+.btn-info, .btn-info:hover {
     background: #592C98;
     border-color: #593196;
-}
-
-.btn {
-    cursor: pointer;
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     font-size: 0.9em;
 }
 
-button.rounded-circle.btn.btn-warning.mx-1.btn-sm, .fas.fa-cart-plus.fa-2x.text-success {
+button.rounded-circle.btn.btn-warning.mx-1.btn-sm, .fas.fa-cart-plus.fa-2x.text-success, .btn {
     cursor: pointer;
 }
 
 textarea.form-control {
     height: 10rem;
+}
+
+ul.collapse.list-unstyled.animate__animated.animate__fadeIn {
+    background: #21252B;
 }

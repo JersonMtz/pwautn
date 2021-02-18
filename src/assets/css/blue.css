@@ -1,3 +1,7 @@
+a.navbar-brand.text-muted {
+    color: #FFFFFF !important;
+}
+
 .sidebar .nav li .nav-link:hover,
 body>.navbar-collapse .nav li .nav-link:hover {
     border-left: solid 3px #5472d3;
@@ -9,7 +13,6 @@ body>.navbar-collapse .nav li.active .nav-link {
     border-left: solid 3px #5472d3;
     background: #222424;
 }
-
 
 .sidebar .logo,
 body>.navbar-collapse .logo {

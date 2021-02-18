@@ -1,3 +1,7 @@
+a.navbar-brand.text-muted {
+    color: #FFFFFF !important;
+}
+
 .sidebar .nav li .nav-link:hover,
 body>.navbar-collapse .nav li .nav-link:hover {
     border-left: solid 3px #FFA040;

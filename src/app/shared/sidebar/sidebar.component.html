@@ -17,7 +17,7 @@
                         alt="sin imágen" class="rounded-circle border d-lg-none" width="35px">
                     </span>
                 </a>
-                <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="avatarSubmenu">
+                <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="avatarSubmenu">
                     <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['/dashboard/profile']">Perfil <i class="fas fa-user float-right mt-2 mr-3"></i></a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-power-off float-right mt-2 mr-3"></i> Cerrar sesión</a></li>
                 </ul>
@@ -32,7 +32,7 @@
                 <a class="nav-link" data-toggle="collapse" href="#buySubmenu" aria-expanded="false" aria-controls="buySubmenu">
                     <i class="fas fa-dolly"></i> Compras <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
-                <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="buySubmenu">
+                <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="buySubmenu">
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                         <a class="nav-link" [routerLink]="['/dashboard/purchases/new']">
                             <i class="fas fa-cart-plus pl-2"></i> Nueva compra
@@ -55,7 +55,7 @@
                 <a class="nav-link" data-toggle="collapse" href="#productSubmenu" aria-expanded="false" aria-controls="productSubmenu">
                     <i class="fas fa-cubes"></i> Productos <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
-                <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="productSubmenu">
+                <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="productSubmenu">
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                         <a class="nav-link" [routerLink]="['/dashboard/products/add']">
                             <i class="fas fa-cube pl-2"></i> Nuevo producto
@@ -78,7 +78,7 @@
                 <a class="nav-link" data-toggle="collapse" href="#saleSubmenu" aria-expanded="false" aria-controls="saleSubmenu">
                     <i class="fas fa-cash-register"></i> Ventas <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
-                <ul class="collapse list-unstyled animate__animated animate__fadeIn" style="background: #21252B;" id="saleSubmenu">
+                <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="saleSubmenu">
                     <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                         <a class="nav-link" [routerLink]="['/dashboard/sales/new']">
                             <i class="fas fa-shopping-basket pl-2"></i> Nueva venta
