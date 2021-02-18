@@ -13,7 +13,7 @@ export class ProductService {
     this.product = product;
   }
 
-  get getProduct() {
+  get getProduct():ProductInterface {
     return this.product;
   }
 }

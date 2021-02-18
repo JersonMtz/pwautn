@@ -27,14 +27,14 @@ export class ProductFormComponent implements OnDestroy {
   constructor(private fb:FormBuilder, 
               private productService:ProductService, 
               private router:Router, 
-              private note:MessagesService) { 
+              private sms:MessagesService) { 
     this.product = this.productService.getProduct;
     this.initForm();
     this.verifyForm();
     this.onResetPhoto();
   }
 
-  //TODO: en categoria hay que traer los datos de la coleccion
+  //TODO: en categoria hay que traer los datos de la coleccion, validar nombre de producto unico
   initForm() {
     this.form = this.fb.group({
       id: [''],
@@ -53,8 +53,7 @@ export class ProductFormComponent implements OnDestroy {
   verifyForm() {
     if (this.router.url === "/dashboard/products/edit") {
       if (this.product === undefined) {
-        this.note.error.active = true;
-        this.note.error.text = 'Seleccione un producto antes de editar';
+        this.sms.alert = {active : true, type: 'info', text: 'Seleccione un producto antes de editar' };
         this.router.navigateByUrl('/dashboard/products');
       } else {
         this.form.setValue(this.product);
@@ -63,7 +62,7 @@ export class ProductFormComponent implements OnDestroy {
     }
   }
 
-  //******** METHODS VALIDATORS NAME ********//
+  /* METHODS FORM */
   hasErrorName():boolean {
     return (this.form.controls['name'].errors && this.form.controls['name'].dirty)
   }
@@ -72,7 +71,6 @@ export class ProductFormComponent implements OnDestroy {
     return this.form.controls['name'].errors.required;
   }
 
-  //******** METHODS VALIDATORS COST ********//
   hasErrorCost():boolean {
     return (this.form.controls['cost'].errors && this.form.controls['cost'].dirty)
   }
@@ -85,7 +83,6 @@ export class ProductFormComponent implements OnDestroy {
     return this.form.controls['cost'].errors.pattern;
   }
 
-  //******** METHODS VALIDATORS STOCK ********//
   hasErrorStock():boolean {
     return (this.form.controls['stock'].errors && this.form.controls['stock'].dirty)
   }
@@ -98,7 +95,6 @@ export class ProductFormComponent implements OnDestroy {
     return this.form.controls['stock'].errors.pattern;
   }
 
-  //******** METHODS VALIDATORS PRICE ********//
   hasErrorPrice():boolean {
     return (this.form.controls['price'].errors && this.form.controls['price'].dirty)
   }
@@ -111,7 +107,6 @@ export class ProductFormComponent implements OnDestroy {
     return this.form.controls['price'].errors.pattern;
   }
 
-  //******** METHODS VALIDATORS STOCK ********//
   hasErrorCategory():boolean {
     return (this.form.controls['category'].errors && this.form.controls['category'].dirty)
   }

@@ -26,10 +26,10 @@
                         <span *ngIf="!user.status" class="badge badge-secondary badge-pill">inactivo</span>
                     </td>
                     <td>
-                        <button class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip" title="Editar registro">
+                        <button (click)="editUser(user)" class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip" title="Editar registro">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
-                        <button class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip" title="Eliminar registro">
+                        <button (click)="deleteUser(user)" class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip" title="Eliminar registro">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>

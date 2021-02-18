@@ -1,29 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserInterface } from '../../../models/user.interface';
+import { Router } from '@angular/router';
+import { MessagesService } from '../../../services/messages.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'user-form',
   templateUrl: './user-form.component.html'
 })
-export class UserFormComponent {
+export class UserFormComponent implements OnDestroy {
 
-  private pathCollection:string;
-  private namePhoto:string;
-  private uploadPhoto:string;
-  defaultPhoto:string;
-  btnReset:boolean;
-
-  showPass:boolean = false;
-  text:string = 'password';
   form:FormGroup;
   private reExpMail:RegExp = /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
   private reExpPass:RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{7,9}[^'\s]/;
+  private user:UserInterface;
+  editing:boolean = false;
 
-  constructor(private fb:FormBuilder) { 
-    this.onResetPhoto();
+  defaultPhoto:string;
+  btnReset:boolean;
+
+  /** File photo **/
+  private pathCollection:string;
+  private namePhoto:string;
+  private uploadPhoto:string;
+
+  showPass:boolean = false;
+  text:string = 'password';
+
+  constructor(private fb:FormBuilder,
+              private userService:UserService, 
+              private router:Router, 
+              private sms:MessagesService) { 
+    this.user = this.userService.getUser;
     this.initForm();
+    this.verifyForm();
+    this.onResetPhoto();
   }
 
+  // TODO: VALIDAR CORREO ÚNICO
   initForm() {
     this.form = this.fb.group({
       id: [''],
@@ -37,9 +52,30 @@ export class UserFormComponent {
     });
   }
 
+  verifyForm() {
+    if (this.router.url === "/dashboard/users/edit") {
+      if (this.user === undefined) {
+        this.sms.alert = {active : true, type: 'info', text: 'Seleccione un usuario antes de editar' };
+        this.router.navigateByUrl('/dashboard/users');
+      } else {
+        this.form.controls['name'].setValue(this.user.name);
+        this.form.controls['surname'].setValue(this.user.surname);
+        this.form.controls['mail'].setValue(this.user.mail);
+        this.form.controls['status'].setValue(this.user.status);
+        this.form.controls['role'].setValue(this.user.role);
+        this.form.controls['photo'].setValue(this.user.photo);
+        this.editing = true;
+      }
+    }
+  }
+
   show() {
     this.showPass = !this.showPass;
     this.text = this.showPass ? 'text' : 'password';
+  }
+
+  getUser():UserInterface {
+    return this.user;
   }
 
   /* METHODS FORM */
@@ -78,7 +114,8 @@ export class UserFormComponent {
   formValid():boolean {
     return this.form.valid;
   }
-  /*** METHODS PHOTO USER UPLOAD***/
+
+  //******** EXCHANGE  METHODS & UPLOAD PHOTO ********//
   public builNamePhoto() {
     let tem = `/${this.namePhoto}` || '';
     this.namePhoto = ((this.form.get('name').value).replaceAll(' ','-')).toLowerCase();
@@ -92,7 +129,7 @@ export class UserFormComponent {
       let nameFile = evt.target.files[0].name.split('.');
       this.uploadPhoto = evt.target.files[0];
       this.builNamePhoto();
-      this.pathCollection = `products/${ this.namePhoto }.${ nameFile[nameFile.length - 1] }`;  
+      this.pathCollection = `users/${ this.namePhoto }.${ nameFile[nameFile.length - 1] }`;  
       let reader = new FileReader();
       reader.onload = (data:ProgressEvent<FileReader>) => this.defaultPhoto = (data.target.result).toString();
       reader.readAsDataURL(evt.target.files[0]);
@@ -103,9 +140,13 @@ export class UserFormComponent {
   }
 
   public onResetPhoto() {
-    this.defaultPhoto =  '../../../../assets/img/avatar.png';
+    this.defaultPhoto = (this.editing && this.user.photo)? this.user.photo : '../../../../assets/img/avatar.png';
     this.uploadPhoto = null;
     this.pathCollection = null;
     this.btnReset = false;
+  }
+
+  ngOnDestroy() {
+    this.userService.setUser = undefined;
   }
 }

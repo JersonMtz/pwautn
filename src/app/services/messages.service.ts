@@ -6,8 +6,15 @@ import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
 })
 export class MessagesService {
   
-  error:any = { active: false, text: ''};
+  alert:any = { active:false, icon:'', text:'' };
   constructor() { }
+
+  showAlert() {
+    if (this.alert.active) {
+      this.notification(this.alert.icon, this.alert.text);
+      this.alert = {active:false, icon:'', text:''};
+    }
+  }
 
   smsDelete(text:string):Promise<SweetAlertResult> {
     return Swal.fire({
@@ -28,7 +35,7 @@ export class MessagesService {
     })
   }
   
-  notification(type:SweetAlertIcon, text:string, backColor:string = '#FFF') {
+  notification(type:SweetAlertIcon = 'info', text:string, backColor:string = '#FFF') {
     const Toast = Swal.mixin({
       toast: true,
       position: 'bottom',

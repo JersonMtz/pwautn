@@ -9,6 +9,7 @@ import { ProductService } from '../../../services/product.service';
   templateUrl: './product-list.component.html'
 })
 export class ProductListComponent {
+  
   productList:ProductInterface[] = [
     {
       id: 'a1A1',
@@ -51,10 +52,7 @@ export class ProductListComponent {
   constructor(private sms:MessagesService, 
               private productService:ProductService,
               private router:Router) {
-    if (this.sms.error.active) {
-      this.sms.notification('info', this.sms.error.text);
-      this.sms.error = {active: false, text: ''};
-    }
+    sms.showAlert();
   }
 
   editProduct(product:ProductInterface) {
