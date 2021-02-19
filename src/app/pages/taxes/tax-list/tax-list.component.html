@@ -1,72 +1,58 @@
-<ul class="nav nav-tabs" id="tab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="taxesList-tab" data-toggle="tab" href="#taxesList" role="tab"
-            aria-controls="taxesList" aria-selected="true"><i class="fas fa-list-ol"></i> Lista de Impuestos
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="taxesAddEdit-tab" data-toggle="tab" href="#taxesAddEdit" role="tab"
-            aria-controls="taxesAddEdit" aria-selected="false"><i class="fas fa-plus-circle"></i> Nuevo Impuesto
-        </a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active bg-white p-4" id="taxesList" role="tabpanel" aria-labelledby="taxesList-tab">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Valor (%)</th>
-                        <th>Estado</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>IVA</th>
-                        <td>13</td>
-                        <td><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></td>
-                        <td>
-                            <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>IVA</th>
-                        <td>13</td>
-                        <td><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></td>
-                        <td>
-                            <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>IVA</th>
-                        <td>13</td>
-                        <td><span class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span></td>
-                        <td>
-                            <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip" title="Editar registro">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip" title="Eliminar registro">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+<div class="animate__animated animate__fadeIn">
+    <ul class="nav nav-tabs" id="tab" role="tablist">
+        <li class="nav-item" (click)="reload()">
+            <a class="nav-link" [ngClass]="!edit ? 'active':''" id="taxesList-tab" data-toggle="tab" href="#taxesList" role="tab" 
+            aria-controls="taxesList" [attr.aria-selected]="!edit" [attr.aria-expanded]="!edit">
+                <i class="fas fa-list-ol"></i> Lista de Impuestos
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="edit ? 'active':''" id="taxesAddEdit-tab" data-toggle="tab" href="#taxesAddEdit" role="tab"
+            aria-controls="taxesAddEdit"  [attr.aria-selected]="edit" [attr.aria-expanded]="edit">
+                <span *ngIf="!edit" class="animate__animated animate__fadeIn"><i class="fas fa-plus-circle"></i> Nuevo Impuesto</span>
+                <span *ngIf="edit" class="animate__animated animate__fadeIn"><i class="fas fa-edit"></i> Editar Impuesto</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade bg-white p-4" [ngClass]="!edit ? 'active show':''" id="taxesList" role="tabpanel"
+            aria-labelledby="taxesList-tab">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Valor (%)</th>
+                            <th>Estado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tax of taxList">
+                            <th>{{ tax.name }}</th>
+                            <td>{{ tax.value }}%</td>
+                            <td>
+                                <span *ngIf="tax.status"
+                                    class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
+                                <span *ngIf="!tax.status" class="badge badge-secondary badge-pill">inactivo</span>
+                            </td>
+                            <td>
+                                <button (click)="editTax(tax)" class="rounded-circle btn btn-warning btn-sm mx-1"
+                                    rel="tooltip" title="Editar registro">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button (click)="deleteTax(tax)" class="rounded-circle btn btn-dark btn-sm mx-1"
+                                    rel="tooltip" title="Eliminar registro">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="tab-pane fade bg-white p-4" id="taxesAddEdit" role="tabpanel" aria-labelledby="taxesAddEdit-tab">
-        <tax-form></tax-form>
+        <div class="tab-pane fade bg-white p-4" [ngClass]="edit ? 'active show':''" id="taxesAddEdit" role="tabpanel" aria-labelledby="taxesAddEdit-tab">
+            <tax-form [edit]="edit" [data]="taxEdit"></tax-form>
+        </div>
     </div>
 </div>

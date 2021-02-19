@@ -1,37 +1,53 @@
 <div class="row animate__animated animate__fadeIn mt-4">
     <div class="container">
-        <form action="#" class="px-3">
+        <form class="px-3" [formGroup]="form">
+            <article class="form-group row">
+                <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
+                <div class="col-sm-6 mb-2">
+                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Marcos Antonio" formControlName="name" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorName()">
+                        Nombre es requerido
+                    </div>
+                </div>
+            </article>
 
             <article class="form-group row">
-                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                <label for="telephone" class="col-sm-2 control-label">Teléfono <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" id="name" placeholder="Proveedor">
+                    <input type="number" class="form-control" [ngClass]="hasErrorPhone() ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorPhone()">
+                        <span *ngIf="requiredPhone()">Numero de teléfono es requerido. </span>
+                        <span *ngIf="incompletedPhone()">Número de teléfono incompleto. </span>
+                        <span *ngIf="patternPhone()">Formato incorrecto. Ingrese solo números del 0 al 9. </span> 
+                    </div>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="mail" class="col-sm-2 control-label">Correo</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="email" class="form-control" id="mail" placeholder="correo@mail.com">
-                </div>
-            </article>
-
-            <article class="form-group row">
-                <label for="telephone" class="col-sm-2 control-label">Teléfono</label>
-                <div class="col-sm-6 mb-2">
-                    <input type="number" class="form-control" id="telephone" placeholder="24356324 - 87654321">
+                    <input type="email" class="form-control" [ngClass]="hasErrorMail() ? 'is-invalid':''" id="mail" placeholder="correo@mail.com" formControlName="mail">
+                    <div class="invalid-feedback" *ngIf="hasErrorMail()">
+                        Formato de correo es incorrecto
+                    </div>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="direcction" class="col-sm-2 control-label">Dirección</label>
                 <div class="col-sm-6">
-                    <textarea id="direcction" class="form-control" rows="10" placeholder="Alajuela, Upala" style="height: 10rem;"></textarea>
+                    <textarea id="direction" class="form-control" placeholder="Alajuela, Upala" formControlName="direction"></textarea>
                 </div>
             </article>
 
             <article class="form-group">
-                <button class="btn btn-info text-white btn-sm btn-round" disabled>Guardar</button>
+                <button *ngIf="!editing" class="btn btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
+                [disabled]="!formValid()"><i class="right fas fa-save"></i> Guardar</button>
+
+                <button *ngIf="editing" class="btn btn-sm btn-round" 
+                [ngClass]="formValid() ? 'btn-info':'btn-secondary'" 
+                [disabled]="!formValid()"><i class="fas fa-check-circle"></i> Actualizar</button>
             </article>
         </form>
     </div>

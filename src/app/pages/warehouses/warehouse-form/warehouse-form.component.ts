@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { WarehouseInterface } from 'src/app/models/warehouse.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'warehouse-form',
   templateUrl: './warehouse-form.component.html'
 })
-export class WarehouseFormComponent {
+export class WarehouseFormComponent implements OnChanges {
 
   form:FormGroup;
   expNumber:RegExp = /^([0-9])*$/;
@@ -30,6 +30,7 @@ export class WarehouseFormComponent {
       this.form.setValue(this.warehouse);
     } else {
       this.form.reset();
+      this.form.controls['status'].setValue(true);
     }
   }
 

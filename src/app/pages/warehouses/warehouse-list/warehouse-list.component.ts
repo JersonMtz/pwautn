@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {Component } from '@angular/core';
 import { WarehouseInterface } from '../../../models/warehouse.interface';
 import { MessagesService } from '../../../services/messages.service';
 
@@ -35,11 +35,7 @@ export class WarehouseListComponent {
     }
   ];
 
-  constructor(private dect:ChangeDetectorRef, private popup:MessagesService) { }
-
-  ngAfterViewChecked() {
-    this.dect.detectChanges();
-  }
+  constructor(private popup:MessagesService) { }
 
   editWarehouse(warehouse:WarehouseInterface) {
     this.edit = true;

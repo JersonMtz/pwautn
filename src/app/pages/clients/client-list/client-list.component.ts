@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { ClientInterface } from '../../../models/client.interface';
 import { MessagesService } from '../../../services/messages.service';
 
@@ -38,11 +38,7 @@ export class ClientListComponent {
     }
   ];
 
-  constructor(private dect:ChangeDetectorRef, private popup:MessagesService) { }
-
-  ngAfterViewChecked() {
-    this.dect.detectChanges();
-  }
+  constructor(private popup:MessagesService) { }
 
   editClient(person:ClientInterface) {
     this.edit = true;

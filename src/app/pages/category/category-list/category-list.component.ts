@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CategoryInterface } from 'src/app/models/category.interface';
 import { MessagesService } from '../../../services/messages.service';
 
@@ -28,11 +28,7 @@ export class CategoryListComponent {
     }
   ];
 
-  constructor(private dect:ChangeDetectorRef, private popup:MessagesService) { }
-
-  ngAfterViewChecked() {
-    this.dect.detectChanges();
-  }
+  constructor(private popup:MessagesService) { }
 
   editCategory(category:CategoryInterface) {
     this.edit = true;
