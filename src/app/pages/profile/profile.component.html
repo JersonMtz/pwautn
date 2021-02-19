@@ -1,77 +1,103 @@
 <div class="row animate__animated animate__fadeIn">
     <div class="col-md-4 text-center">
-        <h3 class="mb-3"><b>Perfil de Usuario</b></h3>
-        <img src="../../../../assets/img/avatar.png" width="50%" alt="product" class="rounded-circle mb-3">
+        <h2 class="mb-3"><b>Perfil de Usuario</b></h2>
+        <img [src]="defaultPhoto" style="max-width: 200px;max-height: 200px;" alt="avatar" class="rounded-circle mb-3">
         <br>
-        <input type="file" class="d-none" #filePhoto>
+        <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*" (click)="$event.target.value = ''">
         <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
         <br><br>
-        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()"><i class="fas fa-upload"></i> Imágen</button>
+        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()" *ngIf="!btnReset && !btnDelete">
+            <i class="fas fa-image"></i> Imágen
+        </button>
+        <button class="btn btn-info btn-sm mb-3 mx-1" *ngIf="btnReset">
+            &nbsp;&nbsp;<i class="fas fa-upload"></i> Subir&nbsp;&nbsp;
+        </button>
+        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
+            <i class="fas fa-minus-circle"></i> Remover
+        </button>
+        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="deletePhoto()" *ngIf="btnDelete">
+            <i class="fas fa-trash-alt"></i> Eliminar
+        </button>
     </div>
-    <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
-        <form action="#" class="px-3 pb-5">
-            <h3 class="text-center mb-3 d-none d-md-block mt-3"><b>Datos Personales</b></h3>
-            <h4 class="text-center d-md-none d-block mt-3"><b>Datos Personales</b></h4>
+    <div class="col-md-8 bg-white rounded">
+        <form class="px-3 pb-5" [formGroup]="form">
+            <h3 class="text-center mb-3 mt-3"><b>Datos Personales</b></h3>
             <br>
             <article class="form-group row">
                 <label for="name" class="col-sm-2 control-label">Nombre</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="name" value="Brayan Eduardo" disabled>
+                    <input type="text" class="form-control" id="name" [value]="profile.name" disabled>
                 </div>
                 <label for="surname" class="col-sm-2 control-label">Apellidos</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="surname" value="Piedra Ríos" disabled>
+                    <input type="text" class="form-control" id="surname" [value]="profile.surname" disabled>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="mail" class="col-sm-2 control-label">Correo</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="email" class="form-control" id="mail" value="correo@mail.com" disabled>
+                    <input type="email" class="form-control" id="mail" [value]="profile.mail" disabled>
                 </div>
                 <label for="status" class="col-sm-2 control-label">Rol</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" value="Administrador" disabled>
+                    <select class="form-control" id="role" disabled>
+                        <option [selected]="profile.role">Administrador</option>
+                        <option [selected]="!profile.role">Estandar</option>
+                    </select>
                 </div>
             </article>
 
             <article class="form-group row">
                 <label for="passNow" class="col-sm-2 control-label">Contraseña Actual</label>
                 <div class="col-sm-4 mb-3">
-                    <div class="ui labeled input w-100">
-                        <div class="ui label bg-dark"><i class="fas fa-lock text-white"></i></div>
-                        <input type="password" id="passNow" placeholder="●●●●●●●●">
-                    </div>
+                    <section class="ui labeled input w-100" [ngClass]="hasErrorPassNow() ? 'error':''">
+                        <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNow()" title="mostrar u ocultar contraseña">
+                            <i *ngIf="!passNow" class="fas fa-lock text-white"></i>
+                            <i *ngIf="passNow" class="fas fa-lock-open text-white"></i>
+                        </span>
+                        <input [type]="typePassNow" id="passNow" formControlName="passNow" placeholder="●●●●●●●●">
+                    </section>
+                    <section class="text-danger" *ngIf="hasErrorPassNow()">
+                        Contraseña actual es requerido.
+                    </section>
                 </div>
                 <label for="passChange" class="col-sm-2 control-label">Contraseña Nueva</label>
                 <div class="col-sm-4 mb-3">
-                    <div class="ui labeled input w-100">
-                        <div class="ui label bg-dark"><i class="fas fa-lock text-white"></i></div>
-                        <input type="password" id="passChange" placeholder="●●●●●●●●">
-                    </div>                  
+                    <section class="ui labeled input w-100" [ngClass]="hasErrorPassNew() ? 'error':''">
+                        <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNew()" title="mostrar u ocultar contraseña">
+                            <i *ngIf="!passNew" class="fas fa-lock text-white"></i>
+                            <i *ngIf="passNew" class="fas fa-lock-open text-white"></i>
+                        </span>
+                        <input [type]="typePassNew" id="passNew" formControlName="passNew" placeholder="●●●●●●●●">
+                    </section>
+                    <section class="text-danger" *ngIf="hasErrorPassNew()">
+                        <span *ngIf="requiredPassNew()">Contraseña nueva es requerido. </span>
+                        <span *ngIf="formatPassNew()">La nueva contraseña no cumple con lo necesario. </span>
+                    </section>
                 </div>
             </article>
 
-            <article class="form-group row">
-                <div class="col-sm-6 order-md-2">
-                    <small>Es necesario que la contraseña cumpla lo siguiente:
-                        <ul>
-                            <li>Mínimo 8 caracteres. </li>
-                            <li>Mínimo una letra mayúscula. </li>
-                            <li>Mínimo una letra minúscula. </li>
-                            <li>Mínimo un número. </li>
-                            <li>Mínimo un caracter especial "<b>@ $ % ? ! * &</b>"</li>
-                        </ul>
-                    </small>
-                </div>
-                <div class="col-sm-6 order-md-1 text-center">
-                    <button class="btn btn-warning mt-3"><i class="fas fa-save"></i> Aceptar</button>
-                </div>
+            <article class="form-group row px-3" style="font-size: 0.8em;">
+                <p class="text-dark text-justify">
+                    <i class="fas fa-info-circle"></i> Es necesario que la contraseña cumpla las siguientes condiciones:    
+                </p>
+                <ul>
+                    <li>Mínimo 8 carácteres. </li>
+                    <li>Mínimo una letra mayúscula. </li>
+                    <li>Mínimo una letra minúscula. </li>
+                    <li>Mínimo un número del 0 al 9. </li>
+                    <li>Mínimo un carácter especial "<b>@ $ % ? ! * &</b>"</li>
+                </ul>
+            </article>
+            <article class="form-group row w-75 mx-auto">
+                <button class="btn btn-block" [ngClass]="formValid() ? 'btn-warning':'btn-secondary'" [disabled]="!formValid()">
+                    <i class="far fa-check-circle"></i> Cambiar Contraseña
+                </button>
             </article>
             <br>
-            <hr class="text-center w-75 text-muted">
-            <h3 class="text-center mb-3 d-none d-md-block"><b>Cambiar Colores</b></h3>
-            <h4 class="text-center d-md-none d-block"><b>Cambiar Colores</b></h4>
+            <hr class="text-center text-muted">
+            <h3 class="text-center mb-3"><b>Cambiar Colores</b></h3>
             <article class="form-group row">
                 <div class="col-sm-3">
                     VERDE

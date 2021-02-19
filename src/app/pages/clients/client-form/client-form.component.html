@@ -16,7 +16,7 @@
             <article class="form-group row">
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Marcos Antonio" formControlName="name" required>
+                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Zineb Pradi" formControlName="name" required>
                     <div class="invalid-feedback" *ngIf="hasErrorName()">
                         Nombre es requerido
                     </div>
@@ -26,7 +26,7 @@
             <article class="form-group row">
                 <label for="surname" class="col-sm-2 control-label">Apellidos <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorSurname() ? 'is-invalid':''" id="surname" placeholder="Ruíz Rojas" formControlName="surname" required>
+                    <input type="text" class="form-control" [ngClass]="hasErrorSurname() ? 'is-invalid':''" id="surname" placeholder="Hurtaran Roiz" formControlName="surname" required>
                     <div class="invalid-feedback" *ngIf="hasErrorSurname()">
                         Apellido es requerido
                     </div>
@@ -38,7 +38,7 @@
                 <div class="col-sm-6 mb-2">
                     <input type="number" class="form-control" [ngClass]="hasErrorPhone() ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
                     <div class="invalid-feedback" *ngIf="hasErrorPhone()">
-                        <span *ngIf="requiredPhone()">Numero de teléfono es requerido. </span>
+                        <span *ngIf="requiredPhone()">Número de teléfono es requerido. </span>
                         <span *ngIf="incompletedPhone()">Número de teléfono incompleto. </span>
                         <span *ngIf="patternPhone()">Formato incorrecto. Ingrese solo números del 0 al 9. </span> 
                     </div>
