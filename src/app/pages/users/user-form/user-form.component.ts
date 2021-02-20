@@ -79,36 +79,20 @@ export class UserFormComponent implements OnDestroy {
   }
 
   /* METHODS FORM */
-  hasErrorName():boolean {
-    return (this.form.controls['name'].errors && this.form.controls['name'].dirty)
+  hasErrorField(field:string):boolean {
+    return (this.form.controls[field].errors && this.form.controls[field].dirty);
   }
 
-  hasErrorMail():boolean {
-    return (this.form.controls['mail'].errors && this.form.controls['mail'].dirty)
+  requiredField(field:string):boolean {
+    return this.form.controls[field].errors.required;
   }
 
-  requiredMail():boolean {
-    return this.form.controls['mail'].errors.required;
+  patternField(field:string):boolean {
+    return this.form.controls[field].errors.pattern;
   }
 
-  notMail():boolean {
+  isMail():boolean {
     return this.form.controls['mail'].errors.email;
-  }
-
-  formatMail():boolean {
-    return this.form.controls['mail'].errors.pattern;
-  }
-
-  hasErrorPassword():boolean {
-    return (this.form.controls['password'].errors && this.form.controls['password'].dirty)
-  }
-
-  requiredPassword():boolean {
-    return this.form.controls['password'].errors.required;
-  }
-
-  formatPassword():boolean {
-    return this.form.controls['password'].errors.pattern;
   }
 
   formValid():boolean {

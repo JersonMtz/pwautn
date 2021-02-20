@@ -70,20 +70,16 @@ export class ProfileComponent {
   }
 
   /** METHODS FORMS **/
-  hasErrorPassNew():boolean {
-    return (this.form.controls['passNew'].errors && this.form.controls['passNew'].dirty)
+  hasErrorField(field:string):boolean {
+    return (this.form.controls[field].errors && this.form.controls[field].dirty)
   }
 
-  requiredPassNew():boolean {
-    return this.form.controls['passNew'].errors.required;
+  requiredField(field:string):boolean {
+    return this.form.controls[field].errors.required;
   }
 
-  formatPassNew():boolean {
-    return this.form.controls['passNew'].errors.pattern;
-  }
-
-  hasErrorPassNow():boolean {
-    return (this.form.controls['passNow'].errors && this.form.controls['passNow'].dirty)
+  patternField(field:string):boolean {
+    return this.form.controls[field].errors.pattern;
   }
 
   formValid():boolean {

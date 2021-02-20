@@ -4,11 +4,11 @@
             <article class="form-group row">
                 <label for="idNumber" class="col-sm-2 control-label">Cédula <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="number" class="form-control" [ngClass]="hasErrorIdCard() ? 'is-invalid':''" id="idNumber" placeholder="208370234" formControlName="idCard" required>
-                    <div class="invalid-feedback" *ngIf="hasErrorIdCard()">
-                        <span *ngIf="requiredIdCard()">Número de identificación es requerido. </span> 
-                        <span *ngIf="incompletedIdCard()">Número de identificación incompleto. </span> 
-                        <span *ngIf="patternIdCard()">Formato incorrecto. Digite números del 0 al 9. </span> 
+                    <input type="number" class="form-control" [ngClass]="hasErrorField('idCard') ? 'is-invalid':''" id="idNumber" placeholder="208370234" formControlName="idCard" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorField('idCard')">
+                        <span *ngIf="requiredField('idCard')">Número de identificación es requerido. </span> 
+                        <span *ngIf="incompleteField('idCard')">Número de identificación incompleto. </span> 
+                        <span *ngIf="patternField('idCard')">Formato incorrecto. Digite números del 0 al 9. </span> 
                     </div>
                 </div>
             </article>
@@ -16,8 +16,8 @@
             <article class="form-group row">
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Zineb Pradi" formControlName="name" required>
-                    <div class="invalid-feedback" *ngIf="hasErrorName()">
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('name') ? 'is-invalid':''" id="name" placeholder="Zineb Pradi" formControlName="name" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorField('name')">
                         Nombre es requerido
                     </div>
                 </div>
@@ -26,8 +26,8 @@
             <article class="form-group row">
                 <label for="surname" class="col-sm-2 control-label">Apellidos <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorSurname() ? 'is-invalid':''" id="surname" placeholder="Hurtaran Roiz" formControlName="surname" required>
-                    <div class="invalid-feedback" *ngIf="hasErrorSurname()">
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('surname') ? 'is-invalid':''" id="surname" placeholder="Hurtaran Roiz" formControlName="surname" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorField('surname')">
                         Apellido es requerido
                     </div>
                 </div>
@@ -36,11 +36,11 @@
             <article class="form-group row">
                 <label for="telephone" class="col-sm-2 control-label">Teléfono <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="number" class="form-control" [ngClass]="hasErrorPhone() ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
-                    <div class="invalid-feedback" *ngIf="hasErrorPhone()">
-                        <span *ngIf="requiredPhone()">Número de teléfono es requerido. </span>
-                        <span *ngIf="incompletedPhone()">Número de teléfono incompleto. </span>
-                        <span *ngIf="patternPhone()">Formato incorrecto. Ingrese solo números del 0 al 9. </span> 
+                    <input type="number" class="form-control" [ngClass]="hasErrorField('phone') ? 'is-invalid':''" id="telephone" placeholder="24356324 - 87654321" formControlName="phone" required>
+                    <div class="invalid-feedback" *ngIf="hasErrorField('phone')">
+                        <span *ngIf="requiredField('phone')">Número de teléfono es requerido. </span>
+                        <span *ngIf="incompleteField('phone')">Número de teléfono incompleto. </span>
+                        <span *ngIf="patternField('phone')">Formato incorrecto. Ingrese solo números del 0 al 9. </span> 
                     </div>
                 </div>
             </article>
@@ -48,8 +48,8 @@
             <article class="form-group row">
                 <label for="mail" class="col-sm-2 control-label">Correo</label>
                 <div class="col-sm-6 mb-2">
-                    <input type="email" class="form-control" [ngClass]="hasErrorMail() ? 'is-invalid':''" id="mail" placeholder="correo@mail.com" formControlName="mail">
-                    <div class="invalid-feedback" *ngIf="hasErrorMail()">
+                    <input type="email" class="form-control" [ngClass]="hasErrorField('mail') ? 'is-invalid':''" id="mail" placeholder="correo@mail.com" formControlName="mail">
+                    <div class="invalid-feedback" *ngIf="hasErrorField('mail')">
                         Formato de correo es incorrecto
                     </div>
                 </div>

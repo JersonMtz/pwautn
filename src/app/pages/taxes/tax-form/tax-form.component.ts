@@ -34,20 +34,16 @@ export class TaxFormComponent {
   }
 
   /* METHODS FORM */
-  hasErrorName():boolean {
-    return (this.form.controls['name'].errors && this.form.controls['name'].dirty)
+  hasErrorField(field:string):boolean {
+    return (this.form.controls[field].errors && this.form.controls[field].dirty)
   }
 
-  hasErrorValue():boolean {
-    return (this.form.controls['value'].errors && this.form.controls['value'].dirty)
+  requiredField(field:string):boolean {
+    return this.form.controls[field].errors.required;
   }
 
-  requiredValue():boolean {
-    return this.form.controls['value'].errors.required;
-  }
-
-  patternValue():boolean {
-    return this.form.controls['value'].errors.pattern;
+  patternField(field:string):boolean {
+    return this.form.controls[field].errors.pattern;
   }
 
   formValid():boolean {

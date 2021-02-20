@@ -20,7 +20,7 @@
         </section>
     </div>
 
-    <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
+    <div class="col-md-8 bg-white rounded">
         <form class="px-3 py-5" [formGroup]="form">
             <div *ngIf="editing" class="form-group mb-2">
                 <h2 class="text-center text-warning">{{ getUser().name+ ' ' + getUser().surname }}</h2>
@@ -35,14 +35,15 @@
             <article class="form-group row" *ngIf="!editing">
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name"
-                        formControlName="name" (change)="builNamePhoto()" placeholder="Brayan Eduardo">
-                    <div class="invalid-feedback" *ngIf="hasErrorName()">Nombre es requerido</div>
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('name') ? 'is-invalid':''" id="name"
+                    formControlName="name" (change)="builNamePhoto()" placeholder="Zineb Pradi">
+                    <div class="invalid-feedback" *ngIf="hasErrorField('name')">
+                        Nombre es requerido
+                    </div>
                 </div>
                 <label for="surname" class="col-sm-2 control-label">Apellidos</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="surname" formControlName="surname"
-                        placeholder="Piedra Ríos">
+                    <input type="text" class="form-control" id="surname" formControlName="surname" placeholder="Hurtaran Roiz">
                 </div>
             </article>
 
@@ -66,18 +67,18 @@
             <article class="form-group row" *ngIf="!editing">
                 <label for="mail" class="col-sm-2 control-label">Correo <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="email" class="form-control" [ngClass]="hasErrorMail() ? 'is-invalid':''" id="mail"
+                    <input type="email" class="form-control" [ngClass]="hasErrorField('mail') ? 'is-invalid':''" id="mail"
                         formControlName="mail" placeholder="correo@mail.com">
-                    <div class="invalid-feedback" *ngIf="hasErrorMail()">
-                        <span *ngIf="requiredMail()">Correo es requerido. </span>
-                        <span *ngIf="notMail()">No es un correo. </span>
-                        <span *ngIf="formatMail()">Formato de correo incorrecto. </span>
+                    <div class="invalid-feedback" *ngIf="hasErrorField('mail')">
+                        <span *ngIf="requiredField('mail')">Correo es requerido. </span>
+                        <span *ngIf="isMail()">No es un correo. </span>
+                        <span *ngIf="patternField('mail')">Formato de correo incorrecto. </span>
                     </div>
                 </div>
                 <label for="password" class="col-sm-2 control-label">Contraseña <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input [type]="text" class="form-control" [ngClass]="hasErrorPassword() ? 'is-invalid':''"
+                    <input [type]="text" class="form-control" [ngClass]="hasErrorField('password') ? 'is-invalid':''"
                         id="password" formControlName="password" placeholder="●●●●●●●●">
                     <button class="btn btn-warning btn-sm btn-block mt-2" (click)="show()"
                         [disabled]="!form.get('password').dirty">
@@ -88,9 +89,9 @@
                             <i class="far fa-eye-slash"></i> Ocultar contraseña
                         </span>
                     </button>
-                    <div class="invalid-feedback" *ngIf="hasErrorPassword()">
-                        <span *ngIf="requiredPassword()">Contraseña es requerido. </span>
-                        <span *ngIf="formatPassword()">La contraseña no cumple con lo necesario. </span>
+                    <div class="invalid-feedback" *ngIf="hasErrorField('password')">
+                        <span *ngIf="requiredField('password')">Contraseña es requerido. </span>
+                        <span *ngIf="patternField('password')">La contraseña no cumple con lo necesario. </span>
                     </div>
                 </div>
             </article>

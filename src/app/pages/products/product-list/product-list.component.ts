@@ -47,7 +47,7 @@ export class ProductListComponent {
       description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure sunt aut, unde, excepturi tempore quia sequi consectetur at eligendi',
       photo: '' 
     }
-  ]
+  ];
 
   constructor(private sms:MessagesService, 
               private productService:ProductService,

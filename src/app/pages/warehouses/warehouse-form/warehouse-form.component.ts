@@ -35,24 +35,20 @@ export class WarehouseFormComponent implements OnChanges {
   }
 
   /* METHODS FORM */
-  hasErrorName():boolean {
-    return (this.form.controls['name'].errors && this.form.controls['name'].dirty)
+  hasErrorField(field:string):boolean {
+    return (this.form.controls[field].errors && this.form.controls[field].dirty);
   }
 
-  hasErrorPhone():boolean {
-    return (this.form.controls['phone'].errors && this.form.controls['phone'].dirty)
+  requiredField(field:string):boolean {
+    return this.form.controls[field].errors.required;
   }
 
-  requiredPhone():boolean {
-    return this.form.controls['phone'].errors.required;
+  incompleteField(field:string):boolean {
+    return this.form.controls[field].errors.min;
   }
 
-  patternPhone():boolean {
-    return this.form.controls['phone'].errors.pattern;
-  }
-
-  incompletedPhone():boolean {
-    return this.form.controls['phone'].errors.min;
+  patternField(field:string):boolean {
+    return this.form.controls[field].errors.pattern;
   }
 
   formValid():boolean {

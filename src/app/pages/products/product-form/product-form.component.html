@@ -17,7 +17,7 @@
             <i class="fas fa-minus-circle"></i> Remover
         </button>
     </div>
-    <div class="col-md-8 bg-white rounded" style="border-top: 3px solid #2196F3;">
+    <div class="col-md-8 bg-white rounded">
         <form action="#" class="px-3 pt-5" [formGroup]="form">
             <article class="form-group row">
                 <label for="code" class="col-sm-2 control-label">Código</label>
@@ -26,9 +26,9 @@
                 </div>
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorName() ? 'is-invalid':''" id="name" placeholder="Caja vacía" 
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('name') ? 'is-invalid':''" id="name" placeholder="Caja vacía" 
                     formControlName="name" (change)="builNamePhoto()">
-                    <div class="invalid-feedback" *ngIf="hasErrorName()">
+                    <div class="invalid-feedback" *ngIf="hasErrorField('name')">
                         Nombre es requerido
                     </div>
                 </div>
@@ -38,14 +38,14 @@
                 <label for="cost" class="col-sm-2 control-label">Costo <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <div class="ui form">
-                        <div class="field" [ngClass]="hasErrorCost() ? 'error':''">
+                        <div class="field" [ngClass]="hasErrorField('cost') ? 'error':''">
                             <div class="ui labeled input w-100">
                                 <div class="ui label">₡</div>
                                 <input type="number" placeholder="0.0" id="cost" formControlName="cost">
                             </div>
-                            <div class="text-danger" *ngIf="hasErrorCost()">
-                                <small *ngIf="requiredCost()">Costo es requerido</small>
-                                <small *ngIf="patternCost()">Formato no es el correcto</small>
+                            <div class="text-danger" *ngIf="hasErrorField('cost')">
+                                <small *ngIf="requiredField('cost')">Costo es requerido</small>
+                                <small *ngIf="patternField('cost')">Formato no es el correcto</small>
                             </div>
                         </div>
                     </div>
@@ -54,14 +54,14 @@
                 <label for="price" class="col-sm-2 control-label">Precio Venta <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <div class="ui form">
-                        <div class="field" [ngClass]="hasErrorPrice() ? 'error':''">
+                        <div class="field" [ngClass]="hasErrorField('price') ? 'error':''">
                             <div class="ui labeled input w-100">
                                 <div class="ui label">₡</div>
                                 <input type="number" placeholder="0.0" id="price" formControlName="price">
                             </div>
-                            <div class="text-danger" *ngIf="hasErrorPrice()">
-                                <small *ngIf="requiredPrice()">Costo es requerido</small>
-                                <small *ngIf="patternPrice()">Formato no es el correcto</small>
+                            <div class="text-danger" *ngIf="hasErrorField('price')">
+                                <small *ngIf="requiredField('price')">Costo es requerido</small>
+                                <small *ngIf="patternField('price')">Formato no es el correcto</small>
                             </div>
                         </div>
                     </div>
@@ -71,10 +71,10 @@
             <article class="form-group row">
                 <label for="stock" class="col-sm-2 control-label">Stock <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="number" class="form-control" [ngClass]="hasErrorStock() ? 'is-invalid':''" id="stock" placeholder="0" formControlName="stock">
-                    <div class="invalid-feedback" *ngIf="hasErrorStock()">
-                        <span *ngIf="requiredStock()">Stock es requerido</span>
-                        <span *ngIf="patternStock()">Formato no es el correcto</span>
+                    <input type="number" class="form-control" [ngClass]="hasErrorField('stock') ? 'is-invalid':''" id="stock" placeholder="0" formControlName="stock">
+                    <div class="invalid-feedback" *ngIf="hasErrorField('stock')">
+                        <span *ngIf="requiredField('stock')">Stock es requerido</span>
+                        <span *ngIf="patternField('stock')">Formato no es el correcto</span>
                     </div>
                 </div>
                 <label for="category" class="col-sm-2 control-label">Categoría <span class="text-danger">*</span></label>

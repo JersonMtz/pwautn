@@ -63,56 +63,16 @@ export class ProductFormComponent implements OnDestroy {
   }
 
   /* METHODS FORM */
-  hasErrorName():boolean {
-    return (this.form.controls['name'].errors && this.form.controls['name'].dirty)
+  hasErrorField(field:string):boolean {
+    return (this.form.controls[field].errors && this.form.controls[field].dirty);
   }
 
-  requiredName():boolean {
-    return this.form.controls['name'].errors.required;
+  requiredField(field:string):boolean {
+    return this.form.controls[field].errors.required;
   }
 
-  hasErrorCost():boolean {
-    return (this.form.controls['cost'].errors && this.form.controls['cost'].dirty)
-  }
-
-  requiredCost():boolean {
-    return this.form.controls['cost'].errors.required;
-  }
-
-  patternCost():boolean {
-    return this.form.controls['cost'].errors.pattern;
-  }
-
-  hasErrorStock():boolean {
-    return (this.form.controls['stock'].errors && this.form.controls['stock'].dirty)
-  }
-
-  requiredStock():boolean {
-    return this.form.controls['stock'].errors.required;
-  }
-
-  patternStock():boolean {
-    return this.form.controls['stock'].errors.pattern;
-  }
-
-  hasErrorPrice():boolean {
-    return (this.form.controls['price'].errors && this.form.controls['price'].dirty)
-  }
-
-  requiredPrice():boolean {
-    return this.form.controls['price'].errors.required;
-  }
-
-  patternPrice():boolean {
-    return this.form.controls['price'].errors.pattern;
-  }
-
-  hasErrorCategory():boolean {
-    return (this.form.controls['category'].errors && this.form.controls['category'].dirty)
-  }
-
-  requiredCategory():boolean {
-    return this.form.controls['category'].errors.required;
+  patternField(field:string):boolean {
+    return this.form.controls[field].errors.pattern;
   }
 
   formValid():boolean {

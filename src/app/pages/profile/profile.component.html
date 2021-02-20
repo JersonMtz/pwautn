@@ -51,29 +51,29 @@
             <article class="form-group row">
                 <label for="passNow" class="col-sm-2 control-label">Contraseña Actual</label>
                 <div class="col-sm-4 mb-3">
-                    <section class="ui labeled input w-100" [ngClass]="hasErrorPassNow() ? 'error':''">
+                    <section class="ui labeled input w-100" [ngClass]="hasErrorField('passNow') ? 'error':''">
                         <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNow()" title="mostrar u ocultar contraseña">
                             <i *ngIf="!passNow" class="fas fa-lock text-white"></i>
                             <i *ngIf="passNow" class="fas fa-lock-open text-white"></i>
                         </span>
                         <input [type]="typePassNow" id="passNow" formControlName="passNow" placeholder="●●●●●●●●">
                     </section>
-                    <section class="text-danger" *ngIf="hasErrorPassNow()">
-                        Contraseña actual es requerido.
+                    <section class="text-danger" *ngIf="hasErrorField('passNow')">
+                        <small>Contraseña actual es requerida.</small>
                     </section>
                 </div>
                 <label for="passChange" class="col-sm-2 control-label">Contraseña Nueva</label>
                 <div class="col-sm-4 mb-3">
-                    <section class="ui labeled input w-100" [ngClass]="hasErrorPassNew() ? 'error':''">
+                    <section class="ui labeled input w-100" [ngClass]="hasErrorField('passNew') ? 'error':''">
                         <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNew()" title="mostrar u ocultar contraseña">
                             <i *ngIf="!passNew" class="fas fa-lock text-white"></i>
                             <i *ngIf="passNew" class="fas fa-lock-open text-white"></i>
                         </span>
                         <input [type]="typePassNew" id="passNew" formControlName="passNew" placeholder="●●●●●●●●">
                     </section>
-                    <section class="text-danger" *ngIf="hasErrorPassNew()">
-                        <span *ngIf="requiredPassNew()">Contraseña nueva es requerido. </span>
-                        <span *ngIf="formatPassNew()">La nueva contraseña no cumple con lo necesario. </span>
+                    <section class="text-danger" *ngIf="hasErrorField('passNew')">
+                        <small *ngIf="requiredField('passNew')">Contraseña nueva es requerida. </small>
+                        <small *ngIf="patternField('passNew')">La nueva contraseña no cumple con lo necesario. </small>
                     </section>
                 </div>
             </article>

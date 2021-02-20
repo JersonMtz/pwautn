@@ -36,50 +36,22 @@ export class ClientFormComponent implements OnChanges {
   }
 
   /* METHODS FORM */
-  hasErrorIdCard():boolean {
-    return (this.form.controls['idCard'].errors && this.form.controls['idCard'].dirty)
+  hasErrorField(field:string):boolean {
+    return (this.form.controls[field].errors && this.form.controls[field].dirty);
   }
 
-  requiredIdCard():boolean {
-    return this.form.controls['idCard'].errors.required;
+  requiredField(field:string):boolean {
+    return this.form.controls[field].errors.required;
   }
 
-  incompletedIdCard():boolean {
-    return this.form.controls['idCard'].errors.min;
+  incompleteField(field:string):boolean {
+    return this.form.controls[field].errors.min;
   }
 
-  patternIdCard():boolean {
-    return this.form.controls['idCard'].errors.pattern;
+  patternField(field:string):boolean {
+    return this.form.controls[field].errors.pattern;
   }
-
-  hasErrorName():boolean {
-    return (this.form.controls['name'].errors && this.form.controls['name'].dirty)
-  }
-
-  hasErrorSurname():boolean {
-    return (this.form.controls['surname'].errors && this.form.controls['surname'].dirty)
-  }
-
-  hasErrorPhone():boolean {
-    return (this.form.controls['phone'].errors && this.form.controls['phone'].dirty)
-  }
-
-  requiredPhone():boolean {
-    return this.form.controls['phone'].errors.required;
-  }
-
-  patternPhone():boolean {
-    return this.form.controls['phone'].errors.pattern;
-  }
-
-  incompletedPhone():boolean {
-    return this.form.controls['phone'].errors.min;
-  }
-
-  hasErrorMail():boolean {
-    return (this.form.controls['mail'].errors && this.form.controls['mail'].dirty)
-  }
-
+  
   formValid():boolean {
     return this.form.valid;
   }
