@@ -21,9 +21,12 @@
                         <section class="row">
                             <label for="proveedor" class="control-label col-sm-4">Proveedor</label>
                             <div class="form-group col-sm-8">
-                                <select id="proveedor" class="form-control ">
-                                    <option disabled selected> &nbsp;Seleccione</option>
-                                    <option value="Maxi"> &nbsp;Palí</option>
+                                <select class="form-control" #provider (change)="updateProvider(provider.value)">
+                                    <!-- TODO: TRAER DE DB LOS PROVIDER -->
+                                    <option selected disabled>Seleccione un provedor</option>
+                                    <option *ngFor="let prov of providerList"  [ngValue]="prov.name">
+                                        &nbsp;{{ prov.name }}
+                                    </option>
                                 </select>
                             </div>
                         </section>
@@ -32,12 +35,12 @@
                         <section class="row">
                             <label for="fecha" class="control-label col-sm-4">Fecha</label>
                             <div class="form-group col-sm-8">
-                                <input type="date" class="form-control" [value]="date">
+                                <input type="date" [value]="date" class="form-control" #date_bill (change)="updateDate(date_bill.value)">
                             </div>
                         </section>
                     </article>
                 </section>
-                <bill-check></bill-check>
+                <bill-check [info]="headBill"></bill-check>
             </section>
         </div>
         <div class="tab-pane fade bg-white" id="productList" role="tabpanel" aria-labelledby="productList-tab">

@@ -1,16 +1,97 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ProductBillInterface } from '../../../models/product.bill.interface';
+import { PurchaseInterface } from '../../../models/purchase.interface';
+import { TaxInterface } from '../../../models/tax.interface';
 
 @Component({
   selector: 'bill-check',
-  templateUrl: './bill-check.component.html',
-  styles: [
-  ]
+  templateUrl: './bill-check.component.html'
 })
-export class BillCheckComponent implements OnInit {
+export class BillCheckComponent {
+
+  @Input('info') head:PurchaseInterface;
+  @Input('add') product:ProductBillInterface;
+  private tax:number = 0;
+
+  //TODO: Obtener informacion de la bd
+  taxList:TaxInterface[] = [
+    {
+      id: 'tax1',
+      name: 'Compra',
+      value: 10,
+      status: true
+    },
+    {
+      id: 'tax1',
+      name: 'Venta',
+      value: 13,
+      status: true
+    }
+  ];
+
+  listProduct:ProductBillInterface[] = [
+    {
+      code: 'ABCD',
+      name: 'Arroz',
+      amount: 3,
+      cost: 1000,
+      total:  3000
+    },
+    {
+      code: 'EFGH',
+      name: 'Frijoles',
+      amount: 3,
+      cost: 1000,
+      total:  3000
+    },
+    {
+      code: 'IJKL',
+      name: 'Jabon',
+      amount: 3,
+      cost: 1000,
+      total:  3000
+    }
+  ]
 
   constructor() { }
 
-  ngOnInit(): void {
+
+  addProductList() {
+    this.product.total = this.product.cost * this.product.amount;
+    this.listProduct.push(this.product);
+  }
+
+  
+  onChangeTax(value:number) {
+    this.tax = Number(value);
+    this.calculeTotal();
+  }
+
+  calculeSubTotal():number {
+    let result:number = 0;
+    this.listProduct.forEach(item => {
+      result += item.total;
+    });
+    this.head.subTotal = result;
+    return result;
+  }
+
+  //TODO: Realizar los calculos por cada precio y cantidad
+  private calculeAmountTotal() {
+    this.listProduct.forEach(item => {
+      item.total = item.cost * item.amount;
+    });
+  }
+
+  calculeTotal() {
+    let sub:number = this.calculeSubTotal();
+    let total:number = 0;
+    total = sub + (sub*(this.tax / 100));
+    return total;
+  }
+
+  show() {
+    console.log(this.head);
   }
 
 }

@@ -11,48 +11,42 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th>AD35J</th>
-                <td>Shampú</td>
-                <td>4</td>
-                <td>890.00</td>
-                <td>₡ 3560.00</td>
+            <tr *ngFor="let product of listProduct">
+                <th>{{ product.code }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.amount }}</td>
+                <td>₡ {{ product.cost }}</td>
+                <td>₡ {{ product.total }}</td>
                 <td><i class="fas fa-trash-alt" style="cursor: pointer;" title="Eliminar producto"></i></td>
             </tr>
+        </tbody>
+        <br>
+        <tfoot>
             <tr>
-                <th>AD35J</th>
-                <td>Shampú</td>
-                <td>4</td>
-                <td>890.00</td>
-                <td>₡ 3560.00</td>
-                <td><i class="fas fa-trash-alt" style="cursor: pointer;" title="Eliminar producto"></i></td>
-            </tr>
-            <tr>
-                <th colspan="4"><span class="float-right">SubTotal</span></th>
-                <th colspan="2">₡ 10580.00</th>
-            </tr>
-            <tr>
-                <th colspan="4"><span class="float-right">IVA</span></th>
-                <th>
-                    <select class="form-control col-sm-5">
-                        <option value="1">&nbsp;&nbsp; 0%</option>
-                        <option value="2">&nbsp;&nbsp; 10%</option>
-                        <option value="3">&nbsp;&nbsp; 13%</option>
+                <th class="border-0" colspan="4"><span class="float-right">IVA (%)</span></th>
+                <th class="border-0" colspan="2">
+                    <!-- TODO: TRAER DE DB LOS TAXES -->
+                    <select class="form-control" #tax (change)="onChangeTax(tax.value)">
+                        <option [ngValue]="0" selected>0</option>
+                        <option *ngFor="let tax of taxList" [ngValue]="tax.value">{{tax.value}}</option>
                     </select>
                 </th>
-                <th>&nbsp;</th>
             </tr>
             <tr>
-                <th colspan="4"><span class="float-right">Total</span></th>
-                <th colspan="2">₡ 12080.00</th>
+                <th colspan="4"><h3 class="float-right">SubTotal</h3></th>
+                <th colspan="2"><h3>₡ {{ calculeSubTotal() }}</h3></th>
             </tr>
             <tr>
-                <th colspan="6">
+                <th class="border-0" colspan="4"><h1 class="float-right">Total</h1></th>
+                <th class="border-0" colspan="2"><h1>₡{{ calculeTotal() }}</h1></th>
+            </tr>
+            <tr>
+                <th class="border-0" colspan="6">
                     <span class="float-right">
-                        <button class="btn btn-info btn-round btn-sm mr-3" style="cursor: pointer;">Guardar</button>
+                        <button (click)="show()" class="btn btn-info btn-round btn-sm mr-3"><i class="fas fa-save"></i> Guardar</button>
                     </span>
                 </th>
             </tr>
-        </tbody>
+        </tfoot>
     </table>
 </div>

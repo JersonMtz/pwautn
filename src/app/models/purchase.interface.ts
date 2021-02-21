@@ -1,9 +1,11 @@
-import { ProductInterface } from './product.interface';
+import { ProductBillInterface } from './product.bill.interface';
+
 export interface PurchaseInterface {
     id?:string;
-    client?:string;
+    salesman:string;
     date:string;
-    user:string;
-    total:number;
-    products?:ProductInterface[];
-} 
+    provider?:string;
+    tax?:number;
+    subTotal?:number;
+    products?:ProductBillInterface[];
+}

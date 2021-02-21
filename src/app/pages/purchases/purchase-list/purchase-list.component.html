@@ -15,10 +15,10 @@
             <tbody>
                 <tr *ngFor="let purchase of purchaseLIst">
                     <th>0000000000000</th>
-                    <td>{{ purchase.client }}</td>
+                    <td>{{ purchase.provider }}</td>
                     <td>{{ purchase.date }}</td>
-                    <td>{{ purchase.user }}</td>
-                    <td>₡ {{ purchase.total }}</td>
+                    <td>{{ purchase.salesman }}</td>
+                    <td>₡ {{ purchase.subTotal + (purchase.subTotal * (purchase.tax / 100)) }}</td>
                     <td>
                         <div class="btn-group dropleft">
                             <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
