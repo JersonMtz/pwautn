@@ -9,7 +9,7 @@ ul#tab.nav li.nav-item a.nav-link[aria-expanded="false"], ul#tab.nav li.nav-item
 
 ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
     background: #fff;
-    color: #343434;
+    color: #222526;
 }
 
 .btn-info, .btn-info:hover {
@@ -21,7 +21,7 @@ ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
     font-size: 0.9em;
 }
 
-button.rounded-circle.btn.btn-warning.mx-1.btn-sm, .fas.fa-cart-plus.fa-2x.text-success, .btn {
+button.rounded-circle.btn.btn-warning.mx-1.btn-sm, .btn {
     cursor: pointer;
 }
 
@@ -35,4 +35,12 @@ ul.collapse.list-unstyled.animate__animated.animate__fadeIn {
 
 .col-md-8.bg-white.rounded {
     border-top: 3px solid #2196F3;
+}
+
+.dropdown-menu {
+    font-size: .9125rem;
+}
+
+#buySubmenu, #productSubmenu, #saleSubmenu {
+    background-color: #222526;
 }

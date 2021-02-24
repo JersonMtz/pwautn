@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PurchaseInterface } from '../../../models/purchase.interface';
+import { HeadBillInterface } from '../../../models/headBill.interface';
 
 @Component({
   selector: 'purchase-list',
@@ -7,7 +7,7 @@ import { PurchaseInterface } from '../../../models/purchase.interface';
 })
 export class PurchaseListComponent {
 
-  purchaseLIst:PurchaseInterface[] = [
+  purchaseLIst:HeadBillInterface[] = [
     {
       id: 'A1',
       salesman: 'User 1',

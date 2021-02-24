@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ProductBillInterface } from '../../../models/product.bill.interface';
-import { PurchaseInterface } from '../../../models/purchase.interface';
+import { ProductInterface } from '../../../models/product.interface';
+import { HeadBillInterface } from '../../../models/headBill.interface';
 import { TaxInterface } from '../../../models/tax.interface';
 
 @Component({
@@ -9,9 +9,8 @@ import { TaxInterface } from '../../../models/tax.interface';
 })
 export class BillCheckComponent {
 
-  @Input('info') head:PurchaseInterface;
-  @Input('add') product:ProductBillInterface;
-  private tax:number = 0;
+  @Input('info') head:HeadBillInterface;
+  @Input('add') product:ProductInterface;
 
   //TODO: Obtener informacion de la bd
   taxList:TaxInterface[] = [
@@ -29,7 +28,7 @@ export class BillCheckComponent {
     }
   ];
 
-  listProduct:ProductBillInterface[] = [
+  listProduct:ProductInterface[] = [
     {
       code: 'ABCD',
       name: 'Arroz',
@@ -63,7 +62,7 @@ export class BillCheckComponent {
 
   
   onChangeTax(value:number) {
-    this.tax = Number(value);
+    this.head.tax = Number(value);
     this.calculeTotal();
   }
 
@@ -86,7 +85,7 @@ export class BillCheckComponent {
   calculeTotal() {
     let sub:number = this.calculeSubTotal();
     let total:number = 0;
-    total = sub + (sub*(this.tax / 100));
+    total = sub + (sub*(this.head.tax / 100));
     return total;
   }
 

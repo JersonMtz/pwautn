@@ -18,8 +18,16 @@
                     </span>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="avatarSubmenu">
-                    <li class="nav-item" routerLinkActive="active"><a class="nav-link" [routerLink]="['/dashboard/profile']">Perfil <i class="fas fa-user float-right mt-2 mr-3"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-power-off float-right mt-2 mr-3"></i> Cerrar sesión</a></li>
+                    <li class="nav-item" routerLinkActive="active">
+                        <a class="nav-link" [routerLink]="['/dashboard/profile']">
+                            Perfil <i class="fas fa-user float-right mt-2 mr-3"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-power-off float-right mt-2 mr-3"></i> Cerrar sesión
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -27,7 +35,6 @@
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
-            <!-- <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-graduation-cap"></i> Academía</a></li> -->
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#buySubmenu" aria-expanded="false" aria-controls="buySubmenu">
                     <i class="fas fa-dolly"></i> Compras <i class="fas fa-angle-down float-right mt-2"></i>

@@ -7,6 +7,9 @@ declare function ready();
 })
 export class PagesComponent {
 
-  constructor() { ready(); }
+  constructor() { 
+    document.title = 'Gestión de Inventario';
+    ready(); 
+  }
 
 }

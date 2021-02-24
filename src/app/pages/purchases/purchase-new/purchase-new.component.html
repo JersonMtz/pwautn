@@ -17,7 +17,21 @@
         <div class="tab-pane fade show active bg-white" id="newPurchase" role="tabpanel" aria-labelledby="newPurchase-tab">
             <section class="container py-4">
                 <section class="row">
-                    <article class="col-md-6 order-md-2">
+                    <article class="col-md-4 order-md-1">
+                        <section class="row">
+                            <label for="proveedor" class="control-label col-sm-4">Sucursal</label>
+                            <div class="form-group col-sm-8">
+                                <select class="form-control" #warehouse (change)="updateWarehouse(warehouse.value)">
+                                    <!-- TODO: TRAER DE DB LOS WAREHOUSE activos -->
+                                    <option selected disabled>Seleccione una sucursal</option>
+                                    <option *ngFor="let ware of warehouseList"  [ngValue]="ware.name">
+                                        {{ ware.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </section>
+                    </article>
+                    <article class="col-md-4 order-md-3">
                         <section class="row">
                             <label for="proveedor" class="control-label col-sm-4">Proveedor</label>
                             <div class="form-group col-sm-8">
@@ -25,13 +39,13 @@
                                     <!-- TODO: TRAER DE DB LOS PROVIDER -->
                                     <option selected disabled>Seleccione un provedor</option>
                                     <option *ngFor="let prov of providerList"  [ngValue]="prov.name">
-                                        &nbsp;{{ prov.name }}
+                                        {{ prov.name }}
                                     </option>
                                 </select>
                             </div>
                         </section>
                     </article>
-                    <article class="col-md-6">
+                    <article class="col-md-4 order-md-2">
                         <section class="row">
                             <label for="fecha" class="control-label col-sm-4">Fecha</label>
                             <div class="form-group col-sm-8">
