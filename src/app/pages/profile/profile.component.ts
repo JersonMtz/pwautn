@@ -27,7 +27,7 @@ export class ProfileComponent {
   btnDelete:boolean;
 
   /** File photo **/
-  private pathCollection:string;
+  pathCollection:string;
   private namePhoto:string;
   private uploadPhoto:string;
 
@@ -45,7 +45,7 @@ export class ProfileComponent {
 
   private getCurrentUser() {
     /**
-      TODO: 
+      TODO: funcion va en un servicio 
       obtener usuario logueado y asignarlo a la variable profile y crear el path 
       *users/nombreUsuario
       this.pathCollection = `users/${ this.profile.name.toString().replace(' ','-').toLowerCase() }`; 

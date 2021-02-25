@@ -18,7 +18,8 @@ export class MessagesService {
 
   smsDelete(text:string):Promise<SweetAlertResult> {
     return Swal.fire({
-      title: `Desea eliminar a "${ text }"`,
+      title: `¿Eliminar ${ text }?`,
+      text:'Esta acción no podrá revertirse',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#485FC7',
@@ -35,6 +36,27 @@ export class MessagesService {
     })
   }
   
+  smsConfirm():Promise<SweetAlertResult> {
+    return Swal.fire({
+      title: '¿Desea salir?',
+      text: 'Existen cambios pendientes sin guardar',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#485FC7',
+      cancelButtonColor: '#00D1B2',
+      cancelButtonText: 'No',
+      confirmButtonText: 'Sí',
+      backdrop: 'rgba(0,0,0,0.8)',
+      showClass: {
+        popup: 'animate__animated animate__fadeIn'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOut'
+      },
+      allowOutsideClick: false
+    })
+  }
+
   notification(type:SweetAlertIcon = 'info', text:string, backColor:string = '#FFF') {
     const Toast = Swal.mixin({
       toast: true,
@@ -51,6 +73,26 @@ export class MessagesService {
       icon: type, 
       title: text, 
       background: backColor, 
+      showClass: { popup: 'animate__animated animate__fadeIn' }, 
+      hideClass: { popup: 'animate__animated animate__fadeOut' }
+    });
+  }
+
+  deleteProductBill(text:string):Promise<SweetAlertResult> {   
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'center',
+      showConfirmButton: true
+    });
+    
+    return Toast.fire({ 
+      icon: 'question', 
+      title: `¿Quitar ${text.toUpperCase()} de la lista?`,
+      showCancelButton: true,
+      cancelButtonColor: '#00D1B2',
+      cancelButtonText: 'No',
+      confirmButtonColor: '#485FC7',
+      confirmButtonText: 'Sí',
       showClass: { popup: 'animate__animated animate__fadeIn' }, 
       hideClass: { popup: 'animate__animated animate__fadeOut' }
     });

@@ -22,7 +22,7 @@ export class ProductFormComponent implements OnDestroy {
   /** File photo **/
   private namePhoto:string;
   private uploadPhoto:any;
-  private pathCollection:string;
+  pathCollection:string;
 
   constructor(private fb:FormBuilder, 
               private productService:ProductService, 

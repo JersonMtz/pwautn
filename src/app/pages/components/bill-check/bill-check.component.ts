@@ -40,8 +40,9 @@ export class BillCheckComponent implements OnChanges{
   }
 
   deleteProduct(index:number, product:ProductInterface) {
-    this.popup.smsDelete(product.name).then(resp => {
+    this.popup.deleteProductBill(product.name).then(resp => {
       if (resp.isConfirmed) {
+        // TODO: DEVOLVER LA CANTIDAD AL STOCK SI ES UNA VENTA
         this.listProduct.splice(index, 1);
         this.calculeSubTotal();
       }

@@ -8,7 +8,8 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: PagesComponent,
-    loadChildren: () => import("./routing-children.module").then(m => m.RoutingChildrenModule )
+    loadChildren: () => import("./routing-children.module").then(m => m.RoutingChildrenModule)
+    //TODO: canDeactivate: [] Servicio de logout rediccion a login 
   }
 ];
 
