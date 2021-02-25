@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { ProductInterface } from '../../../models/product.interface';
 import { MessagesService } from '../../../services/messages.service';
 
@@ -10,13 +10,15 @@ import { MessagesService } from '../../../services/messages.service';
 export class StockComponent  {
   
   @Input('sale') typeAccion:boolean = true;
+  @Output('order') productOut:EventEmitter<ProductInterface> = new EventEmitter();
 
+  // TODO: obtener datos desde firebase
   listProduct:ProductInterface[] = [
     {
       id: 'a1',
       code: 'azK',
       name: 'azucar',
-      cost: 1111,
+      cost: 1000,
       price: 2222,
       stock: 56
     },
@@ -37,7 +39,7 @@ export class StockComponent  {
       stock: 50
     },
     {
-      id: 'a1',
+      id: 'a14',
       code: 'azK',
       name: 'jabon',
       cost: 1111,
@@ -75,7 +77,6 @@ export class StockComponent  {
   }
 
   addToBill(amount:number, product:ProductInterface) {
-    // TODO: EMITIR EL OBJETO AL PADRE Y PASARLO AL COMPONENTE BILL
     if (product.stock === 0 && this.typeAccion) {
       this.popup.notification('info',`No hay  ${product.name} suficiente en stock`);
       product.error = true;
@@ -85,14 +86,17 @@ export class StockComponent  {
           id: product.id,
           code: product.code,
           name: product.name,
-          cost: product.cost,
-          price: product.price,
-          amount: Number(amount)
+          price: this.typeAccion ? product.price : product.cost,
+          amount: Number(amount),
+          total: this.typeAccion ? product.price * amount : product.cost * amount,
         };
-        product.stock -= amount;
-        this.popup.notification('success',`Se agrego ${product.name} a la factura`);
+        if (!this.typeAccion) {
+          product.stock -= amount;
+        }
+        this.productOut.emit(tem);
+        this.popup.notification('success',`Se agrego ${product.name.toUpperCase()} a la factura`);
       } else {
-        this.popup.notification('info',`Verifique la cantidad del producto ${product.name} antes de agregar a la factura`);
+        this.popup.notification('info',`Verifique la cantidad del producto ${product.name.toUpperCase()} antes de agregar a la factura`);
       }  
     }
   }

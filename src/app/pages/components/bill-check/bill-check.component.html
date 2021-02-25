@@ -11,13 +11,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let product of listProduct">
+            <tr *ngFor="let product of listProduct; index as i;">
                 <th>{{ product.code }}</th>
                 <td>{{ product.name }}</td>
                 <td>{{ product.amount }}</td>
-                <td>₡ {{ product.cost }}</td>
+                <td>₡ {{ product.price }}</td>
                 <td>₡ {{ product.total }}</td>
-                <td><i class="fas fa-trash-alt" style="cursor: pointer;" title="Eliminar producto"></i></td>
+                <td><i class="fas fa-trash-alt" style="cursor: pointer;" 
+                    title="Eliminar producto" (click)="deleteProduct(i, product)"></i>
+                </td>
             </tr>
         </tbody>
         <br>
@@ -34,7 +36,7 @@
             </tr>
             <tr>
                 <th colspan="4"><h3 class="float-right">SubTotal</h3></th>
-                <th colspan="2"><h3>₡ {{ calculeSubTotal() }}</h3></th>
+                <th colspan="2"><h3>₡ {{ headBill.subTotal }}</h3></th>
             </tr>
             <tr>
                 <th class="border-0" colspan="4"><h1 class="float-right">Total</h1></th>
@@ -43,7 +45,9 @@
             <tr>
                 <th class="border-0" colspan="6">
                     <span class="float-right">
-                        <button (click)="show()" class="btn btn-info btn-round btn-sm mr-3"><i class="fas fa-save"></i> Guardar</button>
+                        <button class="btn btn-info btn-round btn-sm mr-3" [disabled]="!billValid()">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
                     </span>
                 </th>
             </tr>

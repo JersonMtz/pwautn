@@ -79,5 +79,4 @@ export class PurchaseNewComponent {
   updateWarehouse(value:string) {
     this.headBill.warehouse = value;
   }
-
 }

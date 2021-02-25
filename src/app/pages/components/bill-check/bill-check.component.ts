@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ProductInterface } from '../../../models/product.interface';
 import { HeadBillInterface } from '../../../models/headBill.interface';
 import { TaxInterface } from '../../../models/tax.interface';
+import { MessagesService } from '../../../services/messages.service';
 
 @Component({
   selector: 'bill-check',
   templateUrl: './bill-check.component.html'
 })
-export class BillCheckComponent {
+export class BillCheckComponent implements OnChanges{
 
-  @Input('info') head:HeadBillInterface;
+  @Input('head') headBill:HeadBillInterface;
   @Input('add') product:ProductInterface;
 
   //TODO: Obtener informacion de la bd
@@ -28,69 +29,68 @@ export class BillCheckComponent {
     }
   ];
 
-  listProduct:ProductInterface[] = [
-    {
-      code: 'ABCD',
-      name: 'Arroz',
-      amount: 3,
-      cost: 1000,
-      total:  3000
-    },
-    {
-      code: 'EFGH',
-      name: 'Frijoles',
-      amount: 3,
-      cost: 1000,
-      total:  3000
-    },
-    {
-      code: 'IJKL',
-      name: 'Jabon',
-      amount: 3,
-      cost: 1000,
-      total:  3000
+  listProduct:ProductInterface[] = [];
+
+  constructor(private popup:MessagesService) { 
+    // TODO: CONSULTA DE LOS IMPUESTOS A FIREBASE
+  }
+
+  ngOnChanges() {
+    this.addProductList();
+  }
+
+  deleteProduct(index:number, product:ProductInterface) {
+    this.popup.smsDelete(product.name).then(resp => {
+      if (resp.isConfirmed) {
+        this.listProduct.splice(index, 1);
+        this.calculeSubTotal();
+      }
+    })
+  }
+
+  private addProductList() {
+    if (this.product) {
+      if (!this.verifyProduct()) {
+        this.listProduct.push(this.product);
+      }
+      this.calculeSubTotal();
     }
-  ]
-
-  constructor() { }
-
-
-  addProductList() {
-    this.product.total = this.product.cost * this.product.amount;
-    this.listProduct.push(this.product);
   }
 
-  
-  onChangeTax(value:number) {
-    this.head.tax = Number(value);
-    this.calculeTotal();
+  private verifyProduct():boolean {
+    if (this.listProduct.length > 0) {
+      for (let item of this.listProduct) {
+        if (item.id === this.product.id) {
+          item.amount += this.product.amount;
+          item.total += this.product.total;
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-  calculeSubTotal():number {
+  private calculeSubTotal() {
     let result:number = 0;
-    this.listProduct.forEach(item => {
-      result += item.total;
-    });
-    this.head.subTotal = result;
-    return result;
+    if (this.listProduct) {
+      this.listProduct.forEach(item => {
+        result += item.total;
+      });
+    }
+    this.headBill.subTotal = result;
   }
 
-  //TODO: Realizar los calculos por cada precio y cantidad
-  private calculeAmountTotal() {
-    this.listProduct.forEach(item => {
-      item.total = item.cost * item.amount;
-    });
+  onChangeTax(value:number) {
+    this.headBill.tax = Number(value);
+    this.calculeSubTotal();
   }
 
-  calculeTotal() {
-    let sub:number = this.calculeSubTotal();
-    let total:number = 0;
-    total = sub + (sub*(this.head.tax / 100));
-    return total;
+  calculeTotal():number {
+    return this.headBill.subTotal + (this.headBill.subTotal *(this.headBill.tax / 100));
   }
 
-  show() {
-    console.log(this.head);
+  billValid():boolean {
+    return (this.headBill.warehouse && this.headBill.provider && this.listProduct.length > 0) ? true: false;
   }
 
 }

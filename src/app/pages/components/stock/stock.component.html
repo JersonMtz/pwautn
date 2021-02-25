@@ -27,7 +27,7 @@
                         #amount_input (change)="stockError(amount_input.value, product)" min="1">
                     </td>
                     <td>
-                        <input type="number" class="form-control col-sm-5" [value]="product.cost" [ngClass]="product.error ? 'is-invalid':''"
+                        <input type="number" class="form-control col-sm-5" [value]="typeAccion ? product.price : product.cost" [ngClass]="product.error ? 'is-invalid':''"
                         #cost_input (change)="isNegative(cost_input.value, product)" min="1">
                     </td>
                 </tr>
