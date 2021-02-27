@@ -23,6 +23,7 @@ import { ExitProductService } from '../services/exit-product.service';
 import { ExitPurchaseService } from '../services/exit-purchase.service';
 import { ExitUserService } from '../services/exit-user.service';
 import { ExitProfileService } from '../services/exit-profile.service';
+import { ExitSaleService } from '../services/exit-sale.service';
 
 const childreRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -40,7 +41,7 @@ const childreRoutes: Routes = [
     { path: 'products/add', component: ProductFormComponent, canDeactivate: [ExitProductService]},
     /* SALES VIEW */
     { path: 'sales', component: SaleListComponent },
-    { path: 'sales/new', component: SaleNewComponent },
+    { path: 'sales/new', component: SaleNewComponent, canDeactivate: [ExitSaleService] },
     /* USERS VIEW */
     { path: 'users', component: UserListComponent },
     { path: 'users/edit', component: UserFormComponent, canDeactivate: [ExitUserService]},

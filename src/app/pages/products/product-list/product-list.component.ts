@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductInterface } from '../../../models/product.interface';
 import { MessagesService } from '../../../services/messages.service';
@@ -8,7 +8,7 @@ import { ProductService } from '../../../services/product.service';
   selector: 'product-list',
   templateUrl: './product-list.component.html'
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnDestroy{
   
   productList:ProductInterface[] = [
     {
@@ -53,6 +53,11 @@ export class ProductListComponent {
               private productService:ProductService,
               private router:Router) {
     sms.showAlert();
+    document.getElementById('a-product').classList.toggle('active');
+  }
+
+  ngOnDestroy() {
+    document.getElementById('a-product').classList.toggle('active');
   }
 
   editProduct(product:ProductInterface) {

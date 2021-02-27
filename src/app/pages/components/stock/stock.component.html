@@ -15,7 +15,7 @@
                 <tr *ngFor="let product of listProduct">
                     <td>
                         <button class="btn bg-white" [disabled]="product.error" (click)="addToBill(amount_input.value, product)">
-                            <i class="fas fa-cart-plus fa-2x" [ngClass]="product.error ? 'text-secondary':'text-success'" 
+                            <i class="fas fa-cart-plus fa-2x" [ngClass]="product.error?'text-secondary':'text-success'" 
                             title="Agregar a lista"></i>
                         </button>
                     </td>
@@ -23,11 +23,11 @@
                     <td>{{ product.name }}</td>
                     <td>{{ product.stock }}</td>
                     <td>
-                        <input type="number" class="form-control col-sm-3" [value]="1" [ngClass]="product.error ? 'is-invalid':''"
+                        <input type="number" class="form-control col-sm-3" [value]="1" [ngClass]="product.error?'is-invalid':''"
                         #amount_input (change)="stockError(amount_input.value, product)" min="1">
                     </td>
                     <td>
-                        <input type="number" class="form-control col-sm-5" [value]="typeAccion ? product.price : product.cost" [ngClass]="product.error ? 'is-invalid':''"
+                        <input type="number" class="form-control col-sm-5" [value]="typeAccion?product.price:product.cost" [ngClass]="product.error?'is-invalid':''"
                         #cost_input (change)="isNegative(cost_input.value, product)" min="1">
                     </td>
                 </tr>

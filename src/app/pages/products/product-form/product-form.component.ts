@@ -4,17 +4,20 @@ import { Router } from '@angular/router';
 import { MessagesService } from 'src/app/services/messages.service';
 import { ProductInterface } from '../../../models/product.interface';
 import { ProductService } from '../../../services/product.service';
+import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 
 @Component({
   selector: 'product-form',
   templateUrl: './product-form.component.html'
 })
 export class ProductFormComponent implements OnDestroy {
+  
+  editing:boolean = false;
+  items:BreadcrumbInterface[];
 
   form:FormGroup;
   private expNumber:RegExp = /^([0-9])*$/;
   private product:ProductInterface;
-  editing:boolean = false;
 
   defaultPhoto:string;
   btnReset:boolean;
@@ -32,6 +35,8 @@ export class ProductFormComponent implements OnDestroy {
     this.initForm();
     this.verifyForm();
     this.onResetPhoto();
+    this.buildBreadcrumb();
+    document.getElementById('a-product').classList.toggle('active');
   }
 
   //TODO: en categoria hay que traer los datos de la coleccion, validar nombre de producto unico
@@ -60,6 +65,25 @@ export class ProductFormComponent implements OnDestroy {
         this.editing = true;
       }
     }
+  }
+
+  private buildBreadcrumb() {
+    this.items = [
+      {
+        url: '/dashboard',
+        icon: 'fas fa-home',
+        title: 'Inicio'
+      },
+      {
+        url: '/dashboard/products',
+        icon: 'fas fa-cubes',
+        title: 'Productos'
+      },
+      {
+        icon: this.editing ? 'fas fa-edit mt-1':'fas fa-plus-circle mt-1',
+        title: this.editing ? 'Editar': 'Agregar'
+      }
+    ];
   }
 
   /* METHODS FORM */
@@ -112,5 +136,6 @@ export class ProductFormComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.productService.setProduct = undefined;
+    document.getElementById('a-product').classList.toggle('active');
   }
 }

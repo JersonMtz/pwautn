@@ -1,13 +1,12 @@
-<section class="row">
+<section class="row animate__animated animate__fadeIn">
     <ol class="breadcrumb bg-white border col-md-12">
-        <li class="breadcrumb-item">
-            <a [routerLink]="'/dashboard'" class="text-primary"><i class="fas fa-home"></i> Inicio</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a [routerLink]="'/dashboard/products'" class="text-primary"><i class="fas fa-cubes"></i> Productos</a>
-        </li>
-        <li class="breadcrumb-item active">
-            <i class="fas fa-edit mt-1"></i>&nbsp;Editar
+        <li class="breadcrumb-item" *ngFor="let item of listUrls" [ngClass]="!item.url?'active':''">
+            <a *ngIf="item.url" [routerLink]="item.url" class="text-primary">
+                <i [class]="item.icon"></i> {{ item.title }}
+            </a>
+            <span *ngIf="!item.url">
+                <i [class]="item.icon"></i> {{ item.title }}               
+            </span>
         </li>
     </ol>
 </section>

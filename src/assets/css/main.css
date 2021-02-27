@@ -3,7 +3,7 @@ ul.nav li.nav-item a.nav-link[aria-expanded="true"] {
     background: #222424;
 }
 
-ul.collapse.list-unstyled li a.nav-link:hover, ul.collapse.list-unstyled li.active a.nav-link {
+ul.collapse.list-unstyled li a.nav-link:hover, ul.collapse.list-unstyled li a.nav-link.active {
     border: none;
     background: #FFF;
     color: #000;
@@ -451,8 +451,8 @@ body>.navbar-collapse .nav li .nav-link p {
     display: inline-flex;
 }
 
-.sidebar .nav li.active .nav-link,
-body>.navbar-collapse .nav li.active .nav-link {
+.sidebar .nav .nav-link.active,
+body>.navbar-collapse .nav .nav-link.active {
     color: #FFFFFF;
     background: #222222;
     border-left: solid 3px #008D4C;

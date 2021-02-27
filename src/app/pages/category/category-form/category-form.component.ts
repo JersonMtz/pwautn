@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { CategoryInterface } from '../../../models/category.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -12,7 +12,9 @@ export class CategoryFormComponent implements OnChanges {
   @Input('edit') editing:boolean = false;
   @Input('data') category:CategoryInterface;
 
-  constructor(private fb:FormBuilder) { this.initForm() }
+  constructor(private fb:FormBuilder) { 
+    this.initForm(); 
+  }
 
   initForm(){
     this.form = this.fb.group({

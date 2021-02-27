@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { ProductInterface } from '../../../models/product.interface';
 import { MessagesService } from '../../../services/messages.service';
 
@@ -7,8 +7,9 @@ import { MessagesService } from '../../../services/messages.service';
   selector: 'stock',
   templateUrl: './stock.component.html'
 })
-export class StockComponent  {
-  
+export class StockComponent implements OnChanges  {
+
+  @Input('delete') productDelete:ProductInterface;
   @Input('sale') typeAccion:boolean = true;
   @Output('order') productOut:EventEmitter<ProductInterface> = new EventEmitter();
 
@@ -58,6 +59,22 @@ export class StockComponent  {
   
   constructor(private popup:MessagesService) { }
 
+  ngOnChanges() {
+    this.returnProduct();
+  }
+
+  returnProduct() {
+    if (this.productDelete) {
+      for (const item of this.listProduct) {
+        if (item.id === this.productDelete.id) {
+          item.stock += this.productDelete.amount;
+          this.productDelete = undefined;
+          break;
+        }
+      }
+    }
+  }
+
   stockError(amount:number, product:ProductInterface) {
     if (amount > product.stock || amount < 0 || !amount) {
       product.error = true;
@@ -69,10 +86,15 @@ export class StockComponent  {
 
   isNegative(amount:number, product:ProductInterface) {
     if (amount < 0 || !amount) {
-      product.error = true;
+      product.error = true; 
       this.popup.notification('error','Verifique el precio del pedido');
     } else {
       product.error = false;
+      if (this.typeAccion) {
+        product.price = amount;
+      } else {
+        product.cost = amount;
+      }
     }
   }
 
@@ -90,7 +112,7 @@ export class StockComponent  {
           amount: Number(amount),
           total: this.typeAccion ? product.price * amount : product.cost * amount,
         };
-        if (!this.typeAccion) {
+        if (this.typeAccion) {
           product.stock -= amount;
         }
         this.productOut.emit(tem);

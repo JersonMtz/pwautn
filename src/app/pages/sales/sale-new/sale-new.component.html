@@ -17,33 +17,88 @@
         <div class="tab-pane fade show active bg-white" id="newSale" role="tabpanel" aria-labelledby="newSale-tab">
             <h3 class="text-center mt-n1">
                 <span style="background:#0094CA;" class="rounded text-white p-2 border">
-                    <i class="fas fa-dice-d6"></i> Nueva Venta 
+                    <i class="fas fa-dice-d6"></i> Nueva Venta
                 </span>
             </h3>
             <section class="container py-4">
                 <section class="row">
                     <article class="col-md-5 order-md-6">
                         <section class="row">
-                            <label for="fecha" class="control-label col-sm-3">Fecha</label>
+                            <label for="fecha" class="control-label col-sm-3">
+                                Fecha <span class="text-danger">*</span>
+                            </label>
                             <div class="form-group col-sm-9">
-                                <input type="date" class="form-control" [value]="date">
+                                <input type="date" class="form-control" #input_date [value]="date"
+                                    (change)="updateDate(input_date.value)">
                             </div>
                         </section>
                     </article>
                     <article class="col-md-3 order-md-1 mb-3">
-                        <button class="btn btn-sm btn-primary">Buscar Cliente <i class="fas fa-search"></i></button>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                            data-target="#modalClient">
+                            Buscar Cliente <i class="fas fa-search"></i>
+                        </button>
                     </article>
                     <article class="col-md-4 order-md-2">
-                        <h5>Cliente: <b>FULANITO</b></h5>
+                        <section class="row">
+                            <label for="cliente" class="control-label col-sm-3">
+                                Cliente <span class="text-danger">*</span>
+                            </label>
+                            <div class="form-group col-sm-9">
+                                <b>{{ headBill.client }}</b>
+                            </div>
+                        </section>
                     </article>
                 </section>
-                <bill-check></bill-check>
+                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event"></bill-check>
             </section>
         </div>
         <div class="tab-pane fade bg-white" id="productList" role="tabpanel" aria-labelledby="productList-tab">
             <section class="container py-4">
-                <stock></stock>
+                <stock (order)="product = $event" [delete]="deleteProduct"></stock>
             </section>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalClient" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="modalClientLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalClientLabel">Lista de Clientes</h3>
+                <button class="bg-white btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr class="bg-dark">
+                            <th>&nbsp;</th>
+                            <th class="text-white">Cédula</th>
+                            <th class="text-white">Nombre Completo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let client of listClient">
+                            <td>
+                                <button class="bg-white btn" data-dismiss="modal" (click)="clientSelect(client)">
+                                    <i class="fas fa-plus-circle text-success"></i>
+                                </button>
+                            </td>
+                            <th>{{ client.idCard }}</th>
+                            <td>{{ client.name }} {{ client.surname }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <small class="text-muted float-left">
+                    Agregue un cliente haciendo clic en el icono <i class="fas fa-plus-circle"></i>
+                </small>
+            </div>
         </div>
     </div>
 </div>

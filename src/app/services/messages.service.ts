@@ -9,6 +9,18 @@ export class MessagesService {
   alert:any = { active:false, icon:'', text:'' };
   constructor() { }
 
+  private beatAlert() {
+    const sound:any = document.getElementById('sound');
+    sound.src ="./assets/music/notificacion.mp3";
+    sound.play();
+  }
+
+  private beatPopup() {
+    const sound:any = document.getElementById('sound');
+    sound.src ="./assets/music/popup.mp3";
+    sound.play();
+  }
+
   showAlert() {
     if (this.alert.active) {
       this.notification(this.alert.icon, this.alert.text);
@@ -17,6 +29,7 @@ export class MessagesService {
   }
 
   smsDelete(text:string):Promise<SweetAlertResult> {
+    this.beatAlert();
     return Swal.fire({
       title: `¿Eliminar ${ text }?`,
       text:'Esta acción no podrá revertirse',
@@ -37,6 +50,7 @@ export class MessagesService {
   }
   
   smsConfirm():Promise<SweetAlertResult> {
+    this.beatAlert();
     return Swal.fire({
       title: '¿Desea salir?',
       text: 'Existen cambios pendientes sin guardar',
@@ -78,7 +92,8 @@ export class MessagesService {
     });
   }
 
-  deleteProductBill(text:string):Promise<SweetAlertResult> {   
+  deleteProductBill(text:string):Promise<SweetAlertResult> {  
+    this.beatPopup(); 
     const Toast = Swal.mixin({
       toast: true,
       position: 'center',

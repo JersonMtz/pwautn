@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { HeadBillInterface } from '../../../models/headBill.interface';
+import { Component, OnDestroy } from '@angular/core';
+import { BillInterface } from '../../../models/bill.interface';
 import { ProviderInterface } from '../../../models/provider.interface';
 import { WarehouseInterface } from '../../../models/warehouse.interface';
 import { ProductInterface } from 'src/app/models/product.interface';
@@ -8,8 +8,10 @@ import { ProductInterface } from 'src/app/models/product.interface';
   selector: 'purchase-new',
   templateUrl: './purchase-new.component.html'
 })
-export class PurchaseNewComponent {
+export class PurchaseNewComponent implements OnDestroy {
 
+  change:boolean = true;
+  
   objDate:Date = new Date();
   day:string = (this.objDate.getDate() < 10)? `0${ this.objDate.getDate() }` : this.objDate.getDate().toString();
   month:string = (this.objDate.getMonth() < 10)? `0${ this.objDate.getMonth() + 1 }` : this.objDate.getMonth().toString();
@@ -57,8 +59,8 @@ export class PurchaseNewComponent {
   ];
 
   /* Encabezado de la factura */
-  headBill:HeadBillInterface = {
-    salesman: 'Jerson', //USUARIO LOGUEADO
+  headBill:BillInterface = {
+    user: 'Jerson', //USUARIO LOGUEADO
     date: this.date,
     warehouse: '',
     provider: '',
@@ -66,7 +68,13 @@ export class PurchaseNewComponent {
     subTotal: 0
   }
   
-  constructor() { }
+  constructor() { 
+    document.getElementById('a-purchase').classList.toggle('active');
+  }
+
+  ngOnDestroy() {
+    document.getElementById('a-purchase').classList.toggle('active');
+  }
 
   updateDate(value:string) {
     this.headBill.date = value;

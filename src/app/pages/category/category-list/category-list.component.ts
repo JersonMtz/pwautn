@@ -1,12 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CategoryInterface } from 'src/app/models/category.interface';
 import { MessagesService } from '../../../services/messages.service';
+import { BreadcrumbInterface } from 'src/app/models/breadcrumb.interface';
 
 @Component({
   selector: 'category-list',
   templateUrl: './category-list.component.html'
 })
-export class CategoryListComponent {
+export class CategoryListComponent implements OnDestroy{
+
+  items:BreadcrumbInterface[] = [
+    {
+      url: '/dashboard',
+      icon: 'fas fa-home',
+      title: 'Inicio'
+    },
+    {
+      url: '/dashboard/products',
+      icon: 'fas fa-cubes',
+      title: 'Productos'
+    },
+    {
+      icon: 'fas fa-tags mt-1',
+      title: 'Categoría'
+    }
+  ];
 
   edit:boolean = false;
   categoryEdit:CategoryInterface;
@@ -28,7 +46,13 @@ export class CategoryListComponent {
     }
   ];
 
-  constructor(private popup:MessagesService) { }
+  constructor(private popup:MessagesService) { 
+    document.getElementById('a-product').classList.toggle('active');
+  }
+
+  ngOnDestroy() {
+    document.getElementById('a-product').classList.toggle('active');
+  }
 
   editCategory(category:CategoryInterface) {
     this.edit = true;

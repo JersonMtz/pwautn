@@ -25,6 +25,10 @@
         <br>
         <tfoot>
             <tr>
+                <th colspan="4"><h3 class="float-right">SubTotal</h3></th>
+                <th colspan="2"><h3>₡ {{ headBill.subTotal }}</h3></th>
+            </tr>
+            <tr>
                 <th class="border-0" colspan="4"><span class="float-right">IVA (%)</span></th>
                 <th class="border-0" colspan="2">
                     <!-- TODO: TRAER DE DB LOS TAXES -->
@@ -35,17 +39,13 @@
                 </th>
             </tr>
             <tr>
-                <th colspan="4"><h3 class="float-right">SubTotal</h3></th>
-                <th colspan="2"><h3>₡ {{ headBill.subTotal }}</h3></th>
-            </tr>
-            <tr>
                 <th class="border-0" colspan="4"><h1 class="float-right">Total</h1></th>
                 <th class="border-0" colspan="2"><h1>₡{{ calculeTotal() }}</h1></th>
             </tr>
             <tr>
                 <th class="border-0" colspan="6">
                     <span class="float-right">
-                        <button class="btn btn-info btn-round btn-sm mr-3" [disabled]="!billValid()">
+                        <button class="btn btn-info btn-round btn-sm mr-3" [disabled]="!billValid()" (click)="onSave()">
                             <i class="fas fa-save"></i> Guardar
                         </button>
                     </span>

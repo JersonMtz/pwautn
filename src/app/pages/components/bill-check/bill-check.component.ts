@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { ProductInterface } from '../../../models/product.interface';
-import { HeadBillInterface } from '../../../models/headBill.interface';
+import { BillInterface } from '../../../models/bill.interface';
 import { TaxInterface } from '../../../models/tax.interface';
 import { MessagesService } from '../../../services/messages.service';
 
@@ -10,8 +10,9 @@ import { MessagesService } from '../../../services/messages.service';
 })
 export class BillCheckComponent implements OnChanges{
 
-  @Input('head') headBill:HeadBillInterface;
+  @Input('head') headBill:BillInterface;
   @Input('add') product:ProductInterface;
+  @Output() delete:EventEmitter<ProductInterface> = new EventEmitter(); 
 
   //TODO: Obtener informacion de la bd
   taxList:TaxInterface[] = [
@@ -42,7 +43,7 @@ export class BillCheckComponent implements OnChanges{
   deleteProduct(index:number, product:ProductInterface) {
     this.popup.deleteProductBill(product.name).then(resp => {
       if (resp.isConfirmed) {
-        // TODO: DEVOLVER LA CANTIDAD AL STOCK SI ES UNA VENTA
+        this.delete.emit(product);
         this.listProduct.splice(index, 1);
         this.calculeSubTotal();
       }
@@ -61,7 +62,7 @@ export class BillCheckComponent implements OnChanges{
   private verifyProduct():boolean {
     if (this.listProduct.length > 0) {
       for (let item of this.listProduct) {
-        if (item.id === this.product.id) {
+        if (item.id === this.product.id && item.price === this.product.price) {
           item.amount += this.product.amount;
           item.total += this.product.total;
           return true;
@@ -81,6 +82,11 @@ export class BillCheckComponent implements OnChanges{
     this.headBill.subTotal = result;
   }
 
+  onSave() {
+    this.headBill.products = this.listProduct;
+    console.log(this.headBill);
+  }
+
   onChangeTax(value:number) {
     this.headBill.tax = Number(value);
     this.calculeSubTotal();
@@ -91,7 +97,15 @@ export class BillCheckComponent implements OnChanges{
   }
 
   billValid():boolean {
-    return (this.headBill.warehouse && this.headBill.provider && this.listProduct.length > 0) ? true: false;
+    if (this.listProduct.length > 0 && this.headBill.date) {
+      if (this.headBill.client) {
+        return true;
+      }
+      if (this.headBill.warehouse && this.headBill.provider) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
