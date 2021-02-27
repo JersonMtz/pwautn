@@ -1,13 +1,14 @@
 <div class="animate__animated animate__fadeIn">
     <section class="text-center d-block d-md-none mb-4">
-        <article class="btn-group" role="group">
-            <button type="button" class="btn btn-info border" (click)="change = true">
+        <div class="ui buttons">
+            <button class="ui button violet border" (click)="change = true">
                 <i class="fas fa-pencil-alt"></i> Facturación
             </button>
-            <button type="button" class="btn btn-info border" (click)="change = false">
-                &nbsp;<i class="fas fa-list-ol"></i> Productos&nbsp;
+            <div class="or"></div>
+            <button class="ui button violet border" (click)="change = false">
+                <i class="fas fa-list-ol"></i> Productos
             </button>
-        </article>
+        </div>
     </section>
     <section class="d-none d-md-block">
         <ul class="nav nav-tabs" id="tab" role="tablist">

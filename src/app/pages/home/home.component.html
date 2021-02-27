@@ -1,3 +1,54 @@
-<div class="animate__animated animate__fadeIn" style="height: 800px;">
-    <p>home works!</p>
+<div class="animate__animated animate__fadeIn">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 d-none d-md-block">Bienvenid@</h1>
+            <h1 class="display-5 d-md-none d-block">Bienvenid@</h1>
+            <p class="lead text-justify">
+                Hola <b>'NOMBRE USUARIO'</b>, acá tienes algunos de los módulos del sistema en los cuales podrías
+                iniciar.
+            </p>
+        </div>
+    </div>
+    <!-- TODO: Validar segun el ROLE -->
+    <section class="row">
+        <article class="col-md-4 text-center mb-4">
+            <h3><span class=" p-2 rounded alert-warning">
+                    Lista de Ventas ó Realizar venta
+                </span></h3>
+            <img class="rounded-circle w-50 border" src="../../../assets/img/sale.png" alt="sales">
+            <br>
+            <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales')">
+                <div class="visible content">Ir</div>
+                <div class="hidden content">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </article>
+        <article class="col-md-4 text-center mb-4">
+            <h3><span class=" p-2 rounded alert-warning">
+                    Lista de Productos ó Agregar Producto
+                </span></h3>
+            <img class="rounded-circle w-50 border" src="../../../assets/img/products.png" alt="products">
+            <br>
+            <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/products')">
+                <div class="visible content">Ir</div>
+                <div class="hidden content">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </article>
+        <article class="col-md-4 text-center mb-4">
+            <h3><span class=" p-2 rounded alert-warning">
+                    Lista de compras ó Realizar Compra
+                </span></h3>
+            <img class="rounded-circle w-50 border" src="../../../assets/img/purchase.png" alt="purchases">
+            <br>
+            <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/purchases')">
+                <div class="visible content">Ir</div>
+                <div class="hidden content">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </article>
+    </section>
 </div>

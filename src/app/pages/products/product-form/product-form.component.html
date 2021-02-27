@@ -12,7 +12,7 @@
         <br><br>
         <button class="btn btn-warning btn-sm mb-3 text-white mx-1" *ngIf="!btnReset"
             (click)="filePhoto.click()" [disabled]="form.controls['name'].invalid">
-            <i class="fas fa-upload"></i> Imágen
+            <i class="fas fa-image"></i> Imágen
         </button>
         <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
             <i class="fas fa-minus-circle"></i> Remover
