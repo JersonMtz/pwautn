@@ -3,12 +3,24 @@ import { Router } from '@angular/router';
 import { ProductInterface } from '../../../models/product.interface';
 import { MessagesService } from '../../../services/messages.service';
 import { ProductService } from '../../../services/product.service';
+import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 
 @Component({
   selector: 'product-list',
   templateUrl: './product-list.component.html'
 })
-export class ProductListComponent implements OnDestroy{
+export class ProductListComponent implements OnDestroy {
+  items:BreadcrumbInterface[] = [
+    {
+      url: '/dashboard',
+      icon: 'fas fa-home',
+      title: 'Inicio'
+    },
+    {
+      icon: 'fas fa-cubes',
+      title: 'Productos'
+    }
+  ];
   
   productList:ProductInterface[] = [
     {

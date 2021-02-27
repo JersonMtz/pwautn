@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BillInterface } from '../../../models/bill.interface';
 import { ProductInterface } from '../../../models/product.interface';
-import Swal from 'sweetalert2';
 import { ClientInterface } from '../../../models/client.interface';
 
 @Component({
@@ -9,6 +8,8 @@ import { ClientInterface } from '../../../models/client.interface';
   templateUrl: './sale-new.component.html'
 })
 export class SaleNewComponent implements OnDestroy {
+  change:boolean = true;
+  
   objDate:Date = new Date();
   day:string = (this.objDate.getDate() < 10)? `0${ this.objDate.getDate() }` : this.objDate.getDate().toString();
   month:string = (this.objDate.getMonth() < 10)? `0${ this.objDate.getMonth() + 1 }` : this.objDate.getMonth().toString();

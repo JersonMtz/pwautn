@@ -1,10 +1,10 @@
 <div class="animate__animated animate__fadeIn">
     <section class="text-center d-block d-md-none mb-4">
         <article class="btn-group" role="group">
-            <button type="button" class="btn border" style="background:#0194CA;color:white;" (click)="change = true">
+            <button type="button" class="btn btn-info border" (click)="change = true">
                 <i class="fas fa-pencil-alt"></i> Facturación
             </button>
-            <button type="button" class="btn border" style="background:#0194CA;color:white;" (click)="change = false">
+            <button type="button" class="btn btn-info border" (click)="change = false">
                 &nbsp;<i class="fas fa-list-ol"></i> Productos&nbsp;
             </button>
         </article>
@@ -12,16 +12,14 @@
     <section class="d-none d-md-block">
         <ul class="nav nav-tabs" id="tab" role="tablist">
             <li class="nav-item" (click)="change = true">
-                <a class="nav-link" [ngClass]="change?'active':''" id="newPurchase-tab" data-toggle="tab"
-                    href="#newPurchase" role="tab" aria-controls="newPurchase" [attr.aria-selected]="change"
-                    [attr.aria-expanded]="change">
+                <a class="nav-link" [ngClass]="change?'active':''" id="newPurchase-tab" data-toggle="tab" href="#newPurchase" role="tab" 
+                aria-controls="newPurchase" [attr.aria-selected]="change" [attr.aria-expanded]="change">
                     <i class="fas fa-pencil-alt"></i> Facturación
                 </a>
             </li>
             <li class="nav-item" (click)="change = false">
-                <a class="nav-link" [ngClass]="!change?'active':''" id="productList-tab" data-toggle="tab"
-                    href="#productList" role="tab" aria-controls="productList" [attr.aria-selected]="!change"
-                    [attr.aria-expanded]="!change">
+                <a class="nav-link" [ngClass]="!change?'active':''" id="productList-tab" data-toggle="tab" href="#productList" role="tab" 
+                aria-controls="productList" [attr.aria-selected]="!change" [attr.aria-expanded]="!change">
                     &nbsp;<i class="fas fa-list-ol"></i> Productos&nbsp;
                 </a>
             </li>

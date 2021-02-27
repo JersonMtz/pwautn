@@ -1,20 +1,32 @@
 <div class="animate__animated animate__fadeIn">
-    <ul class="nav nav-tabs" id="tab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="newSale-tab" data-toggle="tab" href="#newSale" role="tab"
-                aria-controls="newSale" aria-selected="true" aria-expanded="true">
+    <section class="text-center d-block d-md-none mb-4">
+        <article class="btn-group" role="group">
+            <button type="button" class="btn btn-info border" (click)="change = true">
                 <i class="fas fa-pencil-alt"></i> Facturación
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="productList-tab" data-toggle="tab" href="#productList" role="tab"
-                aria-controls="productList" aria-selected="false" aria-expanded="false">
-                <i class="fas fa-list-ol"></i> Productos
-            </a>
-        </li>
-    </ul>
+            </button>
+            <button type="button" class="btn btn-info border" (click)="change = false">
+                &nbsp;<i class="fas fa-list-ol"></i> Productos&nbsp;
+            </button>
+        </article>
+    </section>
+    <section class="d-none d-md-block">
+        <ul class="nav nav-tabs" id="tab" role="tablist">
+            <li class="nav-item" (click)="change = true">
+                <a class="nav-link" [ngClass]="change?'active':''" id="newSale-tab" data-toggle="tab" href="#newSale"
+                    role="tab" aria-controls="newSale" [attr.aria-selected]="change" [attr.aria-expanded]="change">
+                    <i class="fas fa-pencil-alt"></i> Facturación
+                </a>
+            </li>
+            <li class="nav-item" (click)="change = false">
+                <a class="nav-link" [ngClass]="!change?'active':''" id="productList-tab" data-toggle="tab" href="#productList" role="tab"
+                    aria-controls="productList" [attr.aria-selected]="!change" [attr.aria-expanded]="!change">
+                    <i class="fas fa-list-ol"></i> Productos
+                </a>
+            </li>
+        </ul>
+    </section>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active bg-white" id="newSale" role="tabpanel" aria-labelledby="newSale-tab">
+        <div class="tab-pane fade bg-white" [ngClass]="change?'active show':''" id="newSale" role="tabpanel" aria-labelledby="newSale-tab">
             <h3 class="text-center mt-n1">
                 <span style="background:#0094CA;" class="rounded text-white p-2 border">
                     <i class="fas fa-dice-d6"></i> Nueva Venta
@@ -53,15 +65,13 @@
                 <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event"></bill-check>
             </section>
         </div>
-        <div class="tab-pane fade bg-white" id="productList" role="tabpanel" aria-labelledby="productList-tab">
+        <div class="tab-pane fade bg-white" [ngClass]="!change?'active show':''" id="productList" role="tabpanel" aria-labelledby="productList-tab">
             <section class="container py-4">
                 <stock (order)="product = $event" [delete]="deleteProduct"></stock>
             </section>
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="modalClient" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="modalClientLabel" aria-hidden="true">
     <div class="modal-dialog">

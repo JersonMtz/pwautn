@@ -4,6 +4,7 @@ import { UserInterface } from '../../../models/user.interface';
 import { Router } from '@angular/router';
 import { MessagesService } from '../../../services/messages.service';
 import { UserService } from '../../../services/user.service';
+import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 
 @Component({
   selector: 'user-form',
@@ -11,6 +12,7 @@ import { UserService } from '../../../services/user.service';
 })
 export class UserFormComponent implements OnDestroy {
 
+  items:BreadcrumbInterface[];
   form:FormGroup;
   private reExpMail:RegExp = /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
   private reExpPass:RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{7,9}[^'\s]/;
@@ -36,6 +38,7 @@ export class UserFormComponent implements OnDestroy {
     this.initForm();
     this.verifyForm();
     this.onResetPhoto();
+    this.buildBreadcrumb();
   }
 
   // TODO: VALIDAR CORREO ÚNICO
@@ -67,6 +70,25 @@ export class UserFormComponent implements OnDestroy {
         this.editing = true;
       }
     }
+  }
+
+  private buildBreadcrumb() {
+    this.items = [
+      {
+        url: '/dashboard',
+        icon: 'fas fa-home',
+        title: 'Inicio'
+      },
+      {
+        url: '/dashboard/users',
+        icon: 'fas fa-users',
+        title: 'Usuarios'
+      },
+      {
+        icon: this.editing ? 'fas fa-edit mt-1':'fas fa-plus-circle mt-1',
+        title: this.editing ? 'Editar': 'Agregar'
+      }
+    ];
   }
 
   show() {
