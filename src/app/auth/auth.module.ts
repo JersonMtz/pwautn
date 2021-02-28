@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { AuthComponent } from './auth.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 const authComponents = [
   AuthComponent,
@@ -25,6 +26,7 @@ const authComponents = [
   imports: [
     CommonModule,
     AuthRoutingModule,
+    SharedModule,
     ReactiveFormsModule
   ]
 })

@@ -1,4 +1,4 @@
-<section class="pt-5 animate__animated" [ngClass]="!exit ? 'animate__backInRight' : 'animate__backOutRight' ">
+<section class="pt-5 mx-2 animate__animated" [ngClass]="!exit ? 'animate__backInRight' : 'animate__backOutRight' ">
     <section class="text-center mt-5 mb-0">
         <img class="rounded-circle bg-white" width="130px" height="130px" src="../../../assets/img/forgot.png">
     </section>
@@ -18,7 +18,7 @@
                     </ng-template>
                 </small>
             </p>
-            <button class="btn btn-warning btn-block" [disabled]="isValid()">Recuperar Contraseña</button>
+            <button class="btn btn-warning btn-block" [disabled]="isValid()" (click)="onresetPassword()">Recuperar Contraseña</button>
             <button (click)="redirect()" class="btn btn-dark btn-block text-white">Atrás</button>
         </form>
     </section>

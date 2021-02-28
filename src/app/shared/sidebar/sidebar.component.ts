@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'sidebar',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
 
-  constructor() { }
+  constructor(private afAuth:AuthService) { }
+
+  onLogOut() {
+    this.afAuth.logOut().then(console.log);
+  }
 }

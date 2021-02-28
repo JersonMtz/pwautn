@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
+import Swal, { SweetAlertIcon, SweetAlertPosition, SweetAlertResult } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class MessagesService {
     sound.play();
   }
 
-  private beatPopup() {
+  beatPopup() {
     const sound:any = document.getElementById('sound');
     sound.src ="./assets/music/popup.mp3";
     sound.play();
@@ -71,10 +71,10 @@ export class MessagesService {
     })
   }
 
-  notification(type:SweetAlertIcon = 'info', text:string, backColor:string = '#FFF') {
+  notification(type:SweetAlertIcon = 'info', text:string, backColor:string = '#FFF', move:SweetAlertPosition = 'bottom') {
     const Toast = Swal.mixin({
       toast: true,
-      position: 'bottom',
+      position: move,
       showConfirmButton: false,
       timer: 5000,
       timerProgressBar: true,

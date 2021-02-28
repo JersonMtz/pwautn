@@ -1,27 +1,39 @@
-<section class="pt-5 animate__animated" [ngClass]="!exit ? 'animate__backInLeft' : 'animate__backOutLeft' ">
-    <section class="text-center mt-5 mb-0">
-        <img width="130px" height="130px" class="rounded-circle" src="../../../assets/img/login.png">
-    </section>
-    <section class="card mx-auto pb-4">
-        <form class="form-signin pt-3" [formGroup]="form">
-            <h2 class="text-center">Iniciar Sesión</h2>
-            <br>
-            <article class="form-group mb-4">
-                <div class="inner-icon left-icon">
-                    <i class="fas fa-at"></i>
-                    <input type="email" class="form-control" placeholder="Email" required autofocus formControlName="mail">
-                </div>
-            </article>
+<spinner [ngClass]="!initing?'d-none':'d-block'"></spinner>
+<section class="pt-5 mx-2 animate__animated" [ngClass]="!exit?'animate__backInLeft':'animate__backOutLeft'">
+    <div [ngClass]="initing?'d-none':'d-block'">
+        <section class="text-center mt-5 mb-0">
+            <img width="130px" height="130px" class="rounded-circle" src="../../../assets/img/login.png">
+        </section>
+        <section class="card mx-auto pb-4">
+            <form class="form-signin pt-3" [formGroup]="form">
+                <h2 class="text-center">Iniciar Sesión</h2>
+                <br>
+                <article class="form-group mb-4">
+                    <div class="inner-icon left-icon">
+                        <i class="fas fa-at"></i>
+                        <input type="email" class="form-control" placeholder="Email" required autofocus
+                            formControlName="mail">
+                    </div>
+                </article>
 
-            <article class="form-group mb-5">
-                <div class="inner-icon left-icon">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" class="form-control" placeholder="Contraseña" required formControlName="pass">
-                </div>
-            </article>
+                <article class="form-group mb-4">
+                    <div class="inner-icon left-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-control" placeholder="Contraseña" required
+                            formControlName="pass">
+                    </div>
+                </article>
 
-            <button (click)="onSubmit()" class="btn btn-lg btn-block mb-3" [disabled]="isValid()">Aceptar</button>
-        </form>
-        <a class="link" (click)="redirect()">Recuperar contraseña</a>
-    </section>
+                <!-- TODO.PROGRMAR EL RECORDAR EMAL -->
+                <article class="form-group mb-3">
+                    <span>Recuerdáme</span>
+                    <input type="checkbox" class="ml-1 form-check-input">
+                </article>
+
+                <button (click)="onLogin()" class="btn btn-lg btn-block mb-3 button ui violet"
+                    [disabled]="isValid()">Aceptar</button>
+            </form>
+            <a class="link" (click)="redirect()">Recuperar contraseña</a>
+        </section>
+    </div>
 </section>

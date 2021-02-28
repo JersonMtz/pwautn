@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { MessagesService } from '../../services/messages.service';
 
 @Component({
   selector: 'forgot',
@@ -13,7 +15,10 @@ export class ForgotComponent {
   exit:boolean = false;
   private reExp:any = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
 
-  constructor(private router:Router, private fb:FormBuilder) { 
+  constructor(private router:Router, 
+              private fb:FormBuilder, 
+              private afAuth:AuthService, 
+              private popup:MessagesService) { 
     document.title = 'Forgot Password';
     this.initForm();
   }
@@ -35,5 +40,18 @@ export class ForgotComponent {
   redirect(){
     this.exit = true;
     setTimeout(() => this.router.navigateByUrl('auth/login'), 500);
+  }
+
+  onresetPassword() {
+    const { mail } = this.form.value;
+    this.afAuth.resetPassword(mail)
+    .then(res => {
+      if (res && (res.code === "auth/user-not-found")) {
+        this.popup.notification('error', 'No hay ningún registro de usuario que corresponda a este correo.','#FFF','top');
+      } else {
+        this.popup.notification('success', 'Se ha enviado un link a su correo, por favor revise su inbox.','#FFF','center');
+      }
+    })
+    .catch(console.log);
   }
 }
