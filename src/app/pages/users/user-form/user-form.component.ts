@@ -2,8 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserInterface } from '../../../models/user.interface';
 import { Router } from '@angular/router';
-import { MessagesService } from '../../../services/messages.service';
-import { UserService } from '../../../services/user.service';
+import { MessagesService } from '../../../shared/services/messages.service';
+import { UserService } from '../services/user.service';
 import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 
 @Component({

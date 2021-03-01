@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { afAuthService } from '../services/afAuth.service';
 declare function ready();
 
 @Component({
@@ -7,9 +8,8 @@ declare function ready();
 })
 export class PagesComponent {
 
-  constructor() { 
+  constructor(private auth:afAuthService) {
     document.title = 'Gestión de Inventario';
     ready(); 
   }
-
 }

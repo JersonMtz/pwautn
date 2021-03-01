@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessagesService } from 'src/app/services/messages.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 import { ProductInterface } from '../../../models/product.interface';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '../services/product.service';
 import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 
 @Component({

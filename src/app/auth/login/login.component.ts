@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from "../../services/auth.service";
-import { MessagesService } from '../../services/messages.service';
+import { afAuthService } from "../../services/afAuth.service";
+import { MessagesService } from '../../shared/services/messages.service';
 
 @Component({
   selector: 'login',
@@ -19,26 +19,32 @@ export class LoginComponent {
 
   constructor(private router:Router, 
               private fb:FormBuilder, 
-              private afAuth:AuthService,
+              private afAuth:afAuthService,
               private popup:MessagesService) { 
     document.title = 'Login';
     this.initForm();
   }
 
   initForm() {
+    const mail = localStorage.getItem('mail') || '';
+    const check = mail ? true :false;
     this.form = this.fb.group({
-      mail : ['', Validators.compose([Validators.required, Validators.email, Validators.pattern(this.reExp)])],
-      pass : ['', Validators.required]
+      mail: [mail, Validators.compose([Validators.required, Validators.email, Validators.pattern(this.reExp)])],
+      pass: ['', Validators.required],
+      remember: [check] 
     });
+  }
+
+  rememberMail() {
+    if (this.form.get('remember').value) {
+      localStorage.setItem('mail', this.form.get('mail').value);
+    } else {
+      localStorage.removeItem('mail');
+    }
   }
 
   isValid(){
     return !this.form.valid;
-  }
-
-  onSubmit() {
-    // TODO: lógica de firebase para conectar
-    this.router.navigateByUrl('/dashboard');
   }
 
   redirect(){
@@ -52,32 +58,36 @@ export class LoginComponent {
       const { mail, pass } = this.form.value;
       this.afAuth.login(mail, pass).then(res => {
         const { emailVerified } = res.user;
-        //TODO: PRODUCTION
         if (!emailVerified) {
-          this.popup.beatPopup();
-          this.popup.notification('info','<span class="text-white">Verifique su cuenta antes de iniciar sesión</span>','#2799F3','center');
+          this.showInfo();
         } else {
-          //obtener datos de la collection
-          //this.afUser.getUser(uid).pipe(map(res => res.payload.data())).subscribe(console.log);
-          //iniciar sesión
+          this.router.navigateByUrl('/dashboard');
         }
-        /**** SIMULACRO ***/
-        this.initing = false;
       }).catch(err => {
-        if (err && (err.code === "auth/user-not-found" || err.code === "auth/wrong-password")) {
-          this.popup.beatPopup();
-          this.popup.notification('error','<span class="text-white">Usuario o contraseña son incorrectos</span>','#E6252C','top');
-        }
-        if (err && (err.code === "auth/user-disabled")) {
-          this.popup.beatPopup();
-          this.popup.notification('info','<span class="text-white">Usuario inactivo. Comuniquese con el administrador</span>','#2799F3','center');
-        }
-        if (err && (err.code === "auth/network-request-failed")) {
-          this.popup.beatPopup();
-          this.popup.notification('info','<span class="text-white">Error de comunicación con el servidor. Revise su conexión e intente nuevamente</span>','#2799F3','top');
-        }
-        this.initing = false;
+        this.showErrors(err);
       });
     }
+  }
+
+  private showInfo() {
+    this.popup.beatPopup();
+    this.afAuth.verifyMail();
+    this.popup.notification('info','<span class="text-white">Verifique su cuenta antes de iniciar sesión mediante un enlace enviado a su correo.</span>','#2799F3','center');
+  }
+
+  private showErrors(err:any) {
+    if (err && (err.code === "auth/user-not-found" || err.code === "auth/wrong-password")) {
+      this.popup.beatPopup();
+      this.popup.notification('error','<span class="text-white">Usuario o contraseña son incorrectos</span>','#E6252C','top');
+    }
+    if (err && (err.code === "auth/user-disabled")) {
+      this.popup.beatPopup();
+      this.popup.notification('info','<span class="text-white">Usuario inactivo. Comuniquese con el administrador</span>','#2799F3','center');
+    }
+    if (err && (err.code === "auth/network-request-failed")) {
+      this.popup.beatPopup();
+      this.popup.notification('info','<span class="text-white">Error de comunicación con el servidor. Revise su conexión e intente nuevamente</span>','#2799F3','top');
+    }
+    this.initing = false;
   }
 }

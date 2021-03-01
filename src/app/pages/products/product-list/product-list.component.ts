@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductInterface } from '../../../models/product.interface';
-import { MessagesService } from '../../../services/messages.service';
-import { ProductService } from '../../../services/product.service';
+import { MessagesService } from '../../../shared/services/messages.service';
+import { ProductService } from '../services/product.service';
 import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 
 @Component({

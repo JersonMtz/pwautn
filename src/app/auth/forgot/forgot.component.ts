@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { MessagesService } from '../../services/messages.service';
+import { afAuthService } from '../../services/afAuth.service';
+import { MessagesService } from '../../shared/services/messages.service';
 
 @Component({
   selector: 'forgot',
@@ -17,7 +17,7 @@ export class ForgotComponent {
 
   constructor(private router:Router, 
               private fb:FormBuilder, 
-              private afAuth:AuthService, 
+              private afAuth:afAuthService, 
               private popup:MessagesService) { 
     document.title = 'Forgot Password';
     this.initForm();

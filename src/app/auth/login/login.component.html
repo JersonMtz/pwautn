@@ -12,7 +12,7 @@
                     <div class="inner-icon left-icon">
                         <i class="fas fa-at"></i>
                         <input type="email" class="form-control" placeholder="Email" required autofocus
-                            formControlName="mail">
+                            formControlName="mail" (change)="rememberMail()">
                     </div>
                 </article>
 
@@ -27,7 +27,8 @@
                 <!-- TODO.PROGRMAR EL RECORDAR EMAL -->
                 <article class="form-group mb-3">
                     <span>Recuerdáme</span>
-                    <input type="checkbox" class="ml-1 form-check-input">
+                    <input type="checkbox" class="ml-1 form-check-input" formControlName="remember"
+                        (change)="rememberMail()">
                 </article>
 
                 <button (click)="onLogin()" class="btn btn-lg btn-block mb-3 button ui violet"
@@ -37,3 +38,4 @@
         </section>
     </div>
 </section>
+

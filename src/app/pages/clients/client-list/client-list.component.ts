@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ClientInterface } from '../../../models/client.interface';
-import { MessagesService } from '../../../services/messages.service';
+import { MessagesService } from '../../../shared/services/messages.service';
 
 @Component({
   selector: 'client-list',

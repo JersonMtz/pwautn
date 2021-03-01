@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MessagesService } from '../../../services/messages.service';
+import { MessagesService } from '../../../shared/services/messages.service';
 import { TaxInterface } from '../../../models/tax.interface';
 
 @Component({

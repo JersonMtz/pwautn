@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserInterface } from '../../models/user.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessagesService } from '../../services/messages.service';
+import { MessagesService } from '../../shared/services/messages.service';
 
 @Component({
   selector: 'profile',

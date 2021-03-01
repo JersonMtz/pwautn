@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/pages/users/services/user.service';
 import { UserInterface } from '../../../models/user.interface';
 import { Router } from '@angular/router';
-import { MessagesService } from '../../../services/messages.service';
+import { MessagesService } from '../../../shared/services/messages.service';
 
 @Component({
   selector: 'user-list',

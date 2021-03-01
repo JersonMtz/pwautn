@@ -1,19 +1,18 @@
 import { Injectable } from "@angular/core";
 import { CanDeactivate } from '@angular/router';
-import { ProfileComponent } from '../pages/profile/profile.component';
-import { MessagesService } from './messages.service';
+import { MessagesService } from '../../../shared/services/messages.service';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ExitProfileService implements CanDeactivate<ProfileComponent>
+export class ExitUserService implements CanDeactivate<UserFormComponent>
 {
 
     constructor(private popup: MessagesService) { }
 
-    canDeactivate(component: ProfileComponent): any {
-                                //component.pathCollection
-        if (component.form.dirty || component.btnReset) {
+    canDeactivate(component:UserFormComponent): any {
+        if (component.form.dirty) {
             return this.popup.smsConfirm().then((resp) => {
                 if (resp.value) {
                     return true;

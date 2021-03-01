@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CategoryInterface } from 'src/app/models/category.interface';
-import { MessagesService } from '../../../services/messages.service';
+import { MessagesService } from '../../../shared/services/messages.service';
 import { BreadcrumbInterface } from 'src/app/models/breadcrumb.interface';
 
 @Component({

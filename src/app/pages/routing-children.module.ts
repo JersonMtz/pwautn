@@ -19,11 +19,11 @@ import { UserFormComponent } from './users/user-form/user-form.component';
 import { CategoryListComponent } from './category/category-list/category-list.component';
 
 /* CANDEACTIVE */
-import { ExitProductService } from '../services/exit-product.service';
-import { ExitPurchaseService } from '../services/exit-purchase.service';
-import { ExitUserService } from '../services/exit-user.service';
-import { ExitProfileService } from '../services/exit-profile.service';
-import { ExitSaleService } from '../services/exit-sale.service';
+import { ExitProductService } from './products/services/exit-product.service';
+import { ExitPurchaseService } from './purchases/services/exit-purchase.service';
+import { ExitUserService } from './users/services/exit-user.service';
+import { ExitProfileService } from './profile/services/exit-profile.service';
+import { ExitSaleService } from './sales/services/exit-sale.service';
 
 const childreRoutes: Routes = [
     { path: '', component: HomeComponent },

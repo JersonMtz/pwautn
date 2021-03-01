@@ -1,18 +1,19 @@
 import { Injectable } from "@angular/core";
 import { CanDeactivate } from '@angular/router';
-import { MessagesService } from './messages.service';
-import { SaleNewComponent } from '../pages/sales/sale-new/sale-new.component';
+import { ProfileComponent } from '../profile.component';
+import { MessagesService } from '../../../shared/services/messages.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ExitSaleService implements CanDeactivate<SaleNewComponent>
+export class ExitProfileService implements CanDeactivate<ProfileComponent>
 {
 
     constructor(private popup: MessagesService) { }
 
-    canDeactivate(component: SaleNewComponent): any {
-        if (component.headBill.client || component.headBill.date || component.product) {
+    canDeactivate(component: ProfileComponent): any {
+                                //component.pathCollection
+        if (component.form.dirty || component.btnReset) {
             return this.popup.smsConfirm().then((resp) => {
                 if (resp.value) {
                     return true;
