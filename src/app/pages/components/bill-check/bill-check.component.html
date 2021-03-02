@@ -31,7 +31,6 @@
             <tr>
                 <th class="border-0" colspan="4"><span class="float-right">IVA (%)</span></th>
                 <th class="border-0" colspan="2">
-                    <!-- TODO: TRAER DE DB LOS TAXES -->
                     <select class="form-control w-75" #tax (change)="onChangeTax(tax.value)">
                         <option [ngValue]="0" selected>0</option>
                         <option *ngFor="let tax of taxList" [ngValue]="tax.value">{{tax.value}}</option>

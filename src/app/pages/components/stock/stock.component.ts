@@ -13,7 +13,7 @@ export class StockComponent implements OnChanges  {
   @Input('sale') typeAccion:boolean = true;
   @Output('order') productOut:EventEmitter<ProductInterface> = new EventEmitter();
 
-  // TODO: obtener datos desde firebase
+  // TODO: TRAER LOS PRODUCTOS
   listProduct:ProductInterface[] = [
     {
       id: 'a1',

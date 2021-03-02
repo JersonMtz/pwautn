@@ -14,7 +14,7 @@ export class BillCheckComponent implements OnChanges{
   @Input('add') product:ProductInterface;
   @Output() delete:EventEmitter<ProductInterface> = new EventEmitter(); 
 
-  //TODO: Obtener informacion de la bd
+  //TODO: TRAER LOS TAXES ACTIVOS
   taxList:TaxInterface[] = [
     {
       id: 'tax1',
@@ -32,9 +32,7 @@ export class BillCheckComponent implements OnChanges{
 
   listProduct:ProductInterface[] = [];
 
-  constructor(private popup:MessagesService) { 
-    // TODO: CONSULTA DE LOS IMPUESTOS A FIREBASE
-  }
+  constructor(private popup:MessagesService) { }
 
   ngOnChanges() {
     this.addProductList();
