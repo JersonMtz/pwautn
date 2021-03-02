@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { afAuthService } from '../../services/afAuth.service';
 
 @Component({
   selector: 'home',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, public auth:afAuthService) { }
 
   outPath(url:string) {
     this.router.navigateByUrl(url);

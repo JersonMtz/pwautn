@@ -12,4 +12,8 @@ export class PagesComponent {
     document.title = 'Gestión de Inventario';
     ready(); 
   }
+
+  
+
+
 }

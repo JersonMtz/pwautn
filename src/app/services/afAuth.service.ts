@@ -12,7 +12,11 @@ export class afAuthService {
 
   user$: Observable<UserInterface>;
 
-  constructor(private afAuth: AngularFireAuth, private afs:AngularFirestore) { 
+  constructor(private afAuth: AngularFireAuth, private afs:AngularFirestore) {
+    this.getUser();
+  }
+
+  private getUser() {
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         if (user) {

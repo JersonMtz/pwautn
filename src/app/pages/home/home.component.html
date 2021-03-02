@@ -4,51 +4,82 @@
             <h1 class="display-4 d-none d-md-block">Bienvenid@</h1>
             <h1 class="display-5 d-md-none d-block">Bienvenid@</h1>
             <p class="lead text-justify">
-                Hola <b>'NOMBRE USUARIO'</b>, acá tienes algunos de los módulos del sistema en los cuales podrías
+                Hola
+                <b *ngIf="auth.user$ | async as user; else loading">{{ user.name }} {{ user.surname }}</b>
+                <ng-template #loading>
+                    <b class="animate__animated animate__pulse">espere un momento...</b>
+                </ng-template>
+                ,
+                acá tienes algunos de los módulos del sistema en los cuales podrías
                 iniciar.
             </p>
         </div>
     </div>
-    <!-- TODO: Validar segun el ROLE -->
-    <section class="row">
-        <article class="col-md-4 text-center mb-4">
-            <h3><span class=" p-2 rounded alert-warning">
-                    Lista de Ventas ó Realizar venta
-                </span></h3>
-            <img class="rounded-circle w-50 border" src="../../../assets/img/sale.png" alt="sales">
-            <br>
-            <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales')">
-                <div class="visible content">Ir</div>
-                <div class="hidden content">
-                    <i class="fas fa-arrow-right"></i>
+    <div *ngIf="auth.user$ | async as user; else wait">
+        <section class="row" *ngIf="user.role">
+            <article class="col-md-4 text-center mb-4">
+                <h3>
+                    <span *ngIf="user.role" class=" p-2 rounded alert-warning">Realizar Venta</span>
+                    <span *ngIf="!user.role" class="p-2 rounded alert-warning">Lista de Ventas</span>
+                </h3>
+                <img class="rounded-circle w-50 border" src="../../../assets/img/sale.png" alt="sales">
+                <br>
+                <div *ngIf="user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales/new')">
+                    <div class="visible content">Ir</div>
+                    <div class="hidden content">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-            </div>
-        </article>
-        <article class="col-md-4 text-center mb-4">
-            <h3><span class=" p-2 rounded alert-warning">
-                    Lista de Productos ó Agregar Producto
-                </span></h3>
-            <img class="rounded-circle w-50 border" src="../../../assets/img/products.png" alt="products">
-            <br>
-            <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/products')">
-                <div class="visible content">Ir</div>
-                <div class="hidden content">
-                    <i class="fas fa-arrow-right"></i>
+                <div *ngIf="!user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales')">
+                    <div class="visible content">Ir</div>
+                    <div class="hidden content">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-            </div>
-        </article>
-        <article class="col-md-4 text-center mb-4">
-            <h3><span class=" p-2 rounded alert-warning">
-                    Lista de compras ó Realizar Compra
-                </span></h3>
-            <img class="rounded-circle w-50 border" src="../../../assets/img/purchase.png" alt="purchases">
-            <br>
-            <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/purchases')">
-                <div class="visible content">Ir</div>
-                <div class="hidden content">
-                    <i class="fas fa-arrow-right"></i>
+            </article>
+            <article class="col-md-4 text-center mb-4">
+                <h3>
+                    <span *ngIf="user.role" class="p-2 rounded alert-warning">Agregar Producto</span>
+                    <span *ngIf="!user.role" class="p-2 rounded alert-warning">Lista de Productos</span>
+                </h3>
+                <img class="rounded-circle w-50 border" src="../../../assets/img/products.png" alt="products">
+                <br>
+                <div *ngIf="user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/products/add')">
+                    <div class="visible content">Ir</div>
+                    <div class="hidden content">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-            </div>
-        </article>
-    </section>
+                <div *ngIf="!user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/products')">
+                    <div class="visible content">Ir</div>
+                    <div class="hidden content">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </article>
+            <article class="col-md-4 text-center mb-4">
+                <h3>
+                    <span *ngIf="user.role" class=" p-2 rounded alert-warning">Realizar Compra</span>
+                    <span *ngIf="!user.role" class=" p-2 rounded alert-warning">Lista de compras</span>
+                </h3>
+                <img class="rounded-circle w-50 border" src="../../../assets/img/purchase.png" alt="purchases">
+                <br>
+                <div *ngIf="user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/purchases/new')">
+                    <div class="visible content">Ir</div>
+                    <div class="hidden content">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div *ngIf="!user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/purchases')">
+                    <div class="visible content">Ir</div>
+                    <div class="hidden content">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+    <ng-template #wait>
+        <h1 class="animate__animated animate__fadeIn animate__infinite infinite">Espere un momento...</h1>
+    </ng-template>
 </div>
