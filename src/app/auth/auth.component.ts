@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router  } from "@angular/router";
-import { afAuthService } from '../services/afAuth.service';
+import { afAuthService } from './services/afAuth.service';
 
 @Component({
   selector: 'app-auth',

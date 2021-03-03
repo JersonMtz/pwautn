@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { afAuthService } from '../../services/afAuth.service';
+import { afAuthService } from '../services/afAuth.service';
 import { MessagesService } from '../../shared/services/messages.service';
 
 @Component({

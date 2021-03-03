@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivateChild, Router,} from '@angular/router';
-import { afAuthService } from '../services/afAuth.service';
+import { afAuthService } from '../auth/services/afAuth.service';
 
 @Injectable({
   providedIn: 'root'

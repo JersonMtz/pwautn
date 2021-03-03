@@ -1,22 +1,41 @@
 <div class="animate__animated animate__fadeIn">
-    <ul class="nav nav-tabs" id="tab" role="tablist">
-        <li class="nav-item" (click)="reload()">
-            <a class="nav-link" [ngClass]=" !edit ? 'active':''" id="clientList-tab" data-toggle="tab" href="#clientList" role="tab"
-                aria-controls="clientList" [attr.aria-selected]="!edit" [attr.aria-expanded]="!edit">
+    <section class="text-center d-block d-md-none mb-4">
+        <div class="ui buttons">
+            <button class="ui button violet border" (click)="showTab()">
+                <i class="fas fa-list-ol"></i> Clientes
+            </button>
+            <div class="or"></div>
+            <button class="ui button violet border" (click)="show = false">
+                <span *ngIf="!edit" class="animate__animated animate__fadeIn"><i class="fas fa-plus-circle"></i> Agregar</span>
+                <span *ngIf="edit" class="animate__animated animate__fadeIn"><i class="fas fa-edit"></i> Editar</span>
+            </button>
+        </div>
+    </section>
+    <section class="d-none d-md-block">
+        <ul class="nav nav-tabs" id="tab" role="tablist">
+            <li class="nav-item" (click)="showTab()">
+                <a class="nav-link" [ngClass]="show?'active':''" id="clientList-tab" data-toggle="tab"
+                href="#clientList" role="tab" aria-controls="clientList" [attr.aria-selected]="show"
+                [attr.aria-expanded]="show">
                 <i class="fas fa-list-ol"></i> Lista de Clientes
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" [ngClass]=" edit ? 'active':''" id="clientAddEdit-tab" data-toggle="tab" href="#clientAddEdit" role="tab"
-                aria-controls="clientAddEdit" [attr.aria-selected]="edit" [attr.aria-expanded]="edit">
-                <span *ngIf="!edit" class="animate__animated animate__fadeIn"><i class="fas fa-plus-circle"></i> Agregar Cliente</span>
-                <span *ngIf="edit" class="animate__animated animate__fadeIn"><i class="fas fa-edit"></i> Editar Cliente</span>
-            </a>
-        </li>
-    </ul>
+        <li class="nav-item" (click)="show = false">
+            <a class="nav-link" [ngClass]="!show? 'active':''" id="clientAddEdit-tab" data-toggle="tab"
+            href="#clientAddEdit" role="tab" aria-controls="clientAddEdit" [attr.aria-selected]="!show"
+            [attr.aria-expanded]="!show">
+            <span *ngIf="!edit" class="animate__animated animate__fadeIn"><i class="fas fa-plus-circle"></i> Agregar
+                Cliente</span>
+                <span *ngIf="edit" class="animate__animated animate__fadeIn"><i class="fas fa-edit"></i> Editar
+                    Cliente</span>
+                </a>
+            </li>
+        </ul>
+    </section>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade bg-white p-4" [ngClass]=" !edit ? 'active show':''" id="clientList" role="tabpanel" aria-labelledby="clientList-tab">
-            <div class="table-responsive">
+        <div class="tab-pane fade bg-white p-4" [ngClass]="show?'active show':''" id="clientList" role="tabpanel"
+            aria-labelledby="clientList-tab">
+            <div class="table-responsive" *ngIf="listClient.length > 0; else empty">
                 <table class="table">
                     <thead>
                         <tr>
@@ -28,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let person of clients">
+                        <tr *ngFor="let person of listClient">
                             <th>{{ person.idCard }}</th>
                             <td>{{ person.name }}</td>
                             <td>{{ person.surname }}</td>
@@ -39,12 +58,12 @@
                                 </ul>
                             </td>
                             <td>
-                                <button class="rounded-circle btn btn-warning btn-sm mx-1" 
-                                rel="tooltip" title="Editar registro" (click)="editClient(person)">
+                                <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
+                                    title="Editar registro" (click)="editClient(person)">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
-                                <button class="rounded-circle btn btn-dark btn-sm mx-1" 
-                                rel="tooltip" title="Eliminar registro" (click)="deleteClient(person)">
+                                <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
+                                    title="Eliminar registro" (click)="deleteClient(person)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -52,9 +71,24 @@
                     </tbody>
                 </table>
             </div>
+            <ng-template #empty>
+                <div class="animate__animated animate__fadeIn">
+                    <h1 class="text-center">
+                        <span class="alert-warning rounded p-2 border">Lista de clientes</span>
+                    </h1>
+                    <br>
+                    <p class="lead">
+                        Al parecer aún no tienes clientes, para iniciar agrega unos cuantos clientes a la lista en la
+                        sección
+                        "<i class="fas fa-plus-circle"></i> Agregar Cliente" ó espera a que se cargue la lista.
+                    </p>
+                    <br><br><br>
+                </div>
+            </ng-template>
         </div>
-        <div class="tab-pane fade bg-white p-4" [ngClass]=" edit ? 'active show':''" id="clientAddEdit" role="tabpanel" aria-labelledby="clientAddEdit-tab">
-            <client-form [edit]="edit" [data]="clientEdit"></client-form>
+        <div class="tab-pane fade bg-white p-4" [ngClass]="!show?'active show':''" id="clientAddEdit" role="tabpanel"
+            aria-labelledby="clientAddEdit-tab">
+            <client-form [edit]="edit" [data]="clientEdit" (ready)="edit = $event"></client-form>
         </div>
     </div>
 </div>

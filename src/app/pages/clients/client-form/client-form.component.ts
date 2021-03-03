@@ -1,6 +1,8 @@
-import { Component, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ClientInterface } from '../../../models/client.interface';
+import { AfClientService } from '../services/afClient.service';
+import { Validator } from '../../../utils/validator.firebase';
 
 @Component({
   selector: 'client-form',
@@ -12,14 +14,31 @@ export class ClientFormComponent implements OnChanges {
   expNumber:RegExp = /^([0-9])*$/;
   @Input('edit') editing:boolean = false;
   @Input('data') client:ClientInterface;
+  @Output('ready') accion:EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb:FormBuilder) { this.initForm(); }
+  constructor(private afClient:AfClientService, private fb:FormBuilder) { this.initForm(); }
 
-  // TODO: crear validación asincrona para la cédula
+  addClient() {
+    if (this.formValid()) {
+      let body = this.form.value;
+      delete body.id;
+      this.afClient.add(body);
+      this.form.reset();
+    }
+  }
+
+  updateClient() {
+    if (this.updateFormValid()) {
+      let { idCard, ...body } = this.form.value;
+      this.afClient.update(body);
+      this.accion.emit(false);
+    }
+  }
+
   initForm() {
     this.form = this.fb.group({
       id: [''],
-      idCard: ['', Validators.compose([ Validators.required, Validators.min(100000000), Validators.pattern(this.expNumber) ])],
+      idCard: ['', Validators.compose([ Validators.required, Validators.min(100000000), Validators.pattern(this.expNumber)]), Validator.checkIdCard(this.afClient)],
       name: ['', Validators.required],
       surname: ['', Validators.required],
       phone: ['', Validators.compose([ Validators.required, Validators.min(10000000), Validators.pattern(this.expNumber) ])],
@@ -51,8 +70,16 @@ export class ClientFormComponent implements OnChanges {
   patternField(field:string):boolean {
     return this.form.controls[field].errors.pattern;
   }
+
+  errorIdCard() {
+    return this.form.controls['idCard'].hasError('notEnable');
+  }
   
   formValid():boolean {
     return this.form.valid;
+  }
+
+  updateFormValid():boolean {
+    return (!this.hasErrorField('name') && !this.hasErrorField('surname') && !this.hasErrorField('phone') && !this.hasErrorField('mail'))? true : false;
   }
 }

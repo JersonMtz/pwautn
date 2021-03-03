@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { afAuthService } from '../services/afAuth.service';
+import { afAuthService } from '../auth/services/afAuth.service';
 declare function ready();
 
 @Component({
