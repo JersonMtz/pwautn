@@ -1,6 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { CategoryInterface } from '../../../models/category.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AfCategoryService } from '../services/afCategory.service';
+import { MessagesService } from '../../../shared/services/messages.service';
 
 @Component({
   selector: 'category-form',
@@ -8,15 +10,40 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CategoryFormComponent implements OnChanges {
 
-  form:FormGroup;
-  @Input('edit') editing:boolean = false;
-  @Input('data') category:CategoryInterface;
+  form: FormGroup;
+  @Input('edit') editing: boolean = false;
+  @Input('data') category: CategoryInterface;
+  @Output('ready') action: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private fb:FormBuilder) { 
-    this.initForm(); 
+  constructor(private afCategory: AfCategoryService, private fb: FormBuilder, private popup: MessagesService) {
+    this.initForm();
   }
 
-  initForm(){
+  addCategory() {
+    if (this.formValid()) {
+      this.popup.smsConfirm('Atención', '¿Desea guardar este registro?').then(res => {
+        if (res.isConfirmed) {
+          let body = this.form.value;
+          delete body.id;
+          this.afCategory.add(body);
+          this.form.reset();
+        }
+      });
+    }
+  }
+
+  updateCategory() {
+    if (this.formValid()) {
+      this.popup.smsConfirm('Atención', '¿Desea actualizar los datos de este registro?').then(res => {
+        if (res.isConfirmed) {
+          this.afCategory.update(this.form.value);
+          this.action.emit(false);
+        }
+      });
+    }
+  }
+
+  initForm() {
     this.form = this.fb.group({
       id: [''],
       name: ['', Validators.required],

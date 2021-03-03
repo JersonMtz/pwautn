@@ -11,7 +11,7 @@
                 <div class="inner-icon left-icon">
                     <i class="fas fa-at"></i>
                     <input type="email" class="form-control" placeholder="Email" required autofocus
-                        formControlName="mail" (change)="rememberMail()">
+                        formControlName="mail" (change)="rememberMail()" (keyup.enter)="onLogin()">
                 </div>
             </article>
 
@@ -19,7 +19,7 @@
                 <div class="inner-icon left-icon">
                     <i class="fas fa-lock"></i>
                     <input type="password" class="form-control" placeholder="Contraseña" required
-                        formControlName="pass">
+                        formControlName="pass" (keyup.enter)="onLogin()">
                 </div>
             </article>
 

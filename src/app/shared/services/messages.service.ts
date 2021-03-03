@@ -49,11 +49,11 @@ export class MessagesService {
     })
   }
   
-  smsConfirm():Promise<SweetAlertResult> {
+  smsConfirm(title:string = '¿Desea salir?', text:string ='Existen cambios pendientes sin guardar'):Promise<SweetAlertResult> {
     this.beatAlert();
     return Swal.fire({
-      title: '¿Desea salir?',
-      text: 'Existen cambios pendientes sin guardar',
+      title: title,
+      text: text,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#485FC7',

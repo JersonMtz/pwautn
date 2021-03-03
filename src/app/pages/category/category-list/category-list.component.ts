@@ -1,13 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CategoryInterface } from 'src/app/models/category.interface';
 import { MessagesService } from '../../../shared/services/messages.service';
+import { AfCategoryService } from '../services/afCategory.service';
 import { BreadcrumbInterface } from 'src/app/models/breadcrumb.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'category-list',
   templateUrl: './category-list.component.html'
 })
-export class CategoryListComponent implements OnDestroy{
+export class CategoryListComponent implements OnDestroy {
 
   items:BreadcrumbInterface[] = [
     {
@@ -27,34 +29,23 @@ export class CategoryListComponent implements OnDestroy{
   ];
 
   edit:boolean = false;
+  show:boolean = true;
   categoryEdit:CategoryInterface;
-  categories:CategoryInterface[] = [
-    {
-      id: 'abcd',
-      name: 'Shampues',
-      detail: 'Lorem isump'
-    },
-    {
-      id: 'efgh',
-      name: 'Tintes',
-      detail: 'Lorem isump'
-    },
-    {
-      id: 'ijkl',
-      name: 'Cremas',
-      detail: 'Lorem isump'
-    }
-  ];
+  categoryList:CategoryInterface[] = [];
+  private subscription$:Subscription;
 
-  constructor(private popup:MessagesService) { 
+  constructor(private afCategory:AfCategoryService, private popup:MessagesService) { 
     document.getElementById('a-product').classList.toggle('active');
+    this.subscription$ = this.afCategory.list().subscribe(list => this.categoryList = list);
   }
 
   ngOnDestroy() {
+    this.subscription$.unsubscribe();
     document.getElementById('a-product').classList.toggle('active');
   }
 
   editCategory(category:CategoryInterface) {
+    this.show = false;
     this.edit = true;
     this.categoryEdit = category;
   }
@@ -62,15 +53,17 @@ export class CategoryListComponent implements OnDestroy{
   deleteCategory(category:CategoryInterface) {
     this.popup.smsDelete(category.name).then(resp => {
       if (resp.isConfirmed) {
-        //TODO: LÓGICA ELIMINAR EN FIREBASE 
-        this.popup.notification('success', `Se elimino a ${ category.name } con éxito`);
+        this.afCategory.delete(category);
       }
     });
   }
   
-  reload() {
+  showTab() {
+    this.show = true;
     if (this.edit){ 
-      setTimeout(() => this.edit = false, 500);
+      setTimeout(() => { 
+        this.edit = false;
+      }, 500);
     }
   }
 }

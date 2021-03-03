@@ -34,29 +34,28 @@ export class AfClientService {
 
   add(client:ClientInterface) {
     this.clientCollection.add(client).then(() => {
-      this.popup.notification('success', `<span class="text-white">Se agregá a ${ client.name } con éxito</span>`,'#52B256');
-    }).catch((error) => {
-      this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${ error }</span>`,'#52B256');
-    });
+      this.popup.notification('success', `<span class="text-white">Se agregó al cliente ${ client.name } con éxito</span>`,'#52B256');
+    }).catch(this.error);
   }
 
   update(client:ClientInterface) {
-    this.clientCollection.doc(client.id).update(client).then(() => {
-      this.popup.notification('success', `<span class="text-white">Se actualizo a ${ client.name } con éxito</span>`,'#52B256');
-    }).catch((error) => {
-      this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${ error }</span>`,'#52B256');
-    });
+    let { id, ...data } = client;
+    this.clientCollection.doc(id).update(data).then(() => {
+      this.popup.notification('success', `<span class="text-white">Se actualizo al cliente ${ data.name } con éxito</span>`,'#52B256');
+    }).catch(this.error);
   }
 
   delete(client:ClientInterface) {
     this.clientCollection.doc(client.id).delete().then(() => {
-      this.popup.notification('success', `<span class="text-white">Se elimino a ${ client.name } con éxito</span>`,'#52B256');
-    }).catch((error) => {
-      this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${ error }</span>`,'#52B256');
-    });
+      this.popup.notification('success', `<span class="text-white">Se elimino al cliente ${ client.name } con éxito</span>`,'#52B256');
+    }).catch(this.error);
   }
 
   list(): Observable<ClientInterface[]> {
     return this.clientList;
+  }
+
+  private error(value:string) {
+    this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${value}</span>`, '#E6242B');
   }
 }

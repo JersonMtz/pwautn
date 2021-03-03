@@ -35,7 +35,7 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade bg-white p-4" [ngClass]="show?'active show':''" id="clientList" role="tabpanel"
             aria-labelledby="clientList-tab">
-            <div class="table-responsive" *ngIf="listClient.length > 0; else empty">
+            <div class="table-responsive" *ngIf="clientList.length > 0; else empty">
                 <table class="table">
                     <thead>
                         <tr>
@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let person of listClient">
+                        <tr *ngFor="let person of clientList">
                             <th>{{ person.idCard }}</th>
                             <td>{{ person.name }}</td>
                             <td>{{ person.surname }}</td>

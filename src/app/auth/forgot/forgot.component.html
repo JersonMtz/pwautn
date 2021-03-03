@@ -7,7 +7,7 @@
             <h2 class="text-center">Restablecer Contraseña</h2>
             <div class="ui labeled input w-100">
                 <div class="ui label"><b>@</b></div>
-                <input type="email" placeholder="micorreo@mail.com" formControlName="mail" required>
+                <input type="email" placeholder="micorreo@mail.com" formControlName="mail" required (keyup.enter)="onResetPassword()">
             </div>
             <p class="text-justify text-muted my-4">
                 <small>
@@ -18,7 +18,7 @@
                     </ng-template>
                 </small>
             </p>
-            <button class="btn btn-warning btn-block" [disabled]="isValid()" (click)="onresetPassword()">Recuperar Contraseña</button>
+            <button class="btn btn-warning btn-block" [disabled]="isValid()" (click)="onResetPassword()">Recuperar Contraseña</button>
             <button (click)="redirect()" class="btn btn-dark btn-block text-white">Atrás</button>
         </form>
     </section>

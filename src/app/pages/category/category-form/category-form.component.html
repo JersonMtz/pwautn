@@ -22,11 +22,13 @@
             <article class="form-group">
                 <button *ngIf="!editing" class="btn btn-sm btn-round" 
                 [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
-                [disabled]="!formValid()"><i class="right fas fa-save"></i> Guardar</button>
+                [disabled]="!formValid()" (click)="addCategory()">
+                <i class="right fas fa-save"></i> Guardar</button>
 
                 <button *ngIf="editing" class="btn btn-sm btn-round" 
                 [ngClass]="formValid() ? 'btn-info':'btn-secondary'" 
-                [disabled]="!formValid()"><i class="fas fa-check-circle"></i> Actualizar</button>
+                [disabled]="!formValid()" (click)="updateCategory()">
+                <i class="fas fa-check-circle"></i> Actualizar</button>
             </article>
         </form>
     </div>
