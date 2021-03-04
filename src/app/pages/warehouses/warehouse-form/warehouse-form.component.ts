@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input } from '@angular/core';
-import { WarehouseInterface } from 'src/app/models/warehouse.interface';
+import { WarehouseInterface } from '@models/warehouse.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({

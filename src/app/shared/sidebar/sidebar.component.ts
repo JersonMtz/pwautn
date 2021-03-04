@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { afAuthService } from '../../auth/services/afAuth.service';
+import { afAuthService } from '@auth/services/afAuth.service';
 import { Router } from '@angular/router';
 
 @Component({

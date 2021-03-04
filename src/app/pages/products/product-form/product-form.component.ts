@@ -1,13 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Validator } from "../../../utils/validator.firebase";
+import { Validator } from "@utils/validator.firebase";
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MessagesService } from 'src/app/shared/services/messages.service';
-import { ProductInterface } from '../../../models/product.interface';
-import { AfProductService } from '../services/afProduct.service';
-import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
-import { CategoryInterface } from '../../../models/category.interface';
-import { AfCategoryService } from '../../category/services/afCategory.service';
+import { BreadcrumbInterface } from '@models/breadcrumb.interface';
+import { CategoryInterface } from '@models/category.interface';
+import { ProductInterface } from '@models/product.interface';
+import { MessagesService } from '@shared/services/messages.service';
+import { AfProductService } from '@pages/products/services/afProduct.service';
+import { AfCategoryService } from '@pages/category/services/afCategory.service';
 
 @Component({
   selector: 'product-form',
@@ -15,6 +16,7 @@ import { AfCategoryService } from '../../category/services/afCategory.service';
 })
 export class ProductFormComponent implements OnDestroy {
 
+  errorEditCode:boolean = false;
   categoryList: CategoryInterface[] = [];
   editing: boolean = false;
   items: BreadcrumbInterface[];
@@ -61,7 +63,6 @@ export class ProductFormComponent implements OnDestroy {
           this.afProduct.add(data);
         }
       })
-      
     }
   }
 
@@ -110,6 +111,16 @@ export class ProductFormComponent implements OnDestroy {
         title: this.editing ? 'Editar' : 'Agregar'
       }
     ];
+  }
+
+  valueExist(field:string, value:string = ' ') {
+    this.afProduct.dataExist(field, value).pipe(map(res => {
+      if (res.length > 0) {
+        return res[0].payload.doc.id === this.form.get('id').value ? false : true;
+      } else {
+        return false;
+      }
+    })).subscribe(res => this.errorEditCode = res);
   }
 
   /* METHODS FORM */

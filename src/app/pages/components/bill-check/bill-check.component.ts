@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { ProductInterface } from '../../../models/product.interface';
-import { BillInterface } from '../../../models/bill.interface';
-import { TaxInterface } from '../../../models/tax.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { ProductInterface } from '@models/product.interface';
+import { BillInterface } from '@models/bill.interface';
+import { TaxInterface } from '@models/tax.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'bill-check',

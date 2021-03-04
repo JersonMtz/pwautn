@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BillInterface } from 'src/app/models/bill.interface';
+import { BillInterface } from '@models/bill.interface';
 
 @Component({
   selector: 'sale-list',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BillInterface } from '../../../models/bill.interface';
-import { ProductInterface } from '../../../models/product.interface';
-import { ClientInterface } from '../../../models/client.interface';
+import { BillInterface } from '@models/bill.interface';
+import { ClientInterface } from '@models/client.interface';
+import { ProductInterface } from '@models/product.interface';
 
 @Component({
   selector: 'sale-new',

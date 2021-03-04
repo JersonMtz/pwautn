@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { CategoryInterface } from '../../../models/category.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AfCategoryService } from '../services/afCategory.service';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { CategoryInterface } from '@models/category.interface';
+import { AfCategoryService } from '@pages/category/services/afCategory.service';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'category-form',

@@ -22,13 +22,19 @@
         <form action="#" class="px-3 pt-5" [formGroup]="form">
             <article class="form-group row">
                 <label for="code" class="col-sm-2 control-label">Código</label>
-                <div class="col-sm-4 mb-2">
+                <div class="col-sm-4 mb-2" *ngIf="!editing">
                     <input type="text" class="form-control" [ngClass]="hasErrorField('code') ? 'is-invalid':''"
                     id="code" placeholder="A4DF" formControlName="code">
                     <div class="invalid-feedback" *ngIf="hasErrorField('code')">
                         <span *ngIf="errorNameExist('code')">Código ya registrado</span>
                     </div>
                 </div>
+                <!-- INPUT EDIT CODE -->
+                <div class="col-sm-4 mb-2" *ngIf="editing">
+                    <input type="text" class="form-control" #codeEdit placeholder="A4DF" [ngClass]="errorEditCode?'is-invalid':''"
+                    (change)="valueExist('code', codeEdit.value)" [value]="form.get('code').value">
+                </div>
+
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <input type="text" class="form-control" [ngClass]="hasErrorField('name') ? 'is-invalid':''"
@@ -128,3 +134,5 @@
         </form>
     </div>
 </div>
+
+{{ form.value | json }}

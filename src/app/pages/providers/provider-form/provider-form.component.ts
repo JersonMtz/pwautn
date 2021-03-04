@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProviderInterface } from '../../../models/provider.interface';
+import { ProviderInterface } from '@models/provider.interface';
 
 @Component({
   selector: 'provider-form',

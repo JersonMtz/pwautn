@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanDeactivate } from '@angular/router';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { SaleNewComponent } from '../sale-new/sale-new.component';
+import { MessagesService } from '@shared/services/messages.service';
+import { SaleNewComponent } from '@pages/sales/sale-new/sale-new.component';
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { map, first } from 'rxjs/operators';
-import { AfClientService } from '../pages/clients/services/afClient.service';
-import { AfProductService } from '../pages/products/services/afProduct.service';
+import { AfClientService } from '@pages/clients/services/afClient.service';
+import { AfProductService } from '@pages/products/services/afProduct.service';
 
 export class Validator {
     static checkIdCard(http:AfClientService) {

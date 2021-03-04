@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ClientInterface } from '../../../models/client.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { AfClientService } from '../services/afClient.service';
 import { Subscription } from "rxjs";
+import { ClientInterface } from '@models/client.interface';
+import { MessagesService } from '@shared/services/messages.service';
+import { AfClientService } from '@pages/clients/services/afClient.service';
 
 @Component({
   selector: 'client-list',

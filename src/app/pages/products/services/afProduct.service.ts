@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ProductInterface } from '../../../models/product.interface';
+import { ProductInterface } from '@models/product.interface';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { MessagesService } from '@shared/services/messages.service';
 import { map } from 'rxjs/operators';
-import { CategoryInterface } from '../../../models/category.interface';
+import { CategoryInterface } from '@models/category.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,7 @@ export class AfProductService {
   }
 
   add(product:ProductInterface) {
+    product.category = this.afs.doc(`products/${ product.category }`).ref;
     this.productCollection.add(product).then(() => {
       this.popup.notification('success', `<span class="text-white">Se agregó al producto ${ product.name } con éxito</span>`,'#52B256');
     }).catch(this.error);

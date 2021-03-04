@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { CategoryInterface } from '../../../models/category.interface';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { CategoryInterface } from '@models/category.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Injectable({
     providedIn: 'root'

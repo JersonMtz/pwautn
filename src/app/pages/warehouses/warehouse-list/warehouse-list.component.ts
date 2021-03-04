@@ -1,6 +1,6 @@
 import {Component } from '@angular/core';
-import { WarehouseInterface } from '../../../models/warehouse.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { WarehouseInterface } from '@models/warehouse.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'warehouse-list',

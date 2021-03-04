@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { TaxInterface } from '../../../models/tax.interface';
+import { TaxInterface } from '@models/tax.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'tax-list',

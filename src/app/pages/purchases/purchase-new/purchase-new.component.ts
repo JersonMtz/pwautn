@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { BillInterface } from '../../../models/bill.interface';
-import { ProviderInterface } from '../../../models/provider.interface';
-import { WarehouseInterface } from '../../../models/warehouse.interface';
+import { BillInterface } from '@models/bill.interface';
 import { ProductInterface } from 'src/app/models/product.interface';
+import { ProviderInterface } from '@models/provider.interface';
+import { WarehouseInterface } from '@models/warehouse.interface';
 
 @Component({
   selector: 'purchase-new',

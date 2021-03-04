@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { ProductInterface } from '../../../models/product.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { ProductInterface } from '@models/product.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 
 @Component({

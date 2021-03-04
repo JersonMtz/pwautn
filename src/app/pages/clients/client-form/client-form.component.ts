@@ -1,9 +1,9 @@
 import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ClientInterface } from '../../../models/client.interface';
-import { AfClientService } from '../services/afClient.service';
-import { Validator } from '../../../utils/validator.firebase';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { ClientInterface } from '@models/client.interface';
+import { AfClientService } from '@pages/clients/services/afClient.service';
+import { MessagesService } from '@shared/services/messages.service';
+import { Validator } from '@utils/validator.firebase';
 
 @Component({
   selector: 'client-form',

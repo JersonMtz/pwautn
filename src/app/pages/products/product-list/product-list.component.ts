@@ -1,11 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductInterface } from '../../../models/product.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { AfProductService } from '../services/afProduct.service';
-import { BreadcrumbInterface } from '../../../models/breadcrumb.interface';
 import { Subscription } from 'rxjs';
-import { AfCategoryService } from '../../category/services/afCategory.service';
+import { BreadcrumbInterface } from '@models/breadcrumb.interface';
+import { ProductInterface } from '@models/product.interface';
+import { MessagesService } from '@shared/services/messages.service';
+import { AfProductService } from '@pages/products/services/afProduct.service';
 
 @Component({
   selector: 'product-list',

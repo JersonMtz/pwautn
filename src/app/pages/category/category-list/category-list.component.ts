@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { CategoryInterface } from 'src/app/models/category.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { AfCategoryService } from '../services/afCategory.service';
-import { BreadcrumbInterface } from 'src/app/models/breadcrumb.interface';
+import { BreadcrumbInterface } from '@models/breadcrumb.interface';
+import { CategoryInterface } from '@models/category.interface';
+import { AfCategoryService } from '@pages/category/services/afCategory.service';
+import { MessagesService } from '@shared/services/messages.service';
 import { Subscription } from 'rxjs';
 
 @Component({

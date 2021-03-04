@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { TaxInterface } from '../../../models/tax.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TaxInterface } from '@models/tax.interface';
 
 @Component({
   selector: 'tax-form',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ProviderInterface } from '../../../models/provider.interface';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { ProviderInterface } from '@models/provider.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'provider-list',

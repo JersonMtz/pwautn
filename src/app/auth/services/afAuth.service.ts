@@ -1,7 +1,7 @@
 import { first, switchMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { UserInterface } from '../../models/user.interface';
+import { UserInterface } from '@models/user.interface';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 
