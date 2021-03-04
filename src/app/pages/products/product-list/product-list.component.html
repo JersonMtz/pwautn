@@ -1,7 +1,9 @@
 <breadcrumb [items]="items"></breadcrumb>
 <div class="animate__animated animate__fadeIn">
-    <h3>Listado de Productos <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm">Nuevo</a></h3>
-    <div class="table-responsive">
+    <h2>Listado de Productos
+        <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm" *ngIf="productList.length > 0">Nuevo</a>
+    </h2>
+    <div class="table-responsive" *ngIf="productList.length > 0; else empty">
         <table class="table mt-3 bg-white">
             <thead>
                 <tr>
@@ -18,8 +20,10 @@
                 <tr *ngFor="let product of productList">
                     <th>{{ product.code }}</th>
                     <td>
-                        <img *ngIf="product.photo"  [src]="product.photo" width="50" alt="Producto" class="img-thumbnail">
-                        <img *ngIf="!product.photo"  src="../../../../assets/img/product.png" width="50" alt="Producto" class="img-thumbnail">
+                        <img *ngIf="product.photo" [src]="product.photo" width="50" alt="Producto"
+                            class="img-thumbnail">
+                        <img *ngIf="!product.photo" src="../../../../assets/img/product.png" width="50" alt="Producto"
+                            class="img-thumbnail">
                     </td>
                     <td>{{ product.name }}</td>
                     <td>
@@ -29,15 +33,31 @@
                     <td>{{ product.stock }}</td>
                     <td>₡ {{ product.price }}</td>
                     <td style="border-left: solid 2px #E9ECEF;">
-                        <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1" rel="tooltip" title="Editar registro">
+                        <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1"
+                            rel="tooltip" title="Editar registro">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
-                        <button (click)="deleteProduct(product)" class="btn btn-sm btn-dark rounded-circle mx-1" rel="tooltip" title="Eliminar registro">
-                            <i class="fas fa-trash-alt" ></i>
+                        <button (click)="deleteProduct(product)" class="btn btn-sm btn-dark rounded-circle mx-1"
+                            rel="tooltip" title="Eliminar registro">
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <ng-template #empty>
+        <div class="animate__animated animate__fadeIn">
+            <p class="lead mb-5">
+                Al parecer aún no tienes productos, para iniciar agrega unos cuantos productos ó espera a que se cargue
+                la lista.
+            </p>
+            <div class="w-75 mx-auto">
+                <a routerLink="/dashboard/products/add" class="btn btn-primary btn-block">
+                    <i class="fas fa-cube"></i> Nuevo Producto
+                </a>
+            </div>
+            <br><br><br>
+        </div>
+    </ng-template>
 </div>

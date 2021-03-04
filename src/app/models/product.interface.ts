@@ -7,7 +7,7 @@ export interface ProductInterface {
     price?:number;
     stock?:number;
     status?:boolean;
-    category?:string;
+    category?:any;
     description?:string;
     total?:number;
     photo?:string;

@@ -4,14 +4,14 @@
         <h2 *ngIf="!editing" class="text-warning mb-3">Nuevo Producto <i class="far fa-clipboard"></i></h2>
         <h2 *ngIf="editing" class="text-warning mb-3">Editar Producto <i class="far fa-clipboard"></i></h2>
         <img [src]="defaultPhoto" alt="product" class="img-thumbnail mb-3" style="max-height: 250px; max-width: 250px;">
-    
+
         <br>
-        <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*" 
-        (click)="$event.target.value = ''">
+        <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*"
+            (click)="$event.target.value = ''">
         <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
         <br><br>
-        <button class="btn btn-warning btn-sm mb-3 text-white mx-1" *ngIf="!btnReset"
-            (click)="filePhoto.click()" [disabled]="form.controls['name'].invalid">
+        <button class="btn btn-warning btn-sm mb-3 text-white mx-1" *ngIf="!btnReset" (click)="filePhoto.click()"
+            [disabled]="form.controls['name'].invalid">
             <i class="fas fa-image"></i> Imágen
         </button>
         <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
@@ -23,14 +23,19 @@
             <article class="form-group row">
                 <label for="code" class="col-sm-2 control-label">Código</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" id="code" placeholder="A4DF" formControlName="code">
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('code') ? 'is-invalid':''"
+                    id="code" placeholder="A4DF" formControlName="code">
+                    <div class="invalid-feedback" *ngIf="hasErrorField('code')">
+                        <span *ngIf="errorNameExist('code')">Código ya registrado</span>
+                    </div>
                 </div>
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorField('name') ? 'is-invalid':''" id="name" placeholder="Caja vacía" 
-                    formControlName="name" (change)="builNamePhoto()">
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('name') ? 'is-invalid':''"
+                        id="name" placeholder="Caja vacía" formControlName="name" (change)="builNamePhoto()">
                     <div class="invalid-feedback" *ngIf="hasErrorField('name')">
-                        Nombre es requerido
+                        <span *ngIf="requiredField('name')">Nombre es requerido</span>
+                        <span *ngIf="errorNameExist('name')">Nombre ya registrado</span>
                     </div>
                 </div>
             </article>
@@ -52,7 +57,8 @@
                     </div>
                 </div>
 
-                <label for="price" class="col-sm-2 control-label">Precio Venta <span class="text-danger">*</span></label>
+                <label for="price" class="col-sm-2 control-label">Precio Venta <span
+                        class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <div class="ui form">
                         <div class="field" [ngClass]="hasErrorField('price') ? 'error':''">
@@ -72,23 +78,22 @@
             <article class="form-group row">
                 <label for="stock" class="col-sm-2 control-label">Stock <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="number" class="form-control" [ngClass]="hasErrorField('stock') ? 'is-invalid':''" id="stock" placeholder="0" formControlName="stock">
+                    <input type="number" class="form-control" [ngClass]="hasErrorField('stock') ? 'is-invalid':''"
+                        id="stock" placeholder="0" formControlName="stock">
                     <div class="invalid-feedback" *ngIf="hasErrorField('stock')">
                         <span *ngIf="requiredField('stock')">Stock es requerido</span>
                         <span *ngIf="patternField('stock')">Formato no es el correcto</span>
                     </div>
                 </div>
-                <label for="category" class="col-sm-2 control-label">Categoría <span class="text-danger">*</span></label>
+                <label for="category" class="col-sm-2 control-label">Categoría <span
+                        class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <select class="form-control" id="category" formControlName="category">
-
-                        <!-- TODO: Logica para mostrar y marcar las categorias  -->
-                        <!-- <option *ngFor="let cat of categories" [value]="cat.id"  -->
-                        <!-- [selected]="cat.id === form.get('category').value">{{ cat.name }}</option> -->
-
-                        <option value="1A">Shampu</option>
-                        <option value="2B">Tintes</option>
-                        <option value="3C">Keratina</option>
+                        <option selected disabled>Seleccione una sucursal</option>
+                        <option *ngFor="let category of categoryList" [ngValue]="category.id"
+                            [selected]="(category.id === form.get('category').value)">
+                            {{ category.name }}
+                        </option>
                     </select>
                 </div>
             </article>
@@ -102,22 +107,23 @@
                     </select>
                 </div>
             </article>
-            
+
             <article class="form-group row">
                 <label for="description" class="col-sm-2 control-label">Descripción</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" rows="10" placeholder="Detalles del producto" id="description"  formControlName="description"></textarea>
+                    <textarea class="form-control" rows="10" placeholder="Detalles del producto" id="description"
+                        formControlName="description"></textarea>
                 </div>
             </article>
 
             <article class="form-group">
-                <button *ngIf="!editing" class="btn btn-sm btn-round" 
-                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
-                [disabled]="!formValid()"><i class="fas fa-save"></i> Guardar</button>
+                <button *ngIf="!editing" class="btn btn-sm btn-round" (click)="addProduct()"
+                    [ngClass]="formValid() ? 'btn-info':'btn-secondary'" [disabled]="!formValid()">
+                    <i class="fas fa-save"></i> Guardar</button>
 
-                <button *ngIf="editing" class="btn btn-sm btn-round" 
-                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
-                [disabled]="!formValid()"><i class="fas fa-check-circle"></i> Actualizar</button>
+                <button *ngIf="editing" class="btn btn-sm btn-round"
+                    [ngClass]="formValid() ? 'btn-info':'btn-secondary'" [disabled]="!formValid()"><i
+                        class="fas fa-check-circle"></i> Actualizar</button>
             </article>
         </form>
     </div>
