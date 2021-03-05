@@ -1,3 +1,8 @@
+interface Photo {
+    path:string,
+    url:string
+}
+
 export interface ProductInterface {
     id?:string;
     code?:string;
@@ -10,7 +15,7 @@ export interface ProductInterface {
     category?:any;
     description?:string;
     total?:number;
-    photo?:string;
+    photo?:Photo,
     error?:boolean;
 }
 

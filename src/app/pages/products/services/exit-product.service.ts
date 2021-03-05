@@ -12,7 +12,7 @@ export class ExitProductService implements CanDeactivate<ProductFormComponent>
   constructor(private popup:MessagesService){ }
 
   canDeactivate(component: ProductFormComponent):any {
-    if (component.form.dirty || component.pathCollection) {
+    if (component.form.dirty || (component.form.get('photo').value.path)) {
       return this.popup.smsConfirm().then((resp) => {
           if (resp.value) {  
             return true;

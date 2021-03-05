@@ -20,9 +20,7 @@
                 <tr *ngFor="let product of productList">
                     <th>{{ product.code }}</th>
                     <td>
-                        <img *ngIf="product.photo" [src]="product.photo" width="50" alt="Producto"
-                            class="img-thumbnail">
-                        <img *ngIf="!product.photo" src="../../../../assets/img/product.png" width="50" alt="Producto"
+                        <img [src]="product.photo.url || './../../../assets/img/product.png'" width="50" alt="Producto"
                             class="img-thumbnail">
                     </td>
                     <td>{{ product.name }}</td>
