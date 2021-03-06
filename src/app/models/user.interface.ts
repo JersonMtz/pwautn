@@ -1,3 +1,8 @@
+interface Photo {
+    path:string,
+    url:string
+}
+
 export interface UserInterface {
     id?:string;
     name?:string;
@@ -6,6 +11,6 @@ export interface UserInterface {
     role?:boolean;
     mail?:string;
     password?:string;
-    photo?:string;
+    photo?:Photo;
     created?:string;
 }

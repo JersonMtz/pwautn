@@ -146,7 +146,7 @@ export class UserFormComponent implements OnDestroy {
   }
 
   public onResetPhoto() {
-    this.defaultPhoto = (this.editing && this.user.photo)? this.user.photo : '../../../../assets/img/avatar.png';
+    this.defaultPhoto = (this.editing && this.user.photo.url)? this.user.photo.url : '../../../../assets/img/avatar.png';
     this.uploadPhoto = null;
     this.pathCollection = null;
     this.btnReset = false;

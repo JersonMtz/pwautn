@@ -4,42 +4,41 @@
             <article class="form-group row">
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorField('name')?'is-invalid':''" id="name" formControlName="name" placeholder="Compra">
+                    <input type="text" class="form-control" [ngClass]="hasErrorField('name')?'is-invalid':''" id="name"
+                        formControlName="name" placeholder="Compra">
                     <div class="invalid-feedback" *ngIf="hasErrorField('name')">
                         Nombre es requerido
                     </div>
                 </div>
             </article>
-
             <article class="form-group row">
                 <label for="value" class="col-sm-2 control-label">Valor (%) <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="number" class="form-control" [ngClass]="hasErrorField('value') ? 'is-invalid':''" id="value" formControlName="value" placeholder="13">
+                    <input type="number" class="form-control" [ngClass]="hasErrorField('value') ? 'is-invalid':''"
+                        id="value" formControlName="value" placeholder="13">
                     <div class="invalid-feedback" *ngIf="hasErrorField('value')">
                         <span *ngIf="requiredField('value')">Valor de impuesto es requerido. </span>
-                        <span *ngIf="patternField('value')">Formato incorrecto. Digite números del 0 al 9. </span> 
+                        <span *ngIf="patternField('value')">Formato incorrecto. Digite números del 0 al 9. </span>
                     </div>
                 </div>
             </article>
-
             <article class="form-group row">
                 <label for="status" class="col-sm-2 control-label">Estado <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <select id="status" class="form-control" formControlName="status">
-                        <option [ngValue]=true [selected]="form.get('status').value" >Disponible</option>
-                        <option [ngValue]=false [selected]="!form.get('status').value" >No disponible</option>
+                        <option [ngValue]=true [selected]="form.get('status').value">Disponible</option>
+                        <option [ngValue]=false [selected]="!form.get('status').value">No disponible</option>
                     </select>
                 </div>
             </article>
 
             <article class="form-group">
-                <button *ngIf="!editing" class="btn btn-sm btn-round" 
-                [ngClass]="formValid() ? 'btn-info':'btn-secondary'"
-                [disabled]="!formValid()"><i class="right fas fa-save"></i> Guardar</button>
-
-                <button *ngIf="editing" class="btn btn-sm btn-round" 
-                [ngClass]="formValid() ? 'btn-info':'btn-secondary'" 
-                [disabled]="!formValid()"><i class="fas fa-check-circle"></i> Actualizar</button>
+                <button *ngIf="!editing" class="btn btn-sm btn-round" (click)="addTax()"
+                    [ngClass]="formValid() ? 'btn-info':'btn-secondary'" [disabled]="!formValid()"><i
+                        class="right fas fa-save"></i> Guardar</button>
+                <button *ngIf="editing" class="btn btn-sm btn-round" (click)="updateTax()"
+                    [ngClass]="formValid() ? 'btn-info':'btn-secondary'" [disabled]="!formValid()"><i
+                        class="fas fa-check-circle"></i> Actualizar</button>
             </article>
         </form>
     </div>

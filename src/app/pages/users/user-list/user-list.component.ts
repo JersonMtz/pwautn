@@ -10,7 +10,7 @@ import { MessagesService } from '@shared/services/messages.service';
 })
 export class UserListComponent {
 
-  userList:UserInterface[] = [
+  /* userList:UserInterface[] = [
     {
       id:'A1',
       name: 'Persona 1',
@@ -41,7 +41,7 @@ export class UserListComponent {
       photo: 'https://wartimeni.com/wp-content/uploads/sites/34/2017/12/wwiini-avatar-04.jpg',
       created: '2021-01-12'
     }
-  ];
+  ]; */
 
   constructor(private sms:MessagesService, 
               private userService:UserService, 

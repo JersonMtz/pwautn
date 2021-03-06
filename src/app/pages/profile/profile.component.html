@@ -1,7 +1,7 @@
 <div class="row animate__animated animate__fadeIn">
     <div class="col-md-4 text-center">
         <h2 class="mb-3"><b>Perfil de Usuario</b></h2>
-        <img [src]="defaultPhoto" style="max-width: 200px;max-height: 200px;" alt="avatar" class="rounded-circle mb-3">
+        <img [src]="profile.photo.url" style="max-width: 200px;max-height: 200px;" alt="avatar" class="rounded-circle mb-3">
         <br>
         <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*" (click)="$event.target.value = ''">
         <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
@@ -12,9 +12,9 @@
         <button class="btn btn-info btn-sm mb-3 mx-1" *ngIf="btnReset">
             &nbsp;&nbsp;<i class="fas fa-upload"></i> Subir&nbsp;&nbsp;
         </button>
-        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
+        <!-- <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
             <i class="fas fa-minus-circle"></i> Remover
-        </button>
+        </button> -->
         <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="deletePhoto()" *ngIf="btnDelete">
             <i class="fas fa-trash-alt"></i> Eliminar
         </button>

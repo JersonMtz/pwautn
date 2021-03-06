@@ -1,56 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { TaxInterface } from '@models/tax.interface';
 import { MessagesService } from '@shared/services/messages.service';
+import { Subscription } from 'rxjs';
+import { AfTaxService } from '@pages/taxes/services/afTax.service';
 
 @Component({
   selector: 'tax-list',
   templateUrl: './tax-list.component.html'
 })
-export class TaxListComponent {
+export class TaxListComponent implements OnDestroy {
 
-  edit:boolean = false;
-  taxEdit:TaxInterface;
+  edit: boolean = false;
+  show: boolean = true;
+  taxEdit: TaxInterface;
+  taxList: TaxInterface[] = [];
+  private suscription$: Subscription;
 
-  taxList:TaxInterface[] = [
-    {
-      id: '1A',
-      name: 'Impuesto 1',
-      value: 19,
-      status: true
-    },
-    {
-      id: '2B',
-      name: 'Impuesto 2',
-      value: 9,
-      status: false
-    },
-    {
-      id: '3C',
-      name: 'Impuesto 3',
-      value: 13,
-      status: false
-    }
-  ];
+  constructor(private afTax: AfTaxService, private popup: MessagesService) { 
+    this.suscription$ = this.afTax.list().subscribe(list => this.taxList = list);
+  }
 
-  constructor(private popup:MessagesService) { }
+  ngOnDestroy() {
+    this.suscription$.unsubscribe();
+  }
 
-  editTax(tax:TaxInterface) {
+  editTax(tax: TaxInterface) {
     this.edit = true;
+    this.show = false;
     this.taxEdit = tax;
   }
 
-  deleteTax(tax:TaxInterface) {
+  deleteTax(tax: TaxInterface) {
     this.popup.smsDelete(tax.name).then(resp => {
       if (resp.isConfirmed) {
-        //TODO: LÓGICA ELIMINAR EN FIREBASE 
-        this.popup.notification('success', `Se elimino a ${ tax.name } con éxito`);
+        this.afTax.delete(tax);
       }
     });
   }
 
-  reload() {
-    if (this.edit){ 
-      setTimeout(() => this.edit = false, 500);
+  showTab() {
+    this.show = true;
+    if (this.edit) {
+      setTimeout(() => {
+        this.edit = false;
+      }, 500);
     }
   }
 

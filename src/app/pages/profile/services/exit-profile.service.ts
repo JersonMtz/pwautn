@@ -12,7 +12,6 @@ export class ExitProfileService implements CanDeactivate<ProfileComponent>
     constructor(private popup: MessagesService) { }
 
     canDeactivate(component: ProfileComponent): any {
-                                //component.pathCollection
         if (component.form.dirty || component.btnReset) {
             return this.popup.smsConfirm().then((resp) => {
                 if (resp.value) {

@@ -1,35 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserInterface } from '@models/user.interface';
 import { MessagesService } from '@shared/services/messages.service';
+import { afAuthService } from '@auth/services/afAuth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnDestroy {
 
   form:FormGroup;
-  // TODO: Obtener usuario logueado y guardar en profile
+  private subscription$:Subscription;
   profile:UserInterface = {
-    id: 'A1',
-    name: 'Zineb Pradi',
-    surname: 'Hurtaran Roiz',
-    status: true,
-    role: true,
-    mail: 'correo@ejemplo.net',
-    photo: 'https://i.pinimg.com/originals/44/5e/fc/445efcdd7459264333a37ff0cf1febd1.jpg',
-    created: '2021-02-19'
+    name: '',
+    surname: '',
+    mail: '',
+    role: false,
+    photo: {
+      path: '',
+      url: ''
+    }
   };
 
-  defaultPhoto:string;
   btnReset:boolean;
   btnDelete:boolean;
 
   /** File photo **/
-  pathCollection:string;
-  private namePhoto:string;
-  private uploadPhoto:string;
+  private photoFile:string;
 
   /** SHOW AND HIDEN PASSWORD **/
   passNow:boolean = false;
@@ -37,22 +36,16 @@ export class ProfileComponent {
   typePassNow:string = 'password';
   typePassNew:string = 'password';
 
-  constructor(private fb:FormBuilder, private popup:MessagesService) { 
-    //this.getCurrentUser();
+  constructor(public afAuth:afAuthService, private fb:FormBuilder, private popup:MessagesService) { 
+    this.subscription$ = this.afAuth.user$.subscribe(avatar => this.profile = avatar);
     this.initForm();
-    this.onResetPhoto();
   }
 
-  private getCurrentUser() {
-    /**
-      TODO: funcion va en un servicio 
-      obtener usuario logueado y asignarlo a la variable profile y crear el path 
-      *users/nombreUsuario
-      this.pathCollection = `users/${ this.profile.name.toString().replace(' ','-').toLowerCase() }`; 
-    **/
+  ngOnDestroy() {
+    this.subscription$.unsubscribe();
   }
 
-  initForm() {
+  private initForm() {
     this.form = this.fb.group({
       passNow: ['', Validators.required],
       passNew: ['', Validators.compose([Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{7,9}[^'\s]/)])]
@@ -90,35 +83,18 @@ export class ProfileComponent {
   deletePhoto() {
     this.popup.smsDelete('la imágen de avatar').then(res => {
       if (res.isConfirmed) {
-        // TODO: ELIMINA EN FIREBASE EL ARCHIVO Y SE ACTUALIZA EL CAMPO PHOTO DE DEL USUARIO 
         console.log('SE ELIMINO');
-        this.profile.photo = '';
-        this.onResetPhoto();
         this.popup.notification('success','Se elemino con éxito');        
       }
     });
   }
   
   onSelectPhoto(evt:any) {    
-    if (evt.target.files && evt.target.files[0]) {
-      //TODO: let nameFile = evt.target.files[0].name.split('.');
-      //TODO: CAMBIAR PATH this.pathCollection = `${this.pathCollection}-${new Date().getMilliseconds()}.${nameFile[nameFile.length - 1]}`;
-      //TODO: this.uploadPhoto = evt.target.files[0];
-
+    /* if (evt.target.files && evt.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (data:ProgressEvent<FileReader>) => this.defaultPhoto = (data.target.result).toString();
       reader.readAsDataURL(evt.target.files[0]); 
       this.btnReset = true;     
-    } else {
-      this.onResetPhoto();
-    }   
-  }
-
-  onResetPhoto() {
-    this.btnDelete = (this.profile.photo) ? true: false;
-    this.defaultPhoto = this.profile.photo || '../../../../assets/img/avatar.png';
-    this.uploadPhoto = null;
-    this.pathCollection = null;
-    this.btnReset = false; 
+    }  */  
   }
 }
