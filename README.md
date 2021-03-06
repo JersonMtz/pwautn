@@ -4,11 +4,15 @@ _Este es un proyecto universitario de nivel junior, consta de poner en práctica
 ## Autor &#128101;
 * [Jerson](https://www.facebook.com/jebz17)
 
-Instalar las dependencias del proyecto
+## Instrucciones &#128204;
+Instalar dependencias
 ``` npm install ```
 
-Iniciar el proyecto normalmente
-``` ng serve // ng serve -o ```            
+Iniciar proyecto
+``` ng serve // ng serve -o ``` 
+
+Compilar proyecto a producción
+``` ng build --prod ``` 
 
 
 ![](/preview.png)
