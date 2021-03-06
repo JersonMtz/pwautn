@@ -7,7 +7,8 @@
             <div class="or"></div>
             <button class="ui button violet border" (click)="show = false">
                 <span *ngIf="!edit" class="animate__animated animate__fadeIn">
-                    <i class="fas fa-plus-circle"></i> Agregar</span>
+                    <i class="fas fa-plus-circle"></i> Agregar
+                </span>
                 <span *ngIf="edit" class="animate__animated animate__fadeIn">
                     <i class="fas fa-edit"></i> Editar
                 </span>
@@ -41,7 +42,8 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade bg-white p-4" [ngClass]="show ? 'active show':''" id="warehouseList" role="tabpanel"
             aria-labelledby="warehouseList-tab">
-            <div class="table-responsive animate__animated animate__fadeIn" *ngIf="warehouseList.length > 0; else empty">
+            <div class="table-responsive animate__animated animate__fadeIn"
+                *ngIf="warehouseList.length > 0; else empty">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -88,7 +90,8 @@
                     </h3>
                     <br>
                     <p class="lead text-justify">
-                        Al parecer aún no tienes sucursales, para iniciar agrega unas cuantas sucursales a la lista en la
+                        Al parecer aún no tienes sucursales, para iniciar agrega unas cuantas sucursales a la lista en
+                        la
                         sección
                         "<i class="fas fa-plus-circle"></i> Agregar Sucursal" ó espera a que se cargue la lista.
                     </p>
@@ -96,7 +99,7 @@
                 </div>
             </ng-template>
         </div>
-        <div class="tab-pane fade bg-white p-4" [ngClass]="!show?'active show':''" id="warehouseAddEdit" role="tabpanel" 
+        <div class="tab-pane fade bg-white p-4" [ngClass]="!show?'active show':''" id="warehouseAddEdit" role="tabpanel"
             aria-labelledby="warehouseAddEdit-tab">
             <warehouse-form [edit]="edit" [data]="warehouseEdit" (ready)="edit = $event"></warehouse-form>
         </div>

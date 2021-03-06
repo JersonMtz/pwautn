@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { WarehouseInterface } from '../../../models/warehouse.interface';
+import { WarehouseInterface } from '@models/warehouse.interface';
 import { Observable } from 'rxjs';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Injectable({
     providedIn: 'root'

@@ -9,15 +9,14 @@ import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.servi
   templateUrl: './warehouse-list.component.html'
 })
 export class WarehouseListComponent implements OnDestroy {
-  
-  edit:boolean = false;
-  show:boolean = true;
-  warehouseEdit:WarehouseInterface;
-  warehouseList:WarehouseInterface[] = [];
-  private suscription$:Subscription;
 
+  edit: boolean = false;
+  show: boolean = true;
+  warehouseEdit: WarehouseInterface;
+  warehouseList: WarehouseInterface[] = [];
+  private suscription$: Subscription;
 
-  constructor(private afWarehouse:AfWarehouseService, private popup:MessagesService) { 
+  constructor(private afWarehouse: AfWarehouseService, private popup: MessagesService) {
     this.suscription$ = this.afWarehouse.list().subscribe(list => this.warehouseList = list);
   }
 
@@ -25,13 +24,13 @@ export class WarehouseListComponent implements OnDestroy {
     this.suscription$.unsubscribe();
   }
 
-  editWarehouse(warehouse:WarehouseInterface) {
+  editWarehouse(warehouse: WarehouseInterface) {
     this.edit = true;
     this.show = false;
     this.warehouseEdit = warehouse;
   }
 
-  deleteWarehouse(warehouse:WarehouseInterface) {
+  deleteWarehouse(warehouse: WarehouseInterface) {
     this.popup.smsDelete(warehouse.name).then(resp => {
       if (resp.isConfirmed) {
         this.afWarehouse.delete(warehouse);
@@ -41,8 +40,8 @@ export class WarehouseListComponent implements OnDestroy {
 
   showTab() {
     this.show = true;
-    if (this.edit){ 
-      setTimeout(() => { 
+    if (this.edit) {
+      setTimeout(() => {
         this.edit = false;
       }, 500);
     }

@@ -1,59 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ProviderInterface } from '@models/provider.interface';
 import { MessagesService } from '@shared/services/messages.service';
+import { Subscription } from 'rxjs';
+import { AfProviderService } from '@pages/providers/services/afProvider.service';
 
 @Component({
   selector: 'provider-list',
   templateUrl: './provider-list.component.html'
 })
-export class ProviderListComponent {
+export class ProviderListComponent implements OnDestroy {
 
-  edit:boolean = false;
-  providerEdit:ProviderInterface;
+  edit: boolean = false;
+  show: boolean = true;
+  providerEdit: ProviderInterface;
+  providerList: ProviderInterface[] = [];
+  private suscription$: Subscription;
 
-  providerList:ProviderInterface[] = [
-    {
-      id: 'A1',
-      name: 'Proveedor 1',
-      phone: 28447234,
-      mail: 'provedor1@mail.com',
-      direction: ''
-    },
-    {
-      id: 'B2',
-      name: 'Proveedor 2',
-      phone: 28447232,
-      mail: 'provedor2@mail.com',
-      direction: 'Guanacaste, Liberia'
-    },
-    {
-      id: 'C3',
-      name: 'Proveedor 3',
-      phone: 28447233,
-      mail: 'provedor3@mail.com',
-      direction: 'Guanacaste, Liberia'
-    }
-  ];
+  constructor(private afProvider: AfProviderService, private popup: MessagesService) {
+    this.suscription$ = this.afProvider.list().subscribe(list => this.providerList = list);
+  }
 
-  constructor(private popup:MessagesService) { }
+  ngOnDestroy() {
+    this.suscription$.unsubscribe();
+  }
 
-  editProvider(provider:ProviderInterface) {
+  editProvider(provider: ProviderInterface) {
     this.edit = true;
+    this.show = false;
     this.providerEdit = provider;
   }
 
-  deleteProvider(provider:ProviderInterface) {
+  deleteProvider(provider: ProviderInterface) {
     this.popup.smsDelete(provider.name).then(resp => {
       if (resp.isConfirmed) {
-        //TODO: LÓGICA ELIMINAR EN FIREBASE 
-        this.popup.notification('success', `Se elimino a ${ provider.name } con éxito`);
+        this.afProvider.delete(provider);
       }
     });
   }
 
-  reload() {
-    if (this.edit){ 
-      setTimeout(() => this.edit = false, 500);
+  showTab() {
+    this.show = true;
+    if (this.edit) {
+      setTimeout(() => {
+        this.edit = false;
+      }, 500);
     }
   }
 }
