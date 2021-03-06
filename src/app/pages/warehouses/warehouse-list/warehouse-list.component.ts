@@ -1,59 +1,50 @@
-import {Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { WarehouseInterface } from '@models/warehouse.interface';
 import { MessagesService } from '@shared/services/messages.service';
+import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.service';
 
 @Component({
   selector: 'warehouse-list',
   templateUrl: './warehouse-list.component.html'
 })
-export class WarehouseListComponent {
+export class WarehouseListComponent implements OnDestroy {
   
   edit:boolean = false;
+  show:boolean = true;
   warehouseEdit:WarehouseInterface;
+  warehouseList:WarehouseInterface[] = [];
+  private suscription$:Subscription;
 
-  warehouses:WarehouseInterface[] = [
-    {
-      id: '1A',
-      name: 'Sucursal 1',
-      phone: 85218439,
-      status: true,
-      direction: 'Alajuela, Upala'
-    },
-    {
-      id: '2B',
-      name: 'Sucursal 2',
-      phone: 85218439,
-      status: true,
-      direction: 'Guanacaste, Liberia'
-    },
-    {
-      id: '3C',
-      name: 'Sucursal 3',
-      phone: 85218439,
-      status: false,
-      direction: 'San José, San José'
-    }
-  ];
 
-  constructor(private popup:MessagesService) { }
+  constructor(private afWarehouse:AfWarehouseService, private popup:MessagesService) { 
+    this.suscription$ = this.afWarehouse.list().subscribe(list => this.warehouseList = list);
+  }
+
+  ngOnDestroy() {
+    this.suscription$.unsubscribe();
+  }
 
   editWarehouse(warehouse:WarehouseInterface) {
     this.edit = true;
+    this.show = false;
     this.warehouseEdit = warehouse;
   }
 
   deleteWarehouse(warehouse:WarehouseInterface) {
     this.popup.smsDelete(warehouse.name).then(resp => {
       if (resp.isConfirmed) {
-        //TODO: LÓGICA ELIMINAR EN FIREBASE 
-        this.popup.notification('success', `Se elimino a ${ warehouse.name } con éxito`);
+        this.afWarehouse.delete(warehouse);
       }
     });
   }
 
-  reload() {
+  showTab() {
+    this.show = true;
     if (this.edit){ 
-      setTimeout(() => this.edit = false, 500);
+      setTimeout(() => { 
+        this.edit = false;
+      }, 500);
     }
   }
 }

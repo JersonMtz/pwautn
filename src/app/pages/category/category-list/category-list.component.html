@@ -37,7 +37,7 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade bg-white p-4" [ngClass]="show?'active show':''" id="categories" role="tabpanel"
             aria-labelledby="categories-tab">
-            <div class="table-responsive" *ngIf="categoryList.length > 0; else empty">
+            <div class="table-responsive animate__animated animate__fadeIn" *ngIf="categoryList.length > 0; else empty">
                 <table class="table">
                     <thead>
                         <tr>
@@ -66,11 +66,14 @@
             </div>
             <ng-template #empty>
                 <div class="animate__animated animate__fadeIn">
-                    <h1 class="text-center">
+                    <h1 class="text-center d-none d-md-block">
                         <span class="alert-warning rounded p-2 border">Lista de Categorias</span>
                     </h1>
+                    <h3 class="text-center d-md-none d-block">
+                        <span class="alert-warning rounded p-2 border">Lista de Categorias</span>
+                    </h3>
                     <br>
-                    <p class="lead">
+                    <p class="lead text-justify">
                         Al parecer aún no tienes categorias, para iniciar agrega unas cuantas categorias a la lista en la
                         sección
                         "<i class="fas fa-plus-circle"></i> Agregar Categoría" ó espera a que se cargue la lista.

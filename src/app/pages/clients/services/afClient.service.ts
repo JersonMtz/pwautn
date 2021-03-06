@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { ClientInterface } from '../../../models/client.interface';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MessagesService } from '../../../shared/services/messages.service';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { ClientInterface } from '@models/client.interface';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Injectable({
   providedIn: 'root'

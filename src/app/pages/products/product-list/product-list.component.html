@@ -3,7 +3,7 @@
     <h2>Listado de Productos
         <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm" *ngIf="productList.length > 0">Nuevo</a>
     </h2>
-    <div class="table-responsive" *ngIf="productList.length > 0; else empty">
+    <div class="table-responsive animate__animated animate__fadeIn" *ngIf="productList.length > 0; else empty">
         <table class="table mt-3 bg-white">
             <thead>
                 <tr>
@@ -45,7 +45,7 @@
     </div>
     <ng-template #empty>
         <div class="animate__animated animate__fadeIn">
-            <p class="lead mb-5">
+            <p class="lead mb-5 text-justify">
                 Al parecer aún no tienes productos, para iniciar agrega unos cuantos productos ó espera a que se cargue
                 la lista.
             </p>

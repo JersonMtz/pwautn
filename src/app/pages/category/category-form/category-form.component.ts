@@ -23,9 +23,9 @@ export class CategoryFormComponent implements OnChanges {
     if (this.formValid()) {
       this.popup.smsConfirm('Atención', '¿Desea guardar este registro?').then(res => {
         if (res.isConfirmed) {
-          let body = this.form.value;
-          delete body.id;
-          this.afCategory.add(body);
+          let data = this.form.value;
+          delete data.id;
+          this.afCategory.add(data);
           this.form.reset();
         }
       });
