@@ -5,11 +5,10 @@
         <h2 *ngIf="editing" class="text-warning mb-3">Editar Producto <i class="far fa-clipboard"></i></h2>
         <img [src]="defaultImg()" alt="product" class="img-thumbnail mb-3" style="max-height: 250px; max-width: 250px;">
 
-        <!-- TODO LOADING DE CARGA -->
-        <div class="progress animate__animated animate__fadeInDow">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemax="100" style="width: 10%"></div>
+        <div class="progress" *ngIf="loading">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+            aria-valuemax="100" [ngStyle]="{width: getPercentage()+'%'}">{{ getPercentage() }}%</div>
         </div>
-        <!-- TODO LOADING DE CARGA -->
 
         <br>
         <input type="file" class="d-none" #controlPhoto (change)="onSelectPhoto($event)" accept="image/*"
@@ -21,7 +20,7 @@
             [disabled]="!formValid()">
             <i class="fas fa-image"></i> Imágen
         </button>
-        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="deletePhoto()" *ngIf="btnDelete">
+        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="deletePhoto()" *ngIf="btnDelete" [disabled]="loading">
             <i class="fas fa-minus-circle"></i> Remover
         </button>
 
@@ -31,15 +30,15 @@
             <article class="form-group row">
                 <label for="code" class="col-sm-2 control-label">Código</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="err.existCode ? 'is-invalid':''" placeholder="A4DF" 
-                    formControlName="code" #code (change)="valueCheck('code', code.value)">
+                    <input type="text" class="form-control" [ngClass]="err.existCode ? 'is-invalid':''" 
+                    placeholder="A4DF" formControlName="code" #code  (keyup)="valueCheck('code', code.value)">
                     <div class="invalid-feedback" *ngIf="err.existCode">Código ya registrado</div>
                 </div>
 
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
                     <input type="text" class="form-control" [ngClass]="hasErrorField('name') || err.existName ? 'is-invalid':''"
-                        placeholder="Caja vacía" formControlName="name" #name (change)="valueCheck('name', name.value)">
+                        placeholder="Caja vacía" formControlName="name" #name (keyup)="valueCheck('name', name.value)">
                     <div class="invalid-feedback" *ngIf="hasErrorField('name')">
                         <span *ngIf="requiredField('name')">Nombre es requerido</span>
                     </div>
@@ -126,12 +125,14 @@
             <article class="form-group">
                 <button *ngIf="!editing" class="btn btn-sm btn-round" (click)="addProduct()"
                     [ngClass]="formValid() ?'btn-info':'btn-secondary'" [disabled]="!formValid()">
-                    <i class="fas fa-save"></i> Guardar
+                    <i class="fas fa-spinner loading" *ngIf="loading"></i>
+                    <i class="fas fa-save" *ngIf="!loading"></i> Guardar
                 </button>
 
                 <button *ngIf="editing" class="btn btn-sm btn-round" (click)="updateProduct()"
                     [ngClass]="formValid() ?'btn-info':'btn-secondary'" [disabled]="!formValid()">
-                    <i class="fas fa-check-circle"></i> Actualizar
+                    <i class="fas fa-spinner loading" *ngIf="loading"></i>
+                    <i class="fas fa-check-circle" *ngIf="!loading"></i> Actualizar
                 </button>
             </article>
         </form>

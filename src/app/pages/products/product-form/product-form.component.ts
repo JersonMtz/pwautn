@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { BreadcrumbInterface } from '@models/breadcrumb.interface';
 import { CategoryInterface } from '@models/category.interface';
@@ -9,6 +9,7 @@ import { MessagesService } from '@shared/services/messages.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
 import { AfCategoryService } from '@pages/category/services/afCategory.service';
 import { AfUploadService } from "@shared/services/afUpload.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'product-form',
@@ -16,7 +17,11 @@ import { AfUploadService } from "@shared/services/afUpload.service";
 })
 export class ProductFormComponent implements OnDestroy {
 
+  /** File photo **/
+  private photoFile: any;
+
   private expNumber: RegExp = /^([0-9])*$/;
+  private local: boolean;
   product: ProductInterface;
   categoryList: CategoryInterface[] = [];
   items: BreadcrumbInterface[];
@@ -26,12 +31,11 @@ export class ProductFormComponent implements OnDestroy {
     existName: false
   };
 
-  editing: boolean = false;
-  private local:boolean = false;
+  editing: boolean;
   btnDelete: boolean;
-
-  /** File photo **/
-  private photoFile: any;
+  loading: boolean;
+  private percentage: number = 0;
+  private sub$: Subscription;
 
   constructor(private fb: FormBuilder,
     private afProduct: AfProductService,
@@ -43,7 +47,6 @@ export class ProductFormComponent implements OnDestroy {
     this.getCategories();
     this.initForm();
     this.verifyForm();
-    //this.resetPhoto();
     this.buildBreadcrumb();
   }
 
@@ -52,7 +55,7 @@ export class ProductFormComponent implements OnDestroy {
     document.getElementById('a-product').classList.toggle('active');
   }
 
-  initForm() {
+  private initForm() {
     this.form = this.fb.group({
       id: [''],
       code: [''],
@@ -93,22 +96,35 @@ export class ProductFormComponent implements OnDestroy {
   private saveData() {
     let { id, ...data } = this.form.value;
     this.afProduct.add(data);
+    this.loading = false;
     this.form.reset();
-    //this.resetPhoto();
+    this.form.get('status').setValue(true);
+    this.form.get('photo').setValue({ path: '', url: '' });
+    this.reload();
+    this.isEnableForm();
   }
 
   addProduct() {
     if (this.formValid()) {
       this.popup.smsConfirm('Atención', '¿Desea guardar este registro?').then(res => {
-        if (res.isConfirmed) {
+        if (res.isConfirmed && !this.loading) {
+          this.loading = true;
+          this.isEnableForm();
           if (this.photoFile) {
-            let path = this.builPathCollection();
-            this.afUpload.fileUpload(this.photoFile, path);
-            this.afUpload.percent$.subscribe(console.log);
-            //en este suscribe guardo la url y la data a la coleccion
-            this.afUpload.url$.subscribe(console.log);
+            this.afUpload.fileUpload(this.photoFile, this.builPathCollection());
+            this.afUpload.percent$.pipe(
+              finalize(() => this.afUpload.url$.subscribe(url => {
+                this.form.get('photo').value.url = url;
+                this.saveData();
+              })))
+              .subscribe(value => {
+                this.percentage = parseInt(value.toString());
+                if (this.percentage === 100) {
+                  this.percentage = 0;
+                }
+              });
           } else {
-            //guardo solo data
+            this.saveData();
           }
         }
       })
@@ -116,19 +132,42 @@ export class ProductFormComponent implements OnDestroy {
   }
 
   updateProduct() {
-    if (this.formValid()) {
+    if (this.formValid() && this.editing) {
       this.popup.smsConfirm('Atención', '¿Desea actualizar este registro?').then(res => {
         if (res.isConfirmed) {
-          console.log('SE ACTUALIZO');
-
-          //Se redirige luego de actualizar
-          this.router.navigateByUrl('/dashboard/products');
+          this.loading = true;
+          if (this.photoFile) {
+            this.afUpload.fileUpload(this.photoFile, this.builPathCollection());
+            this.afUpload.percent$.pipe(
+              finalize(() => this.afUpload.url$.subscribe(url => {
+                this.form.get('photo').value.url = url;
+                this.afProduct.update(this.form.value);
+                this.loading = false;
+              })))
+              .subscribe(value => {
+                this.percentage = parseInt(value.toString());
+                if (this.percentage === 100) {
+                  this.percentage = 0;
+                }
+              });
+          } else {
+            this.afProduct.update(this.form.value);
+            this.loading = false;
+          }
         }
       })
     }
   }
 
-  verifyForm() {
+  private isEnableForm() {
+    if (this.formValid() && this.loading) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
+  private verifyForm() {
     if (this.router.url === "/dashboard/products/edit") {
       this.product = this.afProduct.getProduct;
       if (this.product === undefined) {
@@ -142,8 +181,8 @@ export class ProductFormComponent implements OnDestroy {
     }
   }
 
-  valueCheck(field: string, value: string = ' ') {
-    this.afProduct.dataExist(field, value).pipe(map(res => {
+  valueCheck(field: string, value: string) {
+    this.sub$ = this.afProduct.dataExist(field, value).pipe(map(res => {
       if (res.length > 0) {
         return res[0].payload.doc.id === this.form.get('id').value ? false : true;
       } else {
@@ -152,14 +191,20 @@ export class ProductFormComponent implements OnDestroy {
     })).subscribe(res => {
       if (field === 'code') {
         this.err.existCode = res;
+        this.sub$.unsubscribe();
       }
       if (field === 'name') {
         this.err.existName = res;
+        this.sub$.unsubscribe();
       }
     });
   }
 
   //******** EXCHANGE  METHODS & UPLOAD PHOTO ********//
+  getPercentage(): string {
+    return this.percentage.toString();
+  }
+
   defaultImg(): string {
     return this.form.get('photo').value.url || './../../../assets/img/product.png'
   }
@@ -193,12 +238,13 @@ export class ProductFormComponent implements OnDestroy {
     this.popup.smsConfirm('Atención', '¿Desea remover la imágen?').then(res => {
       if (res.isConfirmed) {
         if (this.editing && !this.local) {
-          console.log('SE ESTA BORRANDO en firebase...'); //TODO BORRAR EN FIREBASE
-          this.form.get('photo').setValue({path: '', url: ''});
+          this.afUpload.fileDelete(this.form.get('photo').value.path)
+            .then(() => this.afProduct.updatePhoto(this.product.id))
+            .catch(err => this.popup.notification('error', `Ha ocurrido un error: ${err}`));
+          this.form.get('photo').setValue({ path: '', url: '' });
           this.reload();
         } else {
-          console.log('SE QUITO en local...');
-          this.form.get('photo').setValue({path: '', url: ''});
+          this.form.get('photo').setValue({ path: '', url: '' });
           this.reload();
         }
       }

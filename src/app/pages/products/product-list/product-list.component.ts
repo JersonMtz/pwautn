@@ -48,7 +48,7 @@ export class ProductListComponent implements OnDestroy {
   deleteProduct(product:ProductInterface) {
     this.sms.smsDelete(product.name).then(resp => {
       if (resp.isConfirmed) {
-        // TODO: BORRAR EN FIREBASE
+        this.afProduct.delete(product);
       }
     })
   }

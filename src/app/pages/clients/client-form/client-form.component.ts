@@ -60,8 +60,10 @@ export class ClientFormComponent implements OnChanges {
   ngOnChanges() {
     if (this.editing) {
       this.form.setValue(this.client);
+      this.form.get('idCard').disable();
     } else {
       this.form.reset();
+      this.form.get('idCard').enable();
     }
   }
 

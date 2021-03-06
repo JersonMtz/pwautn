@@ -4,9 +4,8 @@
             <article class="form-group row">
                 <label for="idNumber" class="col-sm-2 control-label">Cédula <span class="text-danger">*</span></label>
                 <div class="col-sm-6 mb-2">
-                    <input type="number" class="form-control" *ngIf="editing" [value]="form.get('idCard').value" disabled>
                     <input type="number" class="form-control" [ngClass]="hasErrorField('idCard') ? 'is-invalid':''"
-                        id="idNumber" placeholder="208370234" formControlName="idCard" required *ngIf="!editing">
+                        id="idNumber" placeholder="208370234" formControlName="idCard" required>
                     <div class="invalid-feedback" *ngIf="hasErrorField('idCard')">
                         <span *ngIf="requiredField('idCard')">Número de identificación es requerido. </span>
                         <span *ngIf="incompleteField('idCard')">Número de identificación incompleto. </span>
