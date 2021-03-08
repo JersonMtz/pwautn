@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { UserInterface } from '@models/user.interface';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class afAuthService {
 
   user$: Observable<UserInterface>;
 
-  constructor(private afAuth: AngularFireAuth, private afs:AngularFirestore) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private popup: MessagesService) {
     this.getUser();
   }
 
@@ -32,7 +33,16 @@ export class afAuthService {
     );
   }
 
-  async login(mail:string, password:string) {
+  updatePhoto(id: string, path: string = "", url: string = "") {
+    this.afs.doc(`users/${id}`).update({ "photo": { "path": path, "url": url } }).then(() =>
+      this.popup.notification('success', 'Se actualizo imágen de perfil')).catch(this.error);
+  }
+
+  private error(value: string) {
+    this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${value}</span>`, '#E6242B');
+  }
+
+  async login(mail: string, password: string) {
     try {
       return this.afAuth.signInWithEmailAndPassword(mail, password);
     } catch (e) {

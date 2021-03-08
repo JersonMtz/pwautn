@@ -5,7 +5,7 @@
         <h2 *ngIf="editing" class="text-warning mb-3">Editar Producto <i class="far fa-clipboard"></i></h2>
         <img [src]="defaultImg()" alt="product" class="img-thumbnail mb-3" style="max-height: 250px; max-width: 250px;">
 
-        <div class="progress" *ngIf="loading">
+        <div class="progress" *ngIf="loading && photoFile">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
             aria-valuemax="100" [ngStyle]="{width: getPercentage()+'%'}">{{ getPercentage() }}%</div>
         </div>

@@ -35,19 +35,6 @@ export class AfProductService {
     return this.afs.collection<ProductInterface>('products', ref => ref.where(field, '==', value)).snapshotChanges();
   }
 
-  /* findCategory(id:string) {
-    return this.afs.collection('categories').doc(id).snapshotChanges().pipe(
-      map(res => {
-        if (res) {
-          let data:CategoryInterface = res.payload.data();
-          return { id, ...data }
-        } else {
-          return {}
-        }
-      })
-    );
-  } */
-
   add(product:ProductInterface) {
     product.category = this.afs.doc(`products/${ product.category }`).ref;
     this.productCollection.add(product).then(() => {

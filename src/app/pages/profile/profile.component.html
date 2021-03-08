@@ -1,21 +1,26 @@
 <div class="row animate__animated animate__fadeIn">
     <div class="col-md-4 text-center">
         <h2 class="mb-3"><b>Perfil de Usuario</b></h2>
-        <img [src]="profile.photo.url" style="max-width: 200px;max-height: 200px;" alt="avatar" class="rounded-circle mb-3">
+        <img [src]="defaultImg()" style="max-width: 200px;max-height: 200px;" alt="avatar" class="rounded-circle mb-3">
         <br>
-        <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*" (click)="$event.target.value = ''">
+
+        <div class="progress" *ngIf="loading && photoFile">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemax="100"
+                [ngStyle]="{width: getPercentage()+'%'}">{{ getPercentage() }}%</div>
+        </div>
+
+        <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*"
+            (click)="$event.target.value = ''">
         <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
         <br><br>
-        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()" *ngIf="!btnReset && !btnDelete">
+        <button class="btn btn-info btn-sm text-white mb-3" (click)="filePhoto.click()" *ngIf="!photoFile && local">
             <i class="fas fa-image"></i> Imágen
         </button>
-        <button class="btn btn-info btn-sm mb-3 mx-1" *ngIf="btnReset">
+        <button class="btn btn-info btn-sm mb-3 mx-1" (click)="uploadPhoto()" *ngIf="photoFile && local && !loading">
             &nbsp;&nbsp;<i class="fas fa-upload"></i> Subir&nbsp;&nbsp;
         </button>
-        <!-- <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="onResetPhoto()" *ngIf="btnReset">
-            <i class="fas fa-minus-circle"></i> Remover
-        </button> -->
-        <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="deletePhoto()" *ngIf="btnDelete">
+        <button class="btn btn-dark btn-sm mb-3 mx-1" *ngIf="photoFile || profile.photo.path" (click)="deletePhoto()"
+            [disabled]="loading">
             <i class="fas fa-trash-alt"></i> Eliminar
         </button>
     </div>
@@ -52,7 +57,8 @@
                 <label for="passNow" class="col-sm-2 control-label">Contraseña Actual</label>
                 <div class="col-sm-4 mb-3">
                     <section class="ui labeled input w-100" [ngClass]="hasErrorField('passNow') ? 'error':''">
-                        <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNow()" title="mostrar u ocultar contraseña">
+                        <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNow()"
+                            title="mostrar u ocultar contraseña">
                             <i *ngIf="!passNow" class="fas fa-lock text-white"></i>
                             <i *ngIf="passNow" class="fas fa-lock-open text-white"></i>
                         </span>
@@ -65,7 +71,8 @@
                 <label for="passChange" class="col-sm-2 control-label">Contraseña Nueva</label>
                 <div class="col-sm-4 mb-3">
                     <section class="ui labeled input w-100" [ngClass]="hasErrorField('passNew') ? 'error':''">
-                        <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNew()" title="mostrar u ocultar contraseña">
+                        <span style="cursor: pointer;" class="ui label bg-dark" (click)="onChangePassNew()"
+                            title="mostrar u ocultar contraseña">
                             <i *ngIf="!passNew" class="fas fa-lock text-white"></i>
                             <i *ngIf="passNew" class="fas fa-lock-open text-white"></i>
                         </span>
@@ -80,7 +87,7 @@
 
             <article class="form-group row px-3" style="font-size: 0.8em;">
                 <p class="text-dark text-justify">
-                    <i class="fas fa-info-circle"></i> Es necesario que la contraseña cumpla las siguientes condiciones:    
+                    <i class="fas fa-info-circle"></i> Es necesario que la contraseña cumpla las siguientes condiciones:
                 </p>
                 <ul>
                     <li>Mínimo 8 carácteres. </li>
@@ -91,12 +98,13 @@
                 </ul>
             </article>
             <article class="form-group row w-75 mx-auto">
-                <button class="btn btn-block" [ngClass]="formValid() ? 'btn-warning':'btn-secondary'" [disabled]="!formValid()">
+                <button class="btn btn-block" [ngClass]="formValid() ? 'btn-warning':'btn-secondary'"
+                    [disabled]="!formValid()">
                     <i class="far fa-check-circle"></i> Cambiar Contraseña
                 </button>
             </article>
             <br>
-            <hr class="text-center text-muted">
+            <!-- <hr class="text-center text-muted">
             <h3 class="text-center mb-3"><b>Cambiar Colores</b></h3>
             <article class="form-group row">
                 <div class="col-sm-3">
@@ -111,7 +119,7 @@
                 <div class="col-sm-3">
                     AZUL
                 </div>
-            </article>
+            </article> -->
         </form>
     </div>
 </div>

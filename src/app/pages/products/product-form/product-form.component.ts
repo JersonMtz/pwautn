@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
 export class ProductFormComponent implements OnDestroy {
 
   /** File photo **/
-  private photoFile: any;
+  photoFile: any;
 
   private expNumber: RegExp = /^([0-9])*$/;
   private local: boolean;
