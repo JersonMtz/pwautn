@@ -1,8 +1,10 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { afAuthService } from "@auth/services/afAuth.service";
 import { MessagesService } from '@shared/services/messages.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'login',
@@ -11,27 +13,28 @@ import { MessagesService } from '@shared/services/messages.service';
 })
 export class LoginComponent {
 
-  initing:boolean = false;
+  private sub$: Subscription;
+  initing: boolean = false;
+  form: FormGroup;
+  exit: boolean = false;
+  private reExp: any = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
 
-  form:FormGroup;
-  exit:boolean = false;
-  private reExp:any = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
-
-  constructor(private router:Router, 
-              private fb:FormBuilder, 
-              private afAuth:afAuthService,
-              private popup:MessagesService) { 
+  constructor(private afs: AngularFirestore,
+    private router: Router,
+    private fb: FormBuilder,
+    private afAuth: afAuthService,
+    private popup: MessagesService) {
     document.title = 'Login';
     this.initForm();
   }
 
   initForm() {
     const mail = localStorage.getItem('mail') || '';
-    const check = mail ? true :false;
+    const check = mail ? true : false;
     this.form = this.fb.group({
       mail: [mail, Validators.compose([Validators.required, Validators.email, Validators.pattern(this.reExp)])],
       pass: ['', Validators.required],
-      remember: [check] 
+      remember: [check]
     });
   }
 
@@ -43,11 +46,11 @@ export class LoginComponent {
     }
   }
 
-  isValid(){
+  isValid() {
     return !this.form.valid;
   }
 
-  redirect(){
+  redirect() {
     this.exit = true;
     setTimeout(() => this.router.navigateByUrl('auth/forgot'), 500);
   }
@@ -60,8 +63,10 @@ export class LoginComponent {
         const { emailVerified } = res.user;
         if (!emailVerified) {
           this.showInfo();
+          this.initing = false;
+          this.afAuth.logOut();
         } else {
-          this.router.navigateByUrl('/dashboard');
+          this.enableUser();
         }
       }).catch(err => {
         this.showErrors(err);
@@ -69,24 +74,39 @@ export class LoginComponent {
     }
   }
 
+  private enableUser() {
+    this.sub$ = this.afAuth.user$.subscribe(user => {
+      if (user.status) {
+        this.router.navigateByUrl('/dashboard');
+        this.sub$.unsubscribe();
+      } else {
+        this.popup.beatPopup();
+        this.popup.notification('info', '<span class="text-white">Usuario inactivo. Comuniquese con el administrador</span>', '#2799F3', 'center');
+        this.afAuth.logOut();
+        this.initing = false;
+        this.sub$.unsubscribe();
+      }
+    })
+  }
+
   private showInfo() {
     this.popup.beatPopup();
     this.afAuth.verifyMail();
-    this.popup.notification('info','<span class="text-white">Verifique su cuenta antes de iniciar sesión mediante un enlace enviado a su correo.</span>','#2799F3','center');
+    this.popup.notification('info', '<span class="text-white">Verifique su cuenta antes de iniciar sesión mediante un enlace enviado a su correo.</span>', '#2799F3', 'center');
   }
 
-  private showErrors(err:any) {
+  private showErrors(err: any) {
     if (err && (err.code === "auth/user-not-found" || err.code === "auth/wrong-password")) {
       this.popup.beatPopup();
-      this.popup.notification('error','<span class="text-white">Usuario o contraseña son incorrectos</span>','#E6252C','top');
+      this.popup.notification('error', '<span class="text-white">Usuario o contraseña son incorrectos</span>', '#E6252C', 'top');
     }
     if (err && (err.code === "auth/user-disabled")) {
       this.popup.beatPopup();
-      this.popup.notification('info','<span class="text-white">Usuario inactivo. Comuniquese con el administrador</span>','#2799F3','center');
+      this.popup.notification('info', '<span class="text-white">Usuario inactivo. Comuniquese con el administrador</span>', '#2799F3', 'center');
     }
     if (err && (err.code === "auth/network-request-failed")) {
       this.popup.beatPopup();
-      this.popup.notification('info','<span class="text-white">Error de comunicación con el servidor. Revise su conexión e intente nuevamente</span>','#2799F3','top');
+      this.popup.notification('info', '<span class="text-white">Error de comunicación con el servidor. Revise su conexión e intente nuevamente</span>', '#2799F3', 'top');
     }
     this.initing = false;
   }
