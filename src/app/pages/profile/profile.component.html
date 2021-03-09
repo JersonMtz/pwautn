@@ -97,7 +97,7 @@
                     <li>Mínimo un carácter especial "<b>@ $ % ? ! * &</b>"</li>
                 </ul>
             </article>
-            <article class="form-group row w-75 mx-auto">
+            <article class="form-group row w-75 mx-auto" (click)="changePassword()">
                 <button class="btn btn-block" [ngClass]="formValid() ? 'btn-warning':'btn-secondary'"
                     [disabled]="!formValid()">
                     <i class="far fa-check-circle"></i> Cambiar Contraseña

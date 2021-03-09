@@ -5,6 +5,8 @@ import { UserInterface } from '@models/user.interface';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { MessagesService } from '@shared/services/messages.service';
+import firebase from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,31 @@ export class afAuthService {
 
   user$: Observable<UserInterface>;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private popup: MessagesService) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router:Router, private popup: MessagesService) {
     this.getUser();
+  }
+
+  reauthentication(passwordOld: string, passwordNew: string) {
+    this.afAuth.currentUser.then(user => {
+      const credentials = firebase.auth.EmailAuthProvider.credential(user.email, passwordOld);
+      user.reauthenticateWithCredential(credentials).then(res => {
+        if (res) {
+          user.updatePassword(passwordNew)
+            .then(() => {
+              this.popup.logOutMessage().then(res => {
+                if (res) {
+                  this.logOut().then(() => this.router.navigateByUrl('/auth/login'));
+                }
+              })
+            }).catch(this.error);
+        }
+      })
+        .catch(() => {
+          this.popup.beatPopup();
+          this.popup.notification('error', '<span class="text-white">Contraseña incorrecta</span>', '#E6272E', 'bottom');
+        });
+    });
+
   }
 
   private getUser() {

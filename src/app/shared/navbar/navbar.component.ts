@@ -10,16 +10,16 @@ import { Subscription } from 'rxjs';
 export class NavbarComponent implements OnDestroy {
 
   avatar:string;
-  private subscription$:Subscription;
+  private sub$:Subscription;
   constructor(private afAuth:afAuthService, private router:Router) { 
-    this.subscription$ = afAuth.user$.subscribe(res => this.avatar = res.photo.url);
+    this.sub$ = afAuth.user$.subscribe(res => this.avatar = res.photo.url);
   }
 
   ngOnDestroy() {
-    this.subscription$.unsubscribe();
+    this.sub$.unsubscribe();
   }
 
   onLogOut() {
-    this.afAuth.logOut().then(res => this.router.navigateByUrl('/auth/login'));
+    this.afAuth.logOut().then(() => this.router.navigateByUrl('/auth/login'));
   }
 }

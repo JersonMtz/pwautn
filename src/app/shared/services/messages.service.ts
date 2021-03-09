@@ -5,34 +5,34 @@ import Swal, { SweetAlertIcon, SweetAlertPosition, SweetAlertResult } from 'swee
   providedIn: 'root'
 })
 export class MessagesService {
-  
-  alert:any = { active:false, icon:'', text:'' };
+
+  alert: any = { active: false, icon: '', text: '' };
   constructor() { }
 
   private beatAlert() {
-    const sound:any = document.getElementById('sound');
-    sound.src ="./assets/music/notificacion.mp3";
+    const sound: any = document.getElementById('sound');
+    sound.src = "./assets/music/notificacion.mp3";
     sound.play();
   }
 
   beatPopup() {
-    const sound:any = document.getElementById('sound');
-    sound.src ="./assets/music/popup.mp3";
+    const sound: any = document.getElementById('sound');
+    sound.src = "./assets/music/popup.mp3";
     sound.play();
   }
 
   showAlert() {
     if (this.alert.active) {
       this.notification(this.alert.icon, this.alert.text);
-      this.alert = {active:false, icon:'', text:''};
+      this.alert = { active: false, icon: '', text: '' };
     }
   }
 
-  smsDelete(text:string):Promise<SweetAlertResult> {
+  smsDelete(text: string): Promise<SweetAlertResult> {
     this.beatAlert();
     return Swal.fire({
-      title: `¿Eliminar ${ text }?`,
-      text:'Esta acción no podrá revertirse',
+      title: `¿Eliminar ${text}?`,
+      text: 'Esta acción no podrá revertirse',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#485FC7',
@@ -48,8 +48,8 @@ export class MessagesService {
       allowOutsideClick: false
     })
   }
-  
-  smsConfirm(title:string = '¿Desea salir?', text:string ='Existen cambios pendientes sin guardar'):Promise<SweetAlertResult> {
+
+  smsConfirm(title: string = '¿Desea salir?', text: string = 'Existen cambios pendientes sin guardar'): Promise<SweetAlertResult> {
     this.beatAlert();
     return Swal.fire({
       title: title,
@@ -71,7 +71,7 @@ export class MessagesService {
     })
   }
 
-  notification(type:SweetAlertIcon = 'info', text:string, backColor:string = '#FFF', move:SweetAlertPosition = 'bottom') {
+  notification(type: SweetAlertIcon = 'info', text: string, backColor: string = '#FFF', move: SweetAlertPosition = 'bottom') {
     const Toast = Swal.mixin({
       toast: true,
       position: move,
@@ -83,33 +83,49 @@ export class MessagesService {
         toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
     });
-    Toast.fire({ 
-      icon: type, 
-      title: text, 
-      background: backColor, 
-      showClass: { popup: 'animate__animated animate__fadeIn' }, 
+    Toast.fire({
+      icon: type,
+      title: text,
+      background: backColor,
+      showClass: { popup: 'animate__animated animate__fadeIn' },
       hideClass: { popup: 'animate__animated animate__fadeOut' }
     });
   }
 
-  deleteProductBill(text:string):Promise<SweetAlertResult> {  
-    this.beatPopup(); 
+  deleteProductBill(text: string): Promise<SweetAlertResult> {
+    this.beatPopup();
     const Toast = Swal.mixin({
       toast: true,
       position: 'center',
       showConfirmButton: true
     });
-    
-    return Toast.fire({ 
-      icon: 'question', 
+
+    return Toast.fire({
+      icon: 'question',
       title: `¿Quitar ${text.toUpperCase()} de la lista?`,
       showCancelButton: true,
       cancelButtonColor: '#00D1B2',
       cancelButtonText: 'No',
       confirmButtonColor: '#485FC7',
       confirmButtonText: 'Sí',
-      showClass: { popup: 'animate__animated animate__fadeIn' }, 
+      showClass: { popup: 'animate__animated animate__fadeIn' },
       hideClass: { popup: 'animate__animated animate__fadeOut' }
     });
+  }
+
+  logOutMessage(): Promise<SweetAlertResult> {
+    return Swal.fire({
+      title: 'Por favor inicie sesión nuevamente',
+      allowOutsideClick: false,
+      allowEnterKey: true,
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#319EF4',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    })
   }
 }

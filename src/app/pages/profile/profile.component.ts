@@ -155,4 +155,14 @@ export class ProfileComponent implements OnDestroy {
       }
     });
   }
+
+  changePassword() {
+    this.popup.smsConfirm('Atención','¿Desea cambiar la contraseña?').then(res => {
+      if (res.isConfirmed) {
+        this.afAuth.reauthentication(this.form.get('passNow').value, this.form.get('passNew').value);
+        this.photoFile = null;
+        this.form.reset();
+      }
+    })
+  }
 }
