@@ -14,14 +14,14 @@ export class TaxListComponent implements OnDestroy {
   show: boolean = true;
   taxEdit: TaxInterface;
   taxList: TaxInterface[] = [];
-  private suscription$: Subscription;
+  private sub$: Subscription;
 
   constructor(private afTax: AfTaxService, private popup: MessagesService) { 
-    this.suscription$ = this.afTax.list().subscribe(list => this.taxList = list);
+    this.sub$ = this.afTax.list().subscribe(list => this.taxList = list);
   }
 
   ngOnDestroy() {
-    this.suscription$.unsubscribe();
+    this.sub$.unsubscribe();
   }
 
   editTax(tax: TaxInterface) {

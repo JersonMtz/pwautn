@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BreadcrumbInterface } from '@models/breadcrumb.interface';
 import { UserInterface } from '@models/user.interface';
 import { MessagesService } from '@shared/services/messages.service';
-import { UserService } from '@pages/users/services/user.service';
+import { AfUserService } from '@pages/users/services/afUser.service';
 
 @Component({
   selector: 'user-form',
@@ -31,9 +31,9 @@ export class UserFormComponent implements OnDestroy {
   text:string = 'password';
 
   constructor(private fb:FormBuilder,
-              private userService:UserService, 
+              private userService:AfUserService, 
               private router:Router, 
-              private sms:MessagesService) { 
+              private popup:MessagesService) { 
     this.user = this.userService.getUser;
     this.initForm();
     this.verifyForm();
@@ -58,7 +58,7 @@ export class UserFormComponent implements OnDestroy {
   verifyForm() {
     if (this.router.url === "/dashboard/users/edit") {
       if (this.user === undefined) {
-        this.sms.alert = {active : true, type: 'info', text: 'Seleccione un usuario antes de editar' };
+        this.popup.alert = {active : true, type: 'info', text: 'Seleccione un usuario antes de editar' };
         this.router.navigateByUrl('/dashboard/users');
       } else {
         this.form.controls['name'].setValue(this.user.name);
