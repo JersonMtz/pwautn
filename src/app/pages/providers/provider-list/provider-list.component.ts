@@ -3,6 +3,7 @@ import { ProviderInterface } from '@models/provider.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { Subscription } from 'rxjs';
 import { AfProviderService } from '@pages/providers/services/afProvider.service';
+import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'provider-list',
@@ -16,7 +17,9 @@ export class ProviderListComponent implements OnDestroy {
   providerList: ProviderInterface[] = [];
   private suscription$: Subscription;
 
-  constructor(private afProvider: AfProviderService, private popup: MessagesService) {
+  constructor(public afAuth: afAuthService,
+    private afProvider: AfProviderService,
+    private popup: MessagesService) {
     this.suscription$ = this.afProvider.list().subscribe(list => this.providerList = list);
   }
 

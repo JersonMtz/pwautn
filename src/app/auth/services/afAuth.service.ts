@@ -15,7 +15,7 @@ export class afAuthService {
 
   user$: Observable<UserInterface>;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router:Router, private popup: MessagesService) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private popup: MessagesService) {
     this.getUser();
   }
 
@@ -67,9 +67,17 @@ export class afAuthService {
     this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${value}</span>`, '#E6242B');
   }
 
+  async createUser(mail: string, password: string) {
+    try {
+      return await this.afAuth.createUserWithEmailAndPassword(mail, password);
+    } catch (e) {
+      return e;
+    }
+  }
+
   async login(mail: string, password: string) {
     try {
-      return this.afAuth.signInWithEmailAndPassword(mail, password);
+      return await this.afAuth.signInWithEmailAndPassword(mail, password);
     } catch (e) {
       return e;
     }
@@ -77,7 +85,7 @@ export class afAuthService {
 
   async logOut() {
     try {
-      return this.afAuth.signOut();
+      return await this.afAuth.signOut();
     } catch (e) {
       return e;
     }

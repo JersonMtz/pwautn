@@ -16,7 +16,7 @@
         </div>
     </div>
     <div *ngIf="auth.user$ | async as user; else wait">
-        <section class="row" *ngIf="user.role">
+        <section class="row">
             <article class="col-md-4 text-center mb-4">
                 <h3>
                     <span *ngIf="user.role" class=" p-2 rounded alert-warning">Facturar Venta</span>

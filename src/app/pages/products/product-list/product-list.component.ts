@@ -5,6 +5,7 @@ import { BreadcrumbInterface } from '@models/breadcrumb.interface';
 import { ProductInterface } from '@models/product.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
+import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'product-list',
@@ -12,7 +13,7 @@ import { AfProductService } from '@pages/products/services/afProduct.service';
 })
 export class ProductListComponent implements OnDestroy {
 
-  items:BreadcrumbInterface[] = [
+  items: BreadcrumbInterface[] = [
     {
       url: '/dashboard',
       icon: 'fas fa-home',
@@ -23,13 +24,14 @@ export class ProductListComponent implements OnDestroy {
       title: 'Productos'
     }
   ];
-  
-  productList:ProductInterface[] = [];
-  private subscription$:Subscription;
 
-  constructor(private sms:MessagesService, 
-              private afProduct:AfProductService,
-              private router:Router) {
+  productList: ProductInterface[] = [];
+  private subscription$: Subscription;
+
+  constructor(public afAuth:afAuthService,
+    private sms: MessagesService,
+    private afProduct: AfProductService,
+    private router: Router) {
     sms.showAlert();
     document.getElementById('a-product').classList.toggle('active');
     this.subscription$ = this.afProduct.list().subscribe(list => this.productList = list);
@@ -40,12 +42,12 @@ export class ProductListComponent implements OnDestroy {
     this.subscription$.unsubscribe();
   }
 
-  editProduct(product:ProductInterface) {
+  editProduct(product: ProductInterface) {
     this.afProduct.setProduct = product;
     this.router.navigateByUrl('/dashboard/products/edit');
   }
 
-  deleteProduct(product:ProductInterface) {
+  deleteProduct(product: ProductInterface) {
     this.sms.smsDelete(product.name).then(resp => {
       if (resp.isConfirmed) {
         this.afProduct.delete(product);

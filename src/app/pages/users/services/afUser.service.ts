@@ -16,7 +16,9 @@ export class AfUserService {
   private userList: Observable<UserInterface[]>;
   private user: UserInterface;
 
-  constructor(private auth:AngularFireAuth, private afs: AngularFirestore, private file: AfUploadService, private popup: MessagesService) {
+  constructor(private auth: AngularFireAuth,
+    private afs: AngularFirestore, private file: AfUploadService,
+    private popup: MessagesService) {
     this.initCollection();
   }
 
@@ -33,26 +35,29 @@ export class AfUserService {
     });
   }
 
-  dataExist(value:string) {
+  dataExist(value: string) {
     return this.afs.collection<UserInterface>('users', ref => ref.where('mail', '==', value)).snapshotChanges();
   }
 
   add(user: UserInterface) {
-    this.userCollection.add(user).then(() => {
-      this.popup.notification('success', `<span class="text-white">Se agregó el usuario ${user.name} con éxito</span>`, '#52B256');
+    let { id, password, ...data } = user;
+    this.userCollection.doc(id).set(data).then(() => {
+      this.auth.signOut().then(() => {
+        this.popup.logOutMessage().then(() => window.location.reload());
+      });
     }).catch(this.error);
   }
 
   update(user: UserInterface) {
-    let { id, ...data } = user;
-    this.userCollection.doc(id).update(data).then(() => {
-      this.popup.notification('success', `<span class="text-white">Se actualizo el usuario ${data.name} con éxito</span>`, '#52B256');
+    let { id, status, role } = user;
+    this.userCollection.doc(id).update({ status, role }).then(() => {
+      this.popup.notification('success', `<span class="text-white">Se actualizo el usuario ${user.name} con éxito</span>`, '#52B256');
     }).catch(this.error);
   }
 
   private deleteCollection(user: UserInterface) {
     this.userCollection.doc(user.id).delete().then(() => {
-      this.popup.notification('success', `<span class="text-white">Se elimino el usuario ${ user.name } con éxito</span>`,'#52B256');
+      this.popup.notification('success', `<span class="text-white">Se elimino el usuario ${user.name} con éxito</span>`, '#52B256');
     }).catch(this.error);
   }
 

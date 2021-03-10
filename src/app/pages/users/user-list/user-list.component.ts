@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserInterface } from '@models/user.interface';
 import { AfUserService } from '@pages/users/services/afUser.service';
 import { MessagesService } from '@shared/services/messages.service';
+import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'user-list',
@@ -10,7 +11,10 @@ import { MessagesService } from '@shared/services/messages.service';
 })
 export class UserListComponent {
 
-  constructor(public afUser: AfUserService, private popup: MessagesService, private router: Router) {
+  constructor(public afAuth:afAuthService,
+    public afUser: AfUserService,
+    private popup: MessagesService,
+    private router: Router) {
     this.popup.showAlert();
   }
 
@@ -20,7 +24,7 @@ export class UserListComponent {
   }
 
   deleteUser(user: UserInterface) {
-    this.popup.smsDelete(user.name).then(resp => {
+    this.popup.smsDelete(user.name, 'Para eliminar la cuenta como administrador visite el módulo de autenticación de <a href="https://console.firebase.google.com/" target="_blank">Firebase.</a>').then(resp => {
       if (resp.isConfirmed) {
         this.afUser.delete(user);
       }

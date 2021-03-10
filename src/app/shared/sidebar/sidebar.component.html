@@ -10,11 +10,11 @@
                 </span>
             </li>
             <li class="nav-item d-block d-lg-none" style="border-bottom: 1px solid #4E575B;">
-                <a class="nav-link" data-toggle="collapse" href="#avatarSubmenu" aria-expanded="false" aria-controls="avatarSubmenu">
+                <a class="nav-link" data-toggle="collapse" href="#avatarSubmenu" aria-expanded="false"
+                    aria-controls="avatarSubmenu">
                     <b>Jerson</b>
                     <span class="float-right mt-n1">
-                        <img [src]="avatar || '../../../assets/img/avatar.png'"
-                        alt="sin imágen" class="rounded-circle border d-lg-none" width="35px">
+                        <img [src]="avatar || '../../../assets/img/avatar.png'" alt="sin imágen" class="rounded-circle border d-lg-none" width="35px">
                     </span>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="avatarSubmenu">
@@ -31,23 +31,26 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#buySubmenu" aria-expanded="false" 
-                aria-controls="buySubmenu" id="a-purchase">
+                <a class="nav-link" data-toggle="collapse" href="#buySubmenu" aria-expanded="false"
+                    aria-controls="buySubmenu" id="a-purchase">
                     <i class="fas fa-dolly"></i> Compras <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="buySubmenu">
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/purchases/new']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/purchases/new']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-cart-plus pl-2"></i> Nueva compra
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/purchases']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/purchases']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-list pl-2"></i> Historial de compras
                         </a>
                     </li>
@@ -59,42 +62,47 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#productSubmenu" aria-expanded="false" 
-                aria-controls="productSubmenu" id="a-product">
+                <a class="nav-link" data-toggle="collapse" href="#productSubmenu" aria-expanded="false"
+                    aria-controls="productSubmenu" id="a-product">
                     <i class="fas fa-cubes"></i> Productos <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="productSubmenu">
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/products/add']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/products/add']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-cube pl-2"></i> Nuevo producto
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/categories']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/categories']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-tags pl-2"></i> Categorias
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/products']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/products']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-list pl-2"></i> Lista de productos
                         </a>
                     </li>
                 </ul>
             </li>
-            
+
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#saleSubmenu" aria-expanded="false" 
-                aria-controls="saleSubmenu" id="a-sale">
+                <a class="nav-link" data-toggle="collapse" href="#saleSubmenu" aria-expanded="false"
+                    aria-controls="saleSubmenu" id="a-sale">
                     <i class="fas fa-cash-register"></i> Ventas <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="saleSubmenu">
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/sales/new']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/sales/new']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-shopping-basket pl-2"></i> Nueva venta
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/dashboard/sales']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link" [routerLink]="['/dashboard/sales']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-list pl-2"></i> Administrar ventas
                         </a>
                     </li>

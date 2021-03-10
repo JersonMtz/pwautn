@@ -63,15 +63,27 @@
                                     <li><b>Correo:</b> {{ person.mail }}</li>
                                 </ul>
                             </td>
-                            <td>
-                                <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
-                                    title="Editar registro" (click)="editClient(person)">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
-                                    title="Eliminar registro" (click)="deleteClient(person)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                            <td *ngIf="afAuth.user$ | async as admin">
+                                <div *ngIf="admin.role; else notAdmin">
+                                    <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
+                                        title="Editar registro" (click)="editClient(person)">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
+                                        title="Eliminar registro" (click)="deleteClient(person)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <ng-template #notAdmin>
+                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </ng-template>
                             </td>
                         </tr>
                     </tbody>

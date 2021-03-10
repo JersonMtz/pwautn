@@ -3,6 +3,7 @@ import { TaxInterface } from '@models/tax.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { Subscription } from 'rxjs';
 import { AfTaxService } from '@pages/taxes/services/afTax.service';
+import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'tax-list',
@@ -16,7 +17,9 @@ export class TaxListComponent implements OnDestroy {
   taxList: TaxInterface[] = [];
   private sub$: Subscription;
 
-  constructor(private afTax: AfTaxService, private popup: MessagesService) { 
+  constructor(public afAuth: afAuthService,
+    private afTax: AfTaxService,
+    private popup: MessagesService) {
     this.sub$ = this.afTax.list().subscribe(list => this.taxList = list);
   }
 

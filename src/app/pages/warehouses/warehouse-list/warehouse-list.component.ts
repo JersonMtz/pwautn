@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { WarehouseInterface } from '@models/warehouse.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.service';
+import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'warehouse-list',
@@ -16,7 +17,9 @@ export class WarehouseListComponent implements OnDestroy {
   warehouseList: WarehouseInterface[] = [];
   private suscription$: Subscription;
 
-  constructor(private afWarehouse: AfWarehouseService, private popup: MessagesService) {
+  constructor(public afAuth: afAuthService,
+    private afWarehouse: AfWarehouseService,
+    private popup: MessagesService) {
     this.suscription$ = this.afWarehouse.list().subscribe(list => this.warehouseList = list);
   }
 

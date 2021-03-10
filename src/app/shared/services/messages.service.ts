@@ -28,11 +28,11 @@ export class MessagesService {
     }
   }
 
-  smsDelete(text: string): Promise<SweetAlertResult> {
+  smsDelete(name: string, text: string = 'Esta acción no podrá revertirse'): Promise<SweetAlertResult> {
     this.beatAlert();
     return Swal.fire({
-      title: `¿Eliminar ${text}?`,
-      text: 'Esta acción no podrá revertirse',
+      title: `¿Eliminar ${name}?`,
+      html: `${text}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#485FC7',

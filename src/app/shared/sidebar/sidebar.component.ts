@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { afAuthService } from '@auth/services/afAuth.service';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,10 +8,10 @@ import { Subscription } from 'rxjs';
 })
 export class SidebarComponent {
 
-  avatar:string;
-  private sub$:Subscription;
-  constructor(private afAuth:afAuthService, private router:Router) { 
-    this.sub$ = afAuth.user$.subscribe(res => this.avatar = res.photo.url);
+  avatar: string;
+  private sub$: Subscription;
+  constructor(private afAuth: afAuthService) {
+    this.sub$ = this.afAuth.user$.subscribe(user => this.avatar = user ? user.photo.url : '');
   }
 
   ngOnDestroy() {
@@ -20,6 +19,6 @@ export class SidebarComponent {
   }
 
   onLogOut() {
-    this.afAuth.logOut().then(() => this.router.navigateByUrl('/auth/login'));
+    this.afAuth.logOut().then(() => window.location.reload());
   }
 }

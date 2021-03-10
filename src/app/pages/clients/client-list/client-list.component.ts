@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { ClientInterface } from '@models/client.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfClientService } from '@pages/clients/services/afClient.service';
+import { afAuthService } from '@auth/services/afAuth.service';
 
 @Component({
   selector: 'client-list',
@@ -16,7 +17,9 @@ export class ClientListComponent implements OnDestroy {
   clientList:ClientInterface[] = [];
   private suscription$:Subscription;
 
-  constructor(private afClient:AfClientService, private popup:MessagesService) {
+  constructor(public afAuth:afAuthService,
+    private afClient:AfClientService, 
+    private popup:MessagesService) {
     this.suscription$ = this.afClient.list().subscribe(list => this.clientList = list);
   }
 

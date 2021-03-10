@@ -103,7 +103,7 @@ export class ProfileComponent implements OnDestroy {
   }
 
   getPercentage(): string {
-    return this.percentage.toString();
+    return `${ this.percentage.toString() }%`;
   }
 
   defaultImg(): string {

@@ -64,17 +64,29 @@
                                     class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
                                 <span *ngIf="!warehouse.status" class="badge badge-secondary badge-pill">inactivo</span>
                             </td>
-                            <td>
-                                <button (click)="editWarehouse(warehouse)"
-                                    class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip"
-                                    title="Editar registro">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button (click)="deleteWarehouse(warehouse)"
-                                    class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip"
-                                    title="Eliminar registro">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                            <td *ngIf="afAuth.user$ | async as admin">
+                                <div *ngIf="admin.role; else notAdmin">
+                                    <button (click)="editWarehouse(warehouse)"
+                                        class="rounded-circle btn btn-warning mx-1 btn-sm" rel="tooltip"
+                                        title="Editar registro">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button (click)="deleteWarehouse(warehouse)"
+                                        class="rounded-circle btn btn-dark mx-1 btn-sm" rel="tooltip"
+                                        title="Eliminar registro">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <ng-template #notAdmin>
+                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </ng-template>
                             </td>
                         </tr>
                     </tbody>

@@ -59,15 +59,27 @@
                                     class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
                                 <span *ngIf="!tax.status" class="badge badge-secondary badge-pill">inactivo</span>
                             </td>
-                            <td>
-                                <button (click)="editTax(tax)" class="rounded-circle btn btn-warning btn-sm mx-1"
-                                    rel="tooltip" title="Editar registro">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button (click)="deleteTax(tax)" class="rounded-circle btn btn-dark btn-sm mx-1"
-                                    rel="tooltip" title="Eliminar registro">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                            <td *ngIf="afAuth.user$ | async as admin">
+                                <div *ngIf="admin.role; else notAdmin">
+                                    <button (click)="editTax(tax)" class="rounded-circle btn btn-warning btn-sm mx-1"
+                                        rel="tooltip" title="Editar registro">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button (click)="deleteTax(tax)" class="rounded-circle btn btn-dark btn-sm mx-1"
+                                        rel="tooltip" title="Eliminar registro">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <ng-template #notAdmin>
+                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </ng-template>
                             </td>
                         </tr>
                     </tbody>

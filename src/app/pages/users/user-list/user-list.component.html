@@ -1,49 +1,64 @@
 <div class="animate__animated animate__fadeIn">
-    <section *ngIf="afUser.list() | async as userList; else empty" class="animate__animated animate__fadeIn">
-        <h3>Lista de Usuarios <a routerLink="/dashboard/users/add" class="btn btn-primary btn-sm">Nuevo</a></h3>
-        <div class="table-responsive">
-            <table class="table bg-white">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Agregado</th>
-                        <th>Rol</th>
-                        <th>Estado</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let user of userList">
-                        <th>
-                            <img [src]="user.photo.url || './../../../assets/img/avatar.png'" alt="avatar" width="50px"
-                                class="rounded-circle">
-                        </th>
-                        <th>{{ user.name }} {{ user.surname || ''}}</th>
-                        <td>{{ user.mail }}</td>
-                        <td>{{ user.created }}</td>
-                        <td>
-                            <span *ngIf="user.role">Administrador</span>
-                            <span *ngIf="!user.role">Estandar</span>
-                        </td>
-                        <td>
-                            <span *ngIf="user.status" class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
-                            <span *ngIf="!user.status" class="badge badge-secondary badge-pill">inactivo</span>
-                        </td>
-                        <td>
-                            <button (click)="editUser(user)" class="rounded-circle btn btn-warning mx-1 btn-sm"
-                                rel="tooltip" title="Editar registro">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button (click)="deleteUser(user)" class="rounded-circle btn btn-dark mx-1 btn-sm"
-                                rel="tooltip" title="Eliminar registro">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <section *ngIf="afUser.list() | async as userList" class="animate__animated animate__fadeIn">
+        <div *ngIf="userList.length > 0; else empty">
+            <h3>Lista de Usuarios <a routerLink="/dashboard/users/add" class="btn btn-primary btn-sm">Nuevo</a></h3>
+            <div class="table-responsive">
+                <table class="table bg-white">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Creado</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of userList">
+                            <th>
+                                <img [src]="user.photo.url || './../../../assets/img/avatar.png'" alt="avatar"
+                                    width="50px" class="rounded-circle">
+                            </th>
+                            <th>{{ user.name }} {{ user.surname || ''}}</th>
+                            <td>{{ user.mail }}</td>
+                            <td>{{ user.created }}</td>
+                            <td>
+                                <span *ngIf="user.role">Administrador</span>
+                                <span *ngIf="!user.role">Estandar</span>
+                            </td>
+                            <td>
+                                <span *ngIf="user.status"
+                                    class="badge badge-success badge-pill">&nbsp;activo&nbsp;</span>
+                                <span *ngIf="!user.status" class="badge badge-secondary badge-pill">inactivo</span>
+                            </td>
+                            <td *ngIf="afAuth.user$ | async as admin">
+                                <div *ngIf="admin.role; else notAdmin">
+                                    <button (click)="editUser(user)" class="rounded-circle btn btn-warning mx-1 btn-sm"
+                                        rel="tooltip" title="Editar registro">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button (click)="deleteUser(user)" class="rounded-circle btn btn-dark mx-1 btn-sm"
+                                        rel="tooltip" title="Eliminar registro">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <ng-template #notAdmin>
+                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 

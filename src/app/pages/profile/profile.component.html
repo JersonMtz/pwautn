@@ -6,7 +6,7 @@
 
         <div class="progress" *ngIf="loading && photoFile">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemax="100"
-                [ngStyle]="{width: getPercentage()+'%'}">{{ getPercentage() }}%</div>
+                [ngStyle]="{width: getPercentage()}">{{ getPercentage() }}</div>
         </div>
 
         <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*"

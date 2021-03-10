@@ -60,17 +60,29 @@
                                     <li><b>Dirección:</b> {{ provider.direction }}</li>
                                 </ul>
                             </td>
-                            <td>
-                                <button (click)="editProvider(provider)"
-                                    class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
-                                    title="Editar registro">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button (click)="deleteProvider(provider)"
-                                    class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
-                                    title="Eliminar registro">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                            <td *ngIf="afAuth.user$ | async as admin">
+                                <div *ngIf="admin.role; else notAdmin">
+                                    <button (click)="editProvider(provider)"
+                                        class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
+                                        title="Editar registro">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button (click)="deleteProvider(provider)"
+                                        class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
+                                        title="Eliminar registro">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <ng-template #notAdmin>
+                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
+                                        title="Inicie sesión en una cuenta administrador">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </ng-template>
                             </td>
                     </tbody>
                 </table>

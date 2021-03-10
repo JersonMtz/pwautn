@@ -4,6 +4,7 @@ import { CategoryInterface } from '@models/category.interface';
 import { AfCategoryService } from '@pages/category/services/afCategory.service';
 import { MessagesService } from '@shared/services/messages.service';
 import { Subscription } from 'rxjs';
+import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'category-list',
@@ -11,7 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class CategoryListComponent implements OnDestroy {
 
-  items:BreadcrumbInterface[] = [
+  items: BreadcrumbInterface[] = [
     {
       url: '/dashboard',
       icon: 'fas fa-home',
@@ -28,13 +29,15 @@ export class CategoryListComponent implements OnDestroy {
     }
   ];
 
-  edit:boolean = false;
-  show:boolean = true;
-  categoryEdit:CategoryInterface;
-  categoryList:CategoryInterface[] = [];
-  private subscription$:Subscription;
+  edit: boolean = false;
+  show: boolean = true;
+  categoryEdit: CategoryInterface;
+  categoryList: CategoryInterface[] = [];
+  private subscription$: Subscription;
 
-  constructor(private afCategory:AfCategoryService, private popup:MessagesService) { 
+  constructor(public afAuth: afAuthService,
+    private afCategory: AfCategoryService,
+    private popup: MessagesService) {
     document.getElementById('a-product').classList.toggle('active');
     this.subscription$ = this.afCategory.list().subscribe(list => this.categoryList = list);
   }
@@ -44,24 +47,24 @@ export class CategoryListComponent implements OnDestroy {
     document.getElementById('a-product').classList.toggle('active');
   }
 
-  editCategory(category:CategoryInterface) {
+  editCategory(category: CategoryInterface) {
     this.show = false;
     this.edit = true;
     this.categoryEdit = category;
   }
-  
-  deleteCategory(category:CategoryInterface) {
+
+  deleteCategory(category: CategoryInterface) {
     this.popup.smsDelete(category.name).then(resp => {
       if (resp.isConfirmed) {
         this.afCategory.delete(category);
       }
     });
   }
-  
+
   showTab() {
     this.show = true;
-    if (this.edit){ 
-      setTimeout(() => { 
+    if (this.edit) {
+      setTimeout(() => {
         this.edit = false;
       }, 500);
     }
