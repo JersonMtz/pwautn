@@ -11,7 +11,7 @@ export class SaleListComponent implements OnDestroy {
     {
       id: 'A1',
       user: 'User 1',
-      date: '2021-02-02',
+      date: 0,
       client: 'Cliente 1',
       tax: 10,
       subTotal: 2345
@@ -19,7 +19,7 @@ export class SaleListComponent implements OnDestroy {
     {
       id: 'B2',
       user: 'User 2',
-      date: '2021-02-02',
+      date: 0,
       client: 'Cliente 2',
       tax: 13,
       subTotal: 3234
@@ -27,7 +27,7 @@ export class SaleListComponent implements OnDestroy {
     {
       id: 'C3',
       user: 'User 3',
-      date: '2021-02-02',
+      date: 0,
       client: 'Cliente 3',
       tax: 13,
       subTotal: 3034

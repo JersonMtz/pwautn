@@ -34,13 +34,10 @@ export class UserFormComponent implements OnDestroy {
 
   /** File photo **/
   photoFile: any;
-
   editing: boolean;
   btnDelete: boolean;
-
   private reExpMail: RegExp = /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
   private reExpPass: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{7,9}[^'\s]/;
-
   showPass: boolean = false;
   text: string = 'password';
 
@@ -69,15 +66,8 @@ export class UserFormComponent implements OnDestroy {
       mail: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern(this.reExpMail)]), Validator.checkMail(this.afUser)],
       password: ['', Validators.compose([Validators.required, Validators.pattern(this.reExpPass)])],
       photo: [{ path: '', url: '' }],
-      created: [this.getDate(), Validators.required]
+      created: [Date.now(), Validators.required]
     });
-  }
-
-  private getDate(): string {
-    let objDate: Date = new Date();
-    let day: string = (objDate.getDate() < 10) ? `0${objDate.getDate()}` : objDate.getDate().toString();
-    let month: string = (objDate.getMonth() < 10) ? `0${objDate.getMonth() + 1}` : objDate.getMonth().toString();
-    return `${objDate.getFullYear()}-${month}-${day}`;
   }
 
   verifyForm() {

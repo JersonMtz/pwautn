@@ -12,5 +12,5 @@ export interface UserInterface {
     mail?: string;
     password?: string;
     photo?: Photo;
-    created?: string;
+    created?: number;
 }

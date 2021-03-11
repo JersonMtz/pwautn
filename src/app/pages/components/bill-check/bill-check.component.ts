@@ -3,7 +3,7 @@ import { ProductInterface } from '@models/product.interface';
 import { BillInterface } from '@models/bill.interface';
 import { TaxInterface } from '@models/tax.interface';
 import { MessagesService } from '@shared/services/messages.service';
-import { AfTaxService } from '../../taxes/services/afTax.service';
+import { AfTaxService } from '@pages/taxes/services/afTax.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class BillCheckComponent implements OnChanges, OnDestroy {
 
   sub$: Subscription;
-  @Input('head') headBill: BillInterface;
+  @Input('head') bill: BillInterface;
   @Input('add') product: ProductInterface;
   @Output() delete: EventEmitter<ProductInterface> = new EventEmitter();
 
@@ -71,29 +71,29 @@ export class BillCheckComponent implements OnChanges, OnDestroy {
         result += item.total;
       });
     }
-    this.headBill.subTotal = result;
+    this.bill.subTotal = result;
   }
 
   onSave() {
-    this.headBill.products = this.listProduct;
-    console.log(this.headBill);
+    this.bill.products = this.listProduct;
+    console.log(this.bill);
   }
 
   onChangeTax(value: number) {
-    this.headBill.tax = Number(value);
+    this.bill.tax = Number(value);
     this.calculeSubTotal();
   }
 
   calculeTotal(): number {
-    return this.headBill.subTotal + (this.headBill.subTotal * (this.headBill.tax / 100));
+    return this.bill.subTotal + (this.bill.subTotal * (this.bill.tax / 100));
   }
 
   billValid(): boolean {
-    if (this.listProduct.length > 0 && this.headBill.date) {
-      if (this.headBill.client) {
+    if (this.listProduct.length > 0 && this.bill.date) {
+      if (this.bill.client) {
         return true;
       }
-      if (this.headBill.warehouse && this.headBill.provider) {
+      if (this.bill.warehouse && this.bill.provider) {
         return true;
       }
     }

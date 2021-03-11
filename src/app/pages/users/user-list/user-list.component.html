@@ -23,7 +23,7 @@
                             </th>
                             <th>{{ user.name }} {{ user.surname || ''}}</th>
                             <td>{{ user.mail }}</td>
-                            <td>{{ user.created }}</td>
+                            <td>{{ user.created | date:'yyyy-MM-dd'}}</td>
                             <td>
                                 <span *ngIf="user.role">Administrador</span>
                                 <span *ngIf="!user.role">Estandar</span>

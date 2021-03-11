@@ -11,7 +11,7 @@ export class PurchaseListComponent implements OnDestroy {
     {
       id: 'A1',
       user: 'User 1',
-      date: '2021-02-02',
+      date: 0,
       provider: 'Proveedor 1',
       tax: 10,
       subTotal: 3000
@@ -19,7 +19,7 @@ export class PurchaseListComponent implements OnDestroy {
     {
       id: 'B2',
       user: 'User 2',
-      date: '2021-02-02',
+      date: 0,
       provider: 'Proveedor 2',
       tax: 13,
       subTotal: 3002
@@ -27,7 +27,7 @@ export class PurchaseListComponent implements OnDestroy {
     {
       id: 'C3',
       user: 'User 2',
-      date: '2021-02-02',
+      date: 0,
       provider: 'Proveedor 3',
       tax: 13,
       subTotal: 3003

@@ -14,16 +14,17 @@ export class SaleNewComponent implements OnDestroy {
 
   private sub$: Subscription[] = [];
   change: boolean = true;
+  dateNow: number = Date.now();
   product: ProductInterface;
   deleteProduct: ProductInterface;
+  listClient: ClientInterface[] = [];
   headBill: BillInterface = {
     user: '',
-    date: this.getDate(),
+    date: this.dateNow,
     client: '',
     tax: 0,
     subTotal: 0
   }
-  listClient: ClientInterface[] = [];
 
   constructor(private afAuth: afAuthService, private afClient: AfClientService) {
     document.getElementById('a-sale').classList.toggle('active');
@@ -36,16 +37,10 @@ export class SaleNewComponent implements OnDestroy {
     this.sub$.forEach(item => item.unsubscribe());
   }
 
-  getDate(): string {
-    let objDate: Date = new Date();
-    let day: string = (objDate.getDate() < 10) ? `0${objDate.getDate()}` : objDate.getDate().toString();
-    let month: string = (objDate.getMonth() < 10) ? `0${objDate.getMonth() + 1}` : objDate.getMonth().toString();
-    return `${objDate.getFullYear()}-${month}-${day}`;
-  }
-
   /*** Listenner change option ***/
   updateDate(value: string) {
-    this.headBill.date = value;
+    let date = new Date(value).getTime()+21600000+(new Date().getHours()*3600000)+(new Date().getMinutes()*60000)+(new Date().getSeconds()*1000);        
+    this.headBill.date = date;
   }
 
   clientSelect(cliente: ClientInterface) {

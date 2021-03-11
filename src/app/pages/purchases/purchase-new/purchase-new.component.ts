@@ -16,22 +16,21 @@ export class PurchaseNewComponent implements OnDestroy {
 
   private sub$: Subscription[] = [];
   change: boolean = true;
-
+  dateNow: number = Date.now();
   product: ProductInterface;
   providerList: ProviderInterface[] = [];
   warehouseList: WarehouseInterface[] = [];
-
   headBill: BillInterface = {
     user: '',
-    date: this.getDate(),
+    date: this.dateNow,
     status: false,
     warehouse: '',
     provider: '',
     tax: 0,
     subTotal: 0
   }
-  
-  constructor(private afAuth:afAuthService, private afWarehouse: AfWarehouseService, private afProvider:AfProviderService) {
+
+  constructor(private afAuth: afAuthService, private afWarehouse: AfWarehouseService, private afProvider: AfProviderService) {
     document.getElementById('a-purchase').classList.toggle('active');
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
     this.sub$.push(this.afWarehouse.onWarehouse().subscribe(list => this.warehouseList = list));
@@ -43,17 +42,10 @@ export class PurchaseNewComponent implements OnDestroy {
     this.sub$.forEach(item => item.unsubscribe());
   }
 
-
-  getDate(): string {
-    let objDate: Date = new Date();
-    let day: string = (objDate.getDate() < 10) ? `0${objDate.getDate()}` : objDate.getDate().toString();
-    let month: string = (objDate.getMonth() < 10) ? `0${objDate.getMonth() + 1}` : objDate.getMonth().toString();
-    return `${objDate.getFullYear()}-${month}-${day}`;
-  }
-
   /*** Listenner change option ***/
   updateDate(value: string) {
-    this.headBill.date = value;
+    let date = new Date(value).getTime()+21600000+(new Date().getHours()*3600000)+(new Date().getMinutes()*60000)+(new Date().getSeconds()*1000);        
+    this.headBill.date = date;
   }
 
   updateProvider(value: string) {
