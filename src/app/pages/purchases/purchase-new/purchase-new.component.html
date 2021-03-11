@@ -38,7 +38,18 @@
             </h3>
             <section class="container py-4">
                 <section class="row">
-                    <article class="col-md-4 order-md-1">
+                    <article class="col-md-6 order-md-2">
+                        <section class="row">
+                            <label for="fecha" class="control-label col-sm-4">
+                                Fecha Fecha <span class="text-danger">*</span>
+                            </label>
+                            <div class="form-group col-sm-8">
+                                <input type="date" [value]="getDate()" class="form-control" #date_bill
+                                    (change)="updateDate(date_bill.value)">
+                            </div>
+                        </section>
+                    </article>
+                    <article class="col-md-6 order-md-1">
                         <section class="row">
                             <label for="proveedor" class="control-label col-sm-4">Sucursal <span
                                     class="text-danger">*</span></label>
@@ -52,7 +63,9 @@
                             </div>
                         </section>
                     </article>
-                    <article class="col-md-4 order-md-3">
+                </section>
+                <section class="row">
+                    <article class="col-md-6 order-md-1">
                         <section class="row">
                             <label for="proveedor" class="control-label col-sm-4">Proveedor <span
                                     class="text-danger">*</span></label>
@@ -66,14 +79,16 @@
                             </div>
                         </section>
                     </article>
-                    <article class="col-md-4 order-md-2">
+                    <article class="col-md-6 order-md-2">
                         <section class="row">
                             <label for="fecha" class="control-label col-sm-4">
-                                Fecha Fecha <span class="text-danger">*</span>
+                                Estado <span class="text-danger">*</span>
                             </label>
                             <div class="form-group col-sm-8">
-                                <input type="date" [value]="getDate()" class="form-control" #date_bill
-                                    (change)="updateDate(date_bill.value)">
+                                <select class="form-control" #status_bill (change)="updateStatus(status_bill.value)">
+                                    <option [value]="false">Pendiente</option>
+                                    <option [value]="true">Procesado</option>
+                                </select>
                             </div>
                         </section>
                     </article>

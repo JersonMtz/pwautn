@@ -12,7 +12,7 @@ export class ExitPurchaseService implements CanDeactivate<PurchaseNewComponent>
     constructor(private popup: MessagesService) { }
 
     canDeactivate(component: PurchaseNewComponent): any {
-        if (component.headBill.provider || component.headBill.warehouse || component.product || component.date) {
+        if (component.headBill.provider || component.headBill.warehouse || component.product || component.headBill.date) {
             return this.popup.smsConfirm().then((resp) => {
                 if (resp.value) {
                     return true;

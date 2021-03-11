@@ -41,7 +41,7 @@
                                 Fecha <span class="text-danger">*</span>
                             </label>
                             <div class="form-group col-sm-9">
-                                <input type="date" class="form-control" #input_date [value]="date"
+                                <input type="date" class="form-control" #input_date [value]="getDate()"
                                     (change)="updateDate(input_date.value)">
                             </div>
                         </section>

@@ -8,7 +8,10 @@
                     <th>Producto</th>
                     <th>Stock</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
+                    <th>
+                        Precio 
+                        <span *ngIf="!typeAccion">Costo</span>
+                        <span *ngIf="typeAccion">venta</span> </th>
                 </tr>
             </thead>
             <tbody>

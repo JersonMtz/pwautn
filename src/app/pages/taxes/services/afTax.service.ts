@@ -51,6 +51,15 @@ export class AfTaxService {
         return this.taxList;
     }
 
+    onTaxes () {
+        return this.afs.collection<TaxInterface>('taxes', ref => ref.where('status', '==', true))
+            .snapshotChanges().pipe(map(res => res.map(item => {
+                    let data = item.payload.doc.data() as TaxInterface;
+                    let id = item.payload.doc.id
+                    return { id, ...data };
+                })))
+    }
+
     private error(value: string) {
         this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${value}</span>`, '#E6242B');
     }

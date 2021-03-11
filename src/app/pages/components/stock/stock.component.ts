@@ -1,66 +1,35 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core';
 import { ProductInterface } from '@models/product.interface';
 import { MessagesService } from '@shared/services/messages.service';
+import { AfProductService } from '../../products/services/afProduct.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
   selector: 'stock',
   templateUrl: './stock.component.html'
 })
-export class StockComponent implements OnChanges  {
+export class StockComponent implements OnChanges, OnDestroy {
 
-  @Input('delete') productDelete:ProductInterface;
-  @Input('sale') typeAccion:boolean = true;
-  @Output('order') productOut:EventEmitter<ProductInterface> = new EventEmitter();
+  private sub$: Subscription;
+  @Input('delete') productDelete: ProductInterface;
+  @Input('sale') typeAccion: boolean = true;
+  @Output('order') productOut: EventEmitter<ProductInterface> = new EventEmitter();
 
-  // TODO: TRAER LOS PRODUCTOS
-  listProduct:ProductInterface[] = [
-    {
-      id: 'a1',
-      code: 'azK',
-      name: 'azucar',
-      cost: 1000,
-      price: 2222,
-      stock: 56
-    },
-    {
-      id: 'B1',
-      code: 'zal',
-      name: 'sal',
-      cost: 1111,
-      price: 2222,
-      stock: 13
-    },
-    {
-      id: 'ak2',
-      code: 'azK',
-      name: 'leche',
-      cost: 1111,
-      price: 2222,
-      stock: 50
-    },
-    {
-      id: 'a14',
-      code: 'azK',
-      name: 'jabon',
-      cost: 1111,
-      price: 2222,
-      stock: 50
-    },
-    {
-      id: 'd5',
-      code: 'kfe',
-      name: 'cafe',
-      cost: 1111,
-      price: 2222,
-      stock: 45
-    }
-  ];
-  
-  constructor(private popup:MessagesService) { }
+
+  listProduct: ProductInterface[] = [];
+
+  constructor(private afProduct: AfProductService,
+    private popup: MessagesService) {
+    this.sub$ = this.afProduct.list().subscribe(list => this.listProduct = list);
+  }
 
   ngOnChanges() {
     this.returnProduct();
+  }
+
+  ngOnDestroy() {
+    this.sub$.unsubscribe();
   }
 
   returnProduct() {
@@ -75,19 +44,19 @@ export class StockComponent implements OnChanges  {
     }
   }
 
-  stockError(amount:number, product:ProductInterface) {
-    if (amount > product.stock || amount < 0 || !amount) {
+  stockError(amount: number, product: ProductInterface) {
+    if ((amount > product.stock && this.typeAccion) || amount < 0 || !amount) {
       product.error = true;
-      this.popup.notification('error','Verifique la cantidad del pedido');
+      this.popup.notification('error', 'Verifique la cantidad del pedido');
     } else {
       product.error = false;
     }
   }
 
-  isNegative(amount:number, product:ProductInterface) {
+  isNegative(amount: number, product: ProductInterface) {
     if (amount < 0 || !amount) {
-      product.error = true; 
-      this.popup.notification('error','Verifique el precio del pedido');
+      product.error = true;
+      this.popup.notification('error', 'Verifique el precio del pedido');
     } else {
       product.error = false;
       if (this.typeAccion) {
@@ -98,13 +67,13 @@ export class StockComponent implements OnChanges  {
     }
   }
 
-  addToBill(amount:number, product:ProductInterface) {
+  addToBill(amount: number, product: ProductInterface) {
     if (product.stock === 0 && this.typeAccion) {
-      this.popup.notification('info',`No hay  ${product.name} suficiente en stock`);
+      this.popup.notification('info', `No hay  ${product.name} suficiente en stock`);
       product.error = true;
     } else {
-      if (amount && amount > 0 && amount <= product.stock) {
-        let tem:ProductInterface = {
+      if (amount && amount > 0) {
+        let tem: ProductInterface = {
           id: product.id,
           code: product.code,
           name: product.name,
@@ -116,10 +85,10 @@ export class StockComponent implements OnChanges  {
           product.stock -= amount;
         }
         this.productOut.emit(tem);
-        this.popup.notification('success',`Se agrego ${product.name.toUpperCase()} a la factura`);
+        this.popup.notification('success', `Se agrego ${product.name.toUpperCase()} a la factura`);
       } else {
-        this.popup.notification('info',`Verifique la cantidad del producto ${product.name.toUpperCase()} antes de agregar a la factura`);
-      }  
+        this.popup.notification('info', `Verifique la cantidad del producto ${product.name.toUpperCase()} antes de agregar a la factura`);
+      }
     }
   }
 

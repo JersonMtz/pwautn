@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BillInterface } from '@models/bill.interface';
-import { ProductInterface } from 'src/app/models/product.interface';
+import { ProductInterface } from '@models/product.interface';
 import { ProviderInterface } from '@models/provider.interface';
 import { WarehouseInterface } from '@models/warehouse.interface';
 import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.service';
@@ -24,12 +24,13 @@ export class PurchaseNewComponent implements OnDestroy {
   headBill: BillInterface = {
     user: '',
     date: this.getDate(),
+    status: false,
     warehouse: '',
     provider: '',
     tax: 0,
     subTotal: 0
   }
-
+  
   constructor(private afAuth:afAuthService, private afWarehouse: AfWarehouseService, private afProvider:AfProviderService) {
     document.getElementById('a-purchase').classList.toggle('active');
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
@@ -61,5 +62,9 @@ export class PurchaseNewComponent implements OnDestroy {
 
   updateWarehouse(value: string) {
     this.headBill.warehouse = value;
+  }
+
+  updateStatus(value: boolean) {
+    this.headBill.status = value;
   }
 }

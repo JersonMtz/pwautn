@@ -1,44 +1,38 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, OnDestroy } from '@angular/core';
 import { ProductInterface } from '@models/product.interface';
 import { BillInterface } from '@models/bill.interface';
 import { TaxInterface } from '@models/tax.interface';
 import { MessagesService } from '@shared/services/messages.service';
+import { AfTaxService } from '../../taxes/services/afTax.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'bill-check',
   templateUrl: './bill-check.component.html'
 })
-export class BillCheckComponent implements OnChanges{
+export class BillCheckComponent implements OnChanges, OnDestroy {
 
-  @Input('head') headBill:BillInterface;
-  @Input('add') product:ProductInterface;
-  @Output() delete:EventEmitter<ProductInterface> = new EventEmitter(); 
+  sub$: Subscription;
+  @Input('head') headBill: BillInterface;
+  @Input('add') product: ProductInterface;
+  @Output() delete: EventEmitter<ProductInterface> = new EventEmitter();
 
-  //TODO: TRAER LOS TAXES ACTIVOS
-  taxList:TaxInterface[] = [
-    {
-      id: 'tax1',
-      name: 'Compra',
-      value: 10,
-      status: true
-    },
-    {
-      id: 'tax1',
-      name: 'Venta',
-      value: 13,
-      status: true
-    }
-  ];
+  taxList: TaxInterface[] = [];
+  listProduct: ProductInterface[] = [];
 
-  listProduct:ProductInterface[] = [];
-
-  constructor(private popup:MessagesService) { }
+  constructor(private afTax: AfTaxService, private popup: MessagesService) {
+    this.sub$ = this.afTax.onTaxes().subscribe(list => this.taxList = list);
+  }
 
   ngOnChanges() {
     this.addProductList();
   }
 
-  deleteProduct(index:number, product:ProductInterface) {
+  ngOnDestroy() {
+    this.sub$.unsubscribe();
+  }
+
+  deleteProduct(index: number, product: ProductInterface) {
     this.popup.deleteProductBill(product.name).then(resp => {
       if (resp.isConfirmed) {
         this.delete.emit(product);
@@ -57,7 +51,7 @@ export class BillCheckComponent implements OnChanges{
     }
   }
 
-  private verifyProduct():boolean {
+  private verifyProduct(): boolean {
     if (this.listProduct.length > 0) {
       for (let item of this.listProduct) {
         if (item.id === this.product.id && item.price === this.product.price) {
@@ -71,7 +65,7 @@ export class BillCheckComponent implements OnChanges{
   }
 
   private calculeSubTotal() {
-    let result:number = 0;
+    let result: number = 0;
     if (this.listProduct) {
       this.listProduct.forEach(item => {
         result += item.total;
@@ -85,16 +79,16 @@ export class BillCheckComponent implements OnChanges{
     console.log(this.headBill);
   }
 
-  onChangeTax(value:number) {
+  onChangeTax(value: number) {
     this.headBill.tax = Number(value);
     this.calculeSubTotal();
   }
 
-  calculeTotal():number {
-    return this.headBill.subTotal + (this.headBill.subTotal *(this.headBill.tax / 100));
+  calculeTotal(): number {
+    return this.headBill.subTotal + (this.headBill.subTotal * (this.headBill.tax / 100));
   }
 
-  billValid():boolean {
+  billValid(): boolean {
     if (this.listProduct.length > 0 && this.headBill.date) {
       if (this.headBill.client) {
         return true;

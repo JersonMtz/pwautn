@@ -1,6 +1,6 @@
 export interface TaxInterface {
-    id?:string;
-    name?:string;
-    value?:number;
-    status?:boolean;
-} 
+    id?: string;
+    name?: string;
+    value?: number;
+    status?: boolean;
+}
