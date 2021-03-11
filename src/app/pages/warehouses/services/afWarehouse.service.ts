@@ -13,7 +13,7 @@ export class AfWarehouseService {
     private warehouseCollection: AngularFirestoreCollection<WarehouseInterface>;
     private warehouseList: Observable<WarehouseInterface[]>;
 
-    constructor(private afs: AngularFirestore, private popup:MessagesService) {
+    constructor(private afs: AngularFirestore, private popup: MessagesService) {
         this.initCollection();
     }
 
@@ -49,6 +49,15 @@ export class AfWarehouseService {
 
     list(): Observable<WarehouseInterface[]> {
         return this.warehouseList;
+    }
+
+    onWarehouse() {
+        return this.afs.collection<WarehouseInterface>('warehouses', ref => ref.where('status', '==', true))
+            .snapshotChanges().pipe(map(res => res.map(item => {
+                    let data = item.payload.doc.data() as WarehouseInterface;
+                    let id = item.payload.doc.id
+                    return { id, ...data };
+                })))
     }
 
     private error(value: string) {

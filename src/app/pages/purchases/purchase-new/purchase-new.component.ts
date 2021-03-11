@@ -1,8 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { BillInterface } from '@models/bill.interface';
 import { ProductInterface } from 'src/app/models/product.interface';
 import { ProviderInterface } from '@models/provider.interface';
 import { WarehouseInterface } from '@models/warehouse.interface';
+import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.service';
+import { afAuthService } from '@auth/services/afAuth.service';
+import { AfProviderService } from '@pages/providers/services/afProvider.service';
 
 @Component({
   selector: 'purchase-new',
@@ -10,81 +14,52 @@ import { WarehouseInterface } from '@models/warehouse.interface';
 })
 export class PurchaseNewComponent implements OnDestroy {
 
-  change:boolean = true;
-  
-  objDate:Date = new Date();
-  day:string = (this.objDate.getDate() < 10)? `0${ this.objDate.getDate() }` : this.objDate.getDate().toString();
-  month:string = (this.objDate.getMonth() < 10)? `0${ this.objDate.getMonth() + 1 }` : this.objDate.getMonth().toString();
-  date:string = `${ this.objDate.getFullYear()}-${ this.month }-${ this.day }`;
+  private sub$: Subscription[] = [];
+  change: boolean = true;
 
-  /* Producto que se pasara al compoente hijo */
-  product:ProductInterface;
+  product: ProductInterface;
+  providerList: ProviderInterface[] = [];
+  warehouseList: WarehouseInterface[] = [];
 
-  /* Lista de Provedores */
-  providerList:ProviderInterface[] = [
-    {
-      id: 'A1',
-      name: 'Proveedor 1',
-    },
-    {
-      id: 'A2',
-      name: 'Proveedor 2',
-    },
-    {
-      id: 'A3',
-      name: 'Proveedor 3',
-    }
-  ]
-
-  /* Lista de Sucursales activas */
-  warehouseList:WarehouseInterface[] = [
-    {
-      id: 'A',
-      name: 'Sucursal 1',
-      phone: 2345567,
-      status: true
-    },
-    {
-      id: 'B',
-      name: 'Sucursal 2',
-      phone: 2345567,
-      status: true
-    },
-    {
-      id: 'C',
-      name: 'Sucursal 3',
-      phone: 2345567,
-      status: true
-    }
-  ];
-
-  /* Encabezado de la factura */
-  headBill:BillInterface = {
-    user: 'Jerson', //USUARIO LOGUEADO
-    date: this.date,
+  headBill: BillInterface = {
+    user: '',
+    date: this.getDate(),
     warehouse: '',
     provider: '',
     tax: 0,
     subTotal: 0
   }
-  
-  constructor() { 
+
+  constructor(private afAuth:afAuthService, private afWarehouse: AfWarehouseService, private afProvider:AfProviderService) {
     document.getElementById('a-purchase').classList.toggle('active');
+    this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
+    this.sub$.push(this.afWarehouse.onWarehouse().subscribe(list => this.warehouseList = list));
+    this.sub$.push(this.afProvider.list().subscribe(list => this.providerList = list));
   }
 
   ngOnDestroy() {
     document.getElementById('a-purchase').classList.toggle('active');
+    this.sub$.forEach(item => item.unsubscribe());
   }
 
-  updateDate(value:string) {
+
+  getDate(): string {
+    let objDate: Date = new Date();
+    let day: string = (objDate.getDate() < 10) ? `0${objDate.getDate()}` : objDate.getDate().toString();
+    let month: string = (objDate.getMonth() < 10) ? `0${objDate.getMonth() + 1}` : objDate.getMonth().toString();
+    return `${objDate.getFullYear()}-${month}-${day}`;
+  }
+
+  /*** Listenner change option ***/
+  updateDate(value: string) {
     this.headBill.date = value;
   }
 
-  updateProvider(value:string) {
+  updateProvider(value: string) {
     this.headBill.provider = value;
   }
 
-  updateWarehouse(value:string) {
+  updateWarehouse(value: string) {
     this.headBill.warehouse = value;
   }
 }
