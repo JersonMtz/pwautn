@@ -28,7 +28,7 @@
                         <span *ngIf="!product.status" class="badge badge-danger badge-pill">No</span>
                     </td>
                     <td>{{ product.stock }}</td>
-                    <td>{{ product.price| currency:'₡' }}</td>
+                    <td>₡{{ product.price| currency:' ' }}</td>
                     <td *ngIf="afAuth.user$ | async as admin" style="border-left: solid 2px #E9ECEF;">
                         <div *ngIf="admin.role; else notAdmin">
                             <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1"

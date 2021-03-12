@@ -5,6 +5,7 @@ import { TaxInterface } from '@models/tax.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfTaxService } from '@pages/taxes/services/afTax.service';
 import { Subscription } from 'rxjs';
+import { AfInventoryService } from '../services/afInventory.service';
 
 @Component({
   selector: 'bill-check',
@@ -20,7 +21,9 @@ export class BillCheckComponent implements OnChanges, OnDestroy {
   taxList: TaxInterface[] = [];
   listProduct: ProductInterface[] = [];
 
-  constructor(private afTax: AfTaxService, private popup: MessagesService) {
+  constructor(private afTax: AfTaxService,
+    private afInventary: AfInventoryService,
+    private popup: MessagesService) {
     this.sub$ = this.afTax.onTaxes().subscribe(list => this.taxList = list);
   }
 
@@ -74,11 +77,6 @@ export class BillCheckComponent implements OnChanges, OnDestroy {
     this.bill.subTotal = result;
   }
 
-  onSave() {
-    this.bill.products = this.listProduct;
-    console.log(this.bill);
-  }
-
   onChangeTax(value: number) {
     this.bill.tax = Number(value);
     this.calculeSubTotal();
@@ -98,6 +96,23 @@ export class BillCheckComponent implements OnChanges, OnDestroy {
       }
     }
     return false;
+  }
+
+  onSave() {
+    if (this.billValid()) {
+      this.popup.smsConfirm('Atención', '¿Desea formalizar el pedido?').then(res => {
+        if (res.isConfirmed) {
+          this.bill.products = this.listProduct;
+          if (this.bill.client) {
+            console.log('GUARDAR EN SALES');
+            this.afInventary.addSale(this.bill);
+          } else {
+            console.log('GUARDAR EN PURCHASE');
+            this.afInventary.addPurchase(this.bill);
+          }
+        }
+      })
+    }
   }
 
 }

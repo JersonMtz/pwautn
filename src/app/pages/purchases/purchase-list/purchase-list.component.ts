@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BillInterface } from '@models/bill.interface';
+import { AfInventoryService } from '@pages/components/services/afInventory.service';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'purchase-list',
@@ -7,39 +9,27 @@ import { BillInterface } from '@models/bill.interface';
 })
 export class PurchaseListComponent implements OnDestroy {
 
-  purchaseLIst:BillInterface[] = [
-    {
-      id: 'A1',
-      user: 'User 1',
-      date: 0,
-      provider: 'Proveedor 1',
-      tax: 10,
-      subTotal: 3000
-    },
-    {
-      id: 'B2',
-      user: 'User 2',
-      date: 0,
-      provider: 'Proveedor 2',
-      tax: 13,
-      subTotal: 3002
-    },
-    {
-      id: 'C3',
-      user: 'User 2',
-      date: 0,
-      provider: 'Proveedor 3',
-      tax: 13,
-      subTotal: 3003
-    }
-  ]
+  billView:BillInterface = {
+    date: 0,
+    warehouse: '',
+    provider: '',
+    status: false,
+    tax: 0,
+    subTotal: 0,
+    products: []
+  }
 
-  constructor() { 
+  constructor(public afPurchase: AfInventoryService, private popup:MessagesService) {
     document.getElementById('a-purchase').classList.toggle('active');
+    this.afPurchase.collectionPurchase();
   }
 
   ngOnDestroy() {
     document.getElementById('a-purchase').classList.toggle('active');
+  }
+
+  showBill(bill :BillInterface) {
+    this.billView = bill;
   }
 
 }

@@ -7,6 +7,7 @@ import { WarehouseInterface } from '@models/warehouse.interface';
 import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.service';
 import { afAuthService } from '@auth/services/afAuth.service';
 import { AfProviderService } from '@pages/providers/services/afProvider.service';
+import { AfInventoryService } from '../../components/services/afInventory.service';
 
 @Component({
   selector: 'purchase-new',
@@ -30,7 +31,9 @@ export class PurchaseNewComponent implements OnDestroy {
     subTotal: 0
   }
 
-  constructor(private afAuth: afAuthService, private afWarehouse: AfWarehouseService, private afProvider: AfProviderService) {
+  constructor(private afAuth: afAuthService,
+    private afWarehouse: AfWarehouseService,
+    private afProvider: AfProviderService) {
     document.getElementById('a-purchase').classList.toggle('active');
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
     this.sub$.push(this.afWarehouse.onWarehouse().subscribe(list => this.warehouseList = list));
@@ -44,7 +47,7 @@ export class PurchaseNewComponent implements OnDestroy {
 
   /*** Listenner change option ***/
   updateDate(value: string) {
-    let date = new Date(value).getTime()+21600000+(new Date().getHours()*3600000)+(new Date().getMinutes()*60000)+(new Date().getSeconds()*1000);        
+    let date = new Date(value).getTime() + 21600000 + (new Date().getHours() * 3600000) + (new Date().getMinutes() * 60000) + (new Date().getSeconds() * 1000);
     this.headBill.date = date;
   }
 

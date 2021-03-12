@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProductInterface } from '@models/product.interface';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Observable, Subscription } from 'rxjs';
 import { MessagesService } from '@shared/services/messages.service';
-import { map } from 'rxjs/operators';
+import { map, finalize, first } from 'rxjs/operators';
 import { AfUploadService } from '@shared/services/afUpload.service';
 
 @Injectable({
@@ -12,9 +12,10 @@ import { AfUploadService } from '@shared/services/afUpload.service';
 export class AfProductService {
 
   private productCollection: AngularFirestoreCollection<ProductInterface>;
+  private productDoc: AngularFirestoreDocument<ProductInterface>;
   private productList: Observable<ProductInterface[]>;
-
   private product: ProductInterface;
+  private sub$: Subscription;
 
   constructor(private afs: AngularFirestore, private file: AfUploadService, private popup: MessagesService) {
     this.initCollection();
@@ -47,6 +48,33 @@ export class AfProductService {
     this.productCollection.doc(id).update(data).then(() => {
       this.popup.notification('success', `<span class="text-white">Se actualizo el producto ${data.name} con éxito</span>`, '#52B256');
     }).catch(this.error);
+  }
+
+  updateStock(products: ProductInterface[], sale: boolean = false) {
+    products.forEach(item => {
+      this.sub$ = this.getProductStock(item.id).pipe(first()).subscribe(res => {
+        let stock:number = sale? res.stock - item.amount : res.stock + item.amount;
+        this.newStock(res.id, stock);
+      });
+    });
+  }
+
+  private newStock(id:string, stock:number) { 
+    this.productCollection.doc(id).update({ stock })
+    .then(() => console.log(`STOCK PRODUCTO ${ id } SE ACTUALIZO`)).catch(console.log);
+  }
+
+  private getProductStock(id: string) {
+    this.productDoc = this.afs.doc<ProductInterface>(`products/${id}`);
+    return this.productDoc.snapshotChanges().pipe(map(res => {
+      if (res.payload.exists === false) {
+        return null;
+      } else {
+        let data = res.payload.data() as ProductInterface;
+        data.id = res.payload.id;
+        return data;
+      }
+    }));
   }
 
   updatePhoto(id: string) {

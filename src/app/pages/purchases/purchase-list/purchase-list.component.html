@@ -1,24 +1,24 @@
 <div class="animate__animated animate__fadeIn">
     <h3>Listado de Compras <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm">Nueva</a></h3>
-    <div class="table-responsive">
+    <div class="table-responsive" *ngIf="afPurchase.listPurchase() | async as list">
         <table class="table bg-white">
             <thead class="thead-dark">
                 <tr>
                     <th>Factura N°</th>
-                    <th>Cliente</th>
+                    <th>Proveedor</th>
                     <th>Fecha</th>
-                    <th>Vendedor</th>
+                    <th>Administrador</th>
                     <th>Total</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let purchase of purchaseLIst">
-                    <th>0000000000000</th>
+                <tr *ngFor="let purchase of list">
+                    <th>{{ purchase.date }}</th>
                     <td>{{ purchase.provider }}</td>
-                    <td>{{ purchase.date }}</td>
+                    <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
                     <td>{{ purchase.user }}</td>
-                    <td>₡ {{ purchase.subTotal + (purchase.subTotal * (purchase.tax / 100)) }}</td>
+                    <td>₡ {{ purchase.subTotal + (purchase.subTotal * (purchase.tax / 100)) | currency:' ' }}</td>
                     <td>
                         <div class="btn-group dropleft">
                             <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
@@ -28,7 +28,8 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <div class="dropdown-divider mb-0"></div>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
+                                    data-target="#showPurchase">
                                     <i class="fas fa-eye"></i> Visualizar</a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-pencil-alt"></i> Editar
@@ -43,5 +44,54 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button> -->
+
+<div class="modal fade" id="showPurchase" tabindex="-1" role="dialog" aria-labelledby="showPurchaseLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showPurchaseLabel">N° {{ billView.date }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Fecha: {{ billView.date | date:'dd MMMM YYYY h:mm a' }}</li>
+                    <li>Sucursal: {{ billView.warehouse }}</li>
+                    <li>Proveedor: {{ billView.provider }}</li>
+                </ul>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>₡ Costo Unitario</th>
+                            <th>₡ Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>
