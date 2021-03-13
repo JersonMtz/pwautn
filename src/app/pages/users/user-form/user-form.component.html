@@ -33,7 +33,7 @@
                 <h2 class="text-center text-warning">{{ user.name+ ' ' + user.surname }}</h2>
                 <ul>
                     <li><b>Correo: </b>{{ user.mail }} </li>
-                    <li><b>Creado: </b>{{ user.created }} </li>
+                    <li><b>Creado: </b>{{ user.created | date:'dd MMMM YYYY' }} </li>
                 </ul>
                 <br><br>
                 <hr class="text-center w-75 pt-3">

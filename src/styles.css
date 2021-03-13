@@ -3,6 +3,11 @@ body {
     width: 100%;
 }
 
+.sidebar .nav .nav-link,
+body>.navbar-collapse .nav li .nav-link  {
+    border-left: solid 3px transparent;
+}
+
 ul#tab.nav li.nav-item a.nav-link[aria-expanded="false"], ul#tab.nav li.nav-item a.nav-link {
     color: #868E96;
 }

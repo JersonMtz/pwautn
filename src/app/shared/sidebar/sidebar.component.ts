@@ -10,7 +10,7 @@ export class SidebarComponent {
 
   avatar: string;
   private sub$: Subscription;
-  constructor(private afAuth: afAuthService) {
+  constructor(public afAuth: afAuthService) {
     this.sub$ = this.afAuth.user$.subscribe(user => this.avatar = user ? user.photo.url : '');
   }
 

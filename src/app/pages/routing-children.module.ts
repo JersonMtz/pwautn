@@ -24,6 +24,7 @@ import { ExitPurchaseService } from './purchases/services/exit-purchase.service'
 import { ExitUserService } from './users/services/exit-user.service';
 import { ExitProfileService } from './profile/services/exit-profile.service';
 import { ExitSaleService } from './sales/services/exit-sale.service';
+import { RoleGuard } from '../guards/role.guard';
 
 const childreRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -31,17 +32,17 @@ const childreRoutes: Routes = [
     /* CLIENTS VIEW */
     { path: 'clients', component: ClientListComponent},
     /* CATEGORY VIEW */
-    { path: 'categories', component: CategoryListComponent },
+    { path: 'categories', component: CategoryListComponent, canActivate: [RoleGuard] },
     /* PURCHASE VIEW */
-    { path: 'purchases', component: PurchaseListComponent },
-    { path: 'purchases/new', component: PurchaseNewComponent, canDeactivate: [ExitPurchaseService]},
+    { path: 'purchases', component: PurchaseListComponent, canActivate: [RoleGuard] },
+    { path: 'purchases/new', component: PurchaseNewComponent, canDeactivate: [ExitPurchaseService], canActivate: [RoleGuard]},
     /* PRODUCTS VIEW */
     { path: 'products', component: ProductListComponent },
     { path: 'products/edit', component: ProductFormComponent, canDeactivate: [ExitProductService]},
-    { path: 'products/add', component: ProductFormComponent, canDeactivate: [ExitProductService]},
+    { path: 'products/add', component: ProductFormComponent, canDeactivate: [ExitProductService],  canActivate: [RoleGuard]},
     /* SALES VIEW */
     { path: 'sales', component: SaleListComponent },
-    { path: 'sales/new', component: SaleNewComponent, canDeactivate: [ExitSaleService] },
+    { path: 'sales/new', component: SaleNewComponent, canDeactivate: [ExitSaleService]},
     /* USERS VIEW */
     { path: 'users', component: UserListComponent },
     { path: 'users/edit', component: UserFormComponent, canDeactivate: [ExitUserService]},

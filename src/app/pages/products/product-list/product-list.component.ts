@@ -5,7 +5,7 @@ import { BreadcrumbInterface } from '@models/breadcrumb.interface';
 import { ProductInterface } from '@models/product.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
-import { afAuthService } from '../../../auth/services/afAuth.service';
+import { afAuthService } from '@auth/services/afAuth.service';
 
 @Component({
   selector: 'product-list',
@@ -26,7 +26,8 @@ export class ProductListComponent implements OnDestroy {
   ];
 
   productList: ProductInterface[] = [];
-  private subscription$: Subscription;
+  private sub$: Subscription[] = [];
+  admin:boolean = false;
 
   constructor(public afAuth:afAuthService,
     private sms: MessagesService,
@@ -34,12 +35,13 @@ export class ProductListComponent implements OnDestroy {
     private router: Router) {
     sms.showAlert();
     document.getElementById('a-product').classList.toggle('active');
-    this.subscription$ = this.afProduct.list().subscribe(list => this.productList = list);
+    this.sub$.push(this.afProduct.list().subscribe(list => this.productList = list));
+    this.sub$.push(this.afAuth.user$.subscribe(user => this.admin = user.role));
   }
 
   ngOnDestroy() {
     document.getElementById('a-product').classList.toggle('active');
-    this.subscription$.unsubscribe();
+    this.sub$.forEach(item => item.unsubscribe());
   }
 
   editProduct(product: ProductInterface) {

@@ -3,7 +3,7 @@
         <div class="logo">
             <a class="simple-text">GESTIÓN DE INVENTARIO</a>
         </div>
-        <ul class="nav">
+        <ul class="nav" *ngIf="afAuth.user$ | async as admin">
             <li class="nav-item text-center mb-3 d-none d-lg-block">
                 <span class="text-muted">
                     <i class="fas fa-ellipsis-v"></i> Menú
@@ -36,7 +36,7 @@
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="admin.role">
                 <a class="nav-link" data-toggle="collapse" href="#buySubmenu" aria-expanded="false"
                     aria-controls="buySubmenu" id="a-purchase">
                     <i class="fas fa-dolly"></i> Compras <i class="fas fa-angle-down float-right mt-2"></i>
@@ -67,13 +67,13 @@
                     <i class="fas fa-cubes"></i> Productos <i class="fas fa-angle-down float-right mt-2"></i>
                 </a>
                 <ul class="collapse list-unstyled animate__animated animate__fadeInUp" id="productSubmenu">
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="admin.role">
                         <a class="nav-link" [routerLink]="['/dashboard/products/add']" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-cube pl-2"></i> Nuevo producto
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="admin.role">
                         <a class="nav-link" [routerLink]="['/dashboard/categories']" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }">
                             <i class="fas fa-tags pl-2"></i> Categorias
@@ -87,7 +87,6 @@
                     </li>
                 </ul>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#saleSubmenu" aria-expanded="false"
                     aria-controls="saleSubmenu" id="a-sale">

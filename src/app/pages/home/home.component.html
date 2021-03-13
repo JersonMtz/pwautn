@@ -19,18 +19,11 @@
         <section class="row">
             <article class="col-md-4 text-center mb-4">
                 <h3>
-                    <span *ngIf="user.role" class=" p-2 rounded alert-warning">Facturar Venta</span>
-                    <span *ngIf="!user.role" class="p-2 rounded alert-warning">Lista de Ventas</span>
+                    <span class=" p-2 rounded alert-warning">Facturar Venta</span>
                 </h3>
                 <img class="rounded-circle w-50 border" src="../../../assets/img/sale.png" alt="sales">
                 <br>
-                <div *ngIf="user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales/new')">
-                    <div class="visible content">Ir</div>
-                    <div class="hidden content">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </div>
-                <div *ngIf="!user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales')">
+                <div class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales/new')">
                     <div class="visible content">Ir</div>
                     <div class="hidden content">
                         <i class="fas fa-arrow-right"></i>
@@ -60,9 +53,10 @@
             <article class="col-md-4 text-center mb-4">
                 <h3>
                     <span *ngIf="user.role" class=" p-2 rounded alert-warning">Realizar Pedido</span>
-                    <span *ngIf="!user.role" class=" p-2 rounded alert-warning">Lista de compras</span>
+                    <span *ngIf="!user.role" class=" p-2 rounded alert-warning">Lista de ventas</span>
                 </h3>
-                <img class="rounded-circle w-50 border" src="../../../assets/img/purchase.png" alt="purchases">
+                <img *ngIf="user.role" class="rounded-circle w-50 border" src="../../../assets/img/purchase.png" alt="purchases">
+                <img *ngIf="!user.role" class="rounded-circle w-50 border" src="../../../assets/img/enrollment.png" alt="purchases">
                 <br>
                 <div *ngIf="user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/purchases/new')">
                     <div class="visible content">Ir</div>
@@ -70,7 +64,7 @@
                         <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
-                <div *ngIf="!user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/purchases')">
+                <div *ngIf="!user.role" class="ui animated button violet" tabindex="0" (click)="outPath('/dashboard/sales')">
                     <div class="visible content">Ir</div>
                     <div class="hidden content">
                         <i class="fas fa-arrow-right"></i>
