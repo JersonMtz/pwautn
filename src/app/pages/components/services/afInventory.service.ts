@@ -16,12 +16,12 @@ export class AfInventoryService {
   private purchasesList: Observable<BillInterface[]>;
   private salesList: Observable<BillInterface[]>;
 
-  constructor(private afs: AngularFirestore, 
+  constructor(private afs: AngularFirestore,
     private afProduct: AfProductService,
     private popup: MessagesService) { }
 
   collectionPurchase() {
-    this.purchasesCollection = this.afs.collection<BillInterface>('purchases', ref => ref.orderBy('date','desc'));
+    this.purchasesCollection = this.afs.collection<BillInterface>('purchases', ref => ref.orderBy('date', 'desc'));
     this.purchasesList = this.purchasesCollection.snapshotChanges().pipe(
       map(res => res.map(item => {
         let id = item.payload.doc.id;
@@ -31,7 +31,7 @@ export class AfInventoryService {
   }
 
   collectionSale() {
-    this.salesCollection = this.afs.collection<BillInterface>('sales', ref => ref.orderBy('date','desc'));
+    this.salesCollection = this.afs.collection<BillInterface>('sales', ref => ref.orderBy('date', 'desc'));
     this.salesList = this.salesCollection.snapshotChanges().pipe(
       map(res => res.map(item => {
         let id = item.payload.doc.id;
@@ -52,7 +52,9 @@ export class AfInventoryService {
     this.purchasesCollection = this.afs.collection<BillInterface>('purchases');
     this.purchasesCollection.add(bill).then(() => {
       this.popup.notification('success', '<span class="text-white">Pedido registrado con éxito</span>', '#52B256');
-      this.afProduct.updateStock(bill.products);
+      if (bill.status) {
+        this.afProduct.updateStock(bill.products);
+      }
     }).catch(this.error);
   }
 
@@ -66,9 +68,21 @@ export class AfInventoryService {
 
   deletePurchase(bill: BillInterface) {
     this.afs.collection<BillInterface>('purchases').doc(bill.id).delete().then(() => {
-        this.popup.notification('success', '<span class="text-white">Se elimino el registro con éxito</span>', '#52B256');
+      this.popup.notification('success', '<span class="text-white">Se elimino el registro con éxito</span>', '#52B256');
     }).catch(this.error);
-}
+  }
+
+  deleteSale(bill: BillInterface) {
+    this.afs.collection<BillInterface>('sales').doc(bill.id).delete().then(() => {
+      this.popup.notification('success', '<span class="text-white">Se elimino el registro con éxito</span>', '#52B256');
+    }).catch(this.error);
+  }
+
+  updatePurchase(id: string, value: boolean) {
+    this.afs.collection<BillInterface>('purchases').doc(id).update({ status: value }).then(() => {
+      this.popup.notification('success', '<span class="text-white">Estado del pedido actualizado</span>', '#52B256');
+    }).catch(this.error);
+  }
 
   private error(value: string) {
     this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${value}</span>`, '#E6242B');

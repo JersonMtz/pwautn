@@ -14,7 +14,7 @@ import { AfInventoryService } from '@pages/components/services/afInventory.servi
 })
 export class BillCheckComponent implements OnChanges, OnDestroy {
 
-  sub$: Subscription;
+  private sub$: Subscription;
   @Input('head') bill: BillInterface = {};
   @Input('add') product: ProductInterface;
   @Output() delete: EventEmitter<ProductInterface> = new EventEmitter();

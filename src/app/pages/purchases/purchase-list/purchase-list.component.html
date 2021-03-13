@@ -20,13 +20,15 @@
                         <tr *ngFor="let purchase of list">
                             <th>{{ purchase.date }}</th>
                             <th>
-                                <span *ngIf="purchase.status" class="badge badge-success badge-pill">Procesado</span>
-                                <span *ngIf="!purchase.status" class="badge badge-warning badge-pill">Pendidente</span>
+                                <i rel="tooltip" title="Pedido procesado" *ngIf="purchase.status"
+                                    class="fas fa-check text-success"></i>
+                                <i rel="tooltip" title="Pedido pendiente" *ngIf="!purchase.status"
+                                    class="fas fa-exclamation-circle text-secondary"></i>
                             </th>
                             <td>{{ purchase.provider }}</td>
                             <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
                             <td>{{ purchase.user }}</td>
-                            <td>₡{{ purchase.subTotal + (purchase.subTotal * (purchase.tax / 100)) | currency:' ' }}
+                            <td>₡{{ calculeTotal(purchase.subTotal, purchase.tax) | currency:' ' }}
                             </td>
                             <td>
                                 <div class="btn-group dropleft">
@@ -38,11 +40,8 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-divider mb-0"></div>
                                         <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
-                                            data-target="#showPurchase">
+                                            data-target="#showPurchase" style="cursor: pointer;">
                                             <i class="fas fa-eye"></i> Visualizar</a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="fas fa-pencil-alt"></i> Editar
-                                        </a>
                                         <a class="dropdown-item" (click)="deleteBill(purchase)"
                                             style="cursor: pointer;">
                                             <i class="fas fa-trash-alt"></i> Eliminar
@@ -74,60 +73,86 @@
 </div>
 <div class="modal fade" id="showPurchase" tabindex="-1" role="dialog" aria-labelledby="showPurchaseLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="showPurchaseLabel">Factura N° {{ billView.date }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="close" data-dismiss="modal" aria-label="Close" (click)="form.reset()" style="cursor: pointer;">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </span>
             </div>
             <div class="modal-body">
-                <h5 class="text-center mb-4">
-                    <span *ngIf="billView.status" class="alert-success p-2 rounded">Pedido procesado</span>
-                    <span *ngIf="!billView.status" class="alert-warning p-2 rounded">Pedido pendiente</span>
-                </h5>
                 <section class="row">
                     <article class="col-md-6">
-                        <b>Fecha:</b> {{ billView.date | date:'dd MMMM YYYY' }}
+                        <h4 class=" mb-4">{{ billView.warehouse }}</h4>
                     </article>
                     <article class="col-md-6">
-                        <b>Hora:</b> {{ billView.date | date:'h:mm a' }}
+                        <h4 class=" mb-4" [innerHTML]="message()"></h4>
                     </article>
                 </section>
                 <section class="row">
-                    <article class="col-md-6">
-                        <b>Sucursal:</b> {{ billView.warehouse }}
-                    </article>
-                    <article class="col-md-6">
+                    <article class="col-md-6 my-3">
+                        <b>Fecha:</b> {{ billView.date | date:'dd MMMM YYYY' }} <br>
+                        <b>Hora:</b> {{ billView.date | date:'h:mm a' }} <br>
                         <b>Proveedor:</b> {{ billView.provider }}
                     </article>
+                    <article class="col-md-6 my-3">
+                        <ul>
+                            <li><b>Sub Total:</b> ₡{{ billView.subTotal | currency:' ' }}</li>
+                            <li><b>I.V:</b> {{ billView.tax }}%</li>
+                            <li><b>Total:</b> ₡{{ calculeTotal(billView.subTotal, billView.tax) | currency:' ' }}</li>
+                        </ul>
+                    </article>
+                </section>
+                <section *ngIf="afAuth.user$ | async as admin">
+                    <div *ngIf="admin.role && !billView.status" class="row">
+                        <article class="form-group col-md-7">
+                            <form [formGroup]="form">
+                                <article class="form-group">
+                                    <select class="form-control" aria-label="Small" formControlName="status">
+                                        <option [ngValue]=false>Pendiente</option>
+                                        <option [ngValue]=true>Procesado</option>
+                                    </select>
+                                </article>
+                            </form>
+                        </article>
+                        <article class="col-md-5">
+                            <button class="btn btn-primary btn-block btn-sm my-auto" [disabled]="!form.dirty"
+                                (click)="updateBill()">
+                                <i class="fas fa-check-circle"></i> Actualizar
+                            </button>
+                        </article>
+                    </div>
                 </section>
                 <br>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>₡ Costo Unitario</th>
-                            <th>₡ Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let product of billView.products">
-                            <th>{{ product.code }}</th>
-                            <th>{{ product.name }}</th>
-                            <th class="text-center">{{ product.amount }}</th>
-                            <th>₡{{ product.price | currency:' ' }}</th>
-                            <th>₡{{ product.total | currency:' ' }}</th>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of billView.products">
+                                <th class="text-center">{{ product.amount }}</th>
+                                <th>{{ product.name }}</th>
+                                <th>₡{{ product.price | currency:' ' }}</th>
+                                <th>₡{{ product.total | currency:' ' }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="form.reset()">
+                    <i class="fas fa-ban"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-info">
+                    <i class="fas fa-file-pdf"></i> Exportar pdf
+                </button>
             </div>
         </div>
     </div>

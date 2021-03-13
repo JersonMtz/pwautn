@@ -47,7 +47,6 @@ export class SaleNewComponent implements OnDestroy {
     this.headBill.client = `${cliente.name} ${cliente.surname}`;
   }
 
-  /*TODO: implementar NGMODEL */
   dateInit(value:number) {
     this.headBill.date = value;
     this.dateNow = value;
