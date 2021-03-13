@@ -19,7 +19,6 @@ export class PurchaseNewComponent implements OnDestroy {
   private sub$: Subscription[] = [];
   @ViewChild('date_bill', { static: true }) dateHTML: ElementRef;
   change: boolean = true;
-  enable: boolean = true;
   product: ProductInterface;
   providerList: ProviderInterface[] = [];
   warehouseList: WarehouseInterface[] = [];

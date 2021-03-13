@@ -3,7 +3,7 @@ import { ProductInterface } from '@models/product.interface';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, Subscription } from 'rxjs';
 import { MessagesService } from '@shared/services/messages.service';
-import { map, finalize, first } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 import { AfUploadService } from '@shared/services/afUpload.service';
 
 @Injectable({
@@ -54,8 +54,22 @@ export class AfProductService {
   updateStock(products: ProductInterface[], sale: boolean = false) {
     products.forEach(item => {
       this.sub$ = this.getProductStock(item.id).pipe(first()).subscribe(res => {
-        let stock: number = sale ? res.stock - item.amount : res.stock + item.amount;
-        this.productCollection.doc(res.id).update({ stock }).catch(console.log);
+        let stock: number = 0;
+        if (sale) {
+          stock = res.stock - item.amount;
+          if (stock === 0) {
+            this.productCollection.doc(res.id).update({ status: false, stock }).catch(console.log);
+          } else {
+            this.productCollection.doc(res.id).update({ stock }).catch(console.log);
+          }
+        } else {
+          stock = res.stock + item.amount;
+          if (res.stock === 0) {
+            this.productCollection.doc(res.id).update({ status: true, stock }).catch(console.log);
+          } else {
+            this.productCollection.doc(res.id).update({ stock }).catch(console.log);
+          }
+        }
       });
     });
   }

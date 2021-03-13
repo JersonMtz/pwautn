@@ -20,7 +20,7 @@
                             <td>{{ sale.client }}</td>
                             <td>{{ sale.date | date:'dd MMMM YYYY' }}</td>
                             <td>{{ sale.user }}</td>
-                            <td>₡{{total(sale) | currency:' ' }}</td>
+                            <td>₡{{ total(sale) | currency:' ' }}</td>
                             <td>
                                 <div class="btn-group dropleft">
                                     <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
@@ -28,17 +28,22 @@
                                         title="Despliega el menú de opciones dando clic">
                                         <i class="fas fa-chevron-circle-down"></i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                        *ngIf="afAuth.user$ | async as admin">
                                         <div class="dropdown-divider mb-0"></div>
-                                        <a class="dropdown-item" data-toggle="modal" data-target="#showSale"
-                                            style="cursor: pointer;" (click)="showBill(sale)">
+                                        <a class="dropdown-item" (click)="showBill(sale)" data-toggle="modal"
+                                            data-target="#showSale" style="cursor: pointer;">
                                             <i class="fas fa-eye"></i> Visualizar</a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="fas fa-pencil-alt"></i> Editar
-                                        </a>
-                                        <a class="dropdown-item" href="#">
+                                        <a *ngIf="admin.role; else notAdmin" class="dropdown-item"
+                                            (click)="deleteBill(sale)" style="cursor: pointer;">
                                             <i class="fas fa-trash-alt"></i> Eliminar
                                         </a>
+                                        <ng-template #notAdmin>
+                                            <a class="dropdown-item" style="cursor: pointer;" rel="tooltip"
+                                                title="Inicia sesión en una cuenta administrador">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </a>
+                                        </ng-template>
                                         <div class="dropdown-divider mt-0"></div>
                                     </div>
                                 </div>
@@ -64,47 +69,59 @@
         </div>
     </ng-template>
 </div>
-<div class="modal fade" id="showSale" tabindex="-1" role="dialog" aria-labelledby="showPurchaseLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="showSale" tabindex="-1" role="dialog" aria-labelledby="showSaleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="showPurchaseLabel">N° {{ billView.date }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="showSaleLabel">Factura N° {{ billView.date }}</h5>
+                <span class="close" data-dismiss="modal" aria-label="Close" style="cursor: pointer;">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </span>
             </div>
             <div class="modal-body">
-                <ul>
-                    <li>Fecha: {{ billView.date | date:'dd MMMM YYYY h:mm a' }}</li>
-                    <li>Hora: {{ billView.date | date:'hh:mm a' }}</li>
-                    <li>Cliente: {{ billView.client }}</li>
-                    <li>Total: ₡{{total(billView) | currency:' ' }}</li>
-                </ul>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>₡ Costo Unitario</th>
-                            <th>₡ Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </tbody>
-                </table>
+                <section class="row">
+                    <article class="col-md-6 my-3">
+                        <b>Cliente: </b> {{ billView.client }} <br>
+                        <b>Fecha: </b> {{ billView.date | date:'dd MMMM YYYY' }} <br>
+                        <b>Hora: </b> {{ billView.date | date:'h:mm a' }} <br>
+                    </article>
+                    <article class="col-md-6 my-3">
+                        <ul>
+                            <li><b>Sub Total:</b> ₡{{ billView.subTotal | currency:' ' }}</li>
+                            <li><b>I.V:</b> {{ billView.tax }}%</li>
+                            <li><b>Total:</b> ₡{{ calculeTotal(billView.subTotal, billView.tax) | currency:' ' }}</li>
+                        </ul>
+                    </article>
+                </section>
+                <br>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cant.</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of billView.products">
+                                <th>{{ product.amount }}</th>
+                                <th>{{ product.name }}</th>
+                                <th>₡{{ product.price | currency:' ' }}</th>
+                                <th>₡{{ product.total | currency:' ' }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-angle-double-left"></i> Atrás
+                </button>
+                <button type="button" class="btn btn-info">
+                    <i class="fas fa-file-pdf"></i> Exportar a PDF
+                </button>
             </div>
         </div>
     </div>

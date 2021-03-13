@@ -3,9 +3,8 @@ import { BillInterface } from '@models/bill.interface';
 import { AfInventoryService } from '@pages/components/services/afInventory.service';
 import { MessagesService } from '@shared/services/messages.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { afAuthService } from '../../../auth/services/afAuth.service';
-import { AfProductService } from '../../products/services/afProduct.service';
+import { afAuthService } from '@auth/services/afAuth.service';
+import { AfProductService } from '@pages/products/services/afProduct.service';
 
 @Component({
   selector: 'purchase-list',
@@ -74,6 +73,4 @@ export class PurchaseListComponent implements OnDestroy {
   calculeTotal(sub: number, tax: number): number {
     return sub + (sub * (tax / 100));
   }
-
-
 }

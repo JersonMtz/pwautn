@@ -37,15 +37,22 @@
                                         title="Despliega el menú de opciones dando clic">
                                         <i class="fas fa-chevron-circle-down"></i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                        *ngIf="afAuth.user$ | async as admin">
                                         <div class="dropdown-divider mb-0"></div>
                                         <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
                                             data-target="#showPurchase" style="cursor: pointer;">
                                             <i class="fas fa-eye"></i> Visualizar</a>
-                                        <a class="dropdown-item" (click)="deleteBill(purchase)"
-                                            style="cursor: pointer;">
+                                        <a *ngIf="admin.role; else notAdmin" class="dropdown-item"
+                                            (click)="deleteBill(purchase)" style="cursor: pointer;">
                                             <i class="fas fa-trash-alt"></i> Eliminar
                                         </a>
+                                        <ng-template #notAdmin>
+                                            <a class="dropdown-item" style="cursor: pointer;" rel="tooltip"
+                                                title="Inicia sesión en una cuenta administrador">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </a>
+                                        </ng-template>
                                         <div class="dropdown-divider mt-0"></div>
                                     </div>
                                 </div>
@@ -77,7 +84,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="showPurchaseLabel">Factura N° {{ billView.date }}</h5>
-                <span class="close" data-dismiss="modal" aria-label="Close" (click)="form.reset()" style="cursor: pointer;">
+                <span class="close" data-dismiss="modal" aria-label="Close" (click)="form.reset()"
+                    style="cursor: pointer;">
                     <span aria-hidden="true">&times;</span>
                 </span>
             </div>
@@ -129,15 +137,15 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>&nbsp;</th>
+                                <th>Cant.</th>
                                 <th>Descripción</th>
                                 <th>Precio</th>
-                                <th>Total</th>
+                                <th>Monto</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let product of billView.products">
-                                <th class="text-center">{{ product.amount }}</th>
+                                <th>{{ product.amount }}</th>
                                 <th>{{ product.name }}</th>
                                 <th>₡{{ product.price | currency:' ' }}</th>
                                 <th>₡{{ product.total | currency:' ' }}</th>
@@ -148,10 +156,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="form.reset()">
-                    <i class="fas fa-ban"></i> Cancelar
+                    <i class="fas fa-angle-double-left"></i> Atrás
                 </button>
                 <button type="button" class="btn btn-info">
-                    <i class="fas fa-file-pdf"></i> Exportar pdf
+                    <i class="fas fa-file-pdf"></i> Exportar a PDF
                 </button>
             </div>
         </div>

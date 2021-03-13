@@ -43,8 +43,7 @@
                                 Fecha <span class="text-danger">*</span>
                             </label>
                             <div class="form-group col-sm-9">
-                                <input type="date" class="form-control" #input_date
-                                    [value]="dateNow | date:'yyyy-MM-dd'" (change)="updateDate(input_date.value)">
+                                <input type="date" class="form-control" #date_bill (change)="updateDate(date_bill.value)">
                             </div>
                         </section>
                     </article>
@@ -65,8 +64,7 @@
                         </section>
                     </article>
                 </section>
-                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event"
-                    (date)="dateInit($event)"></bill-check>
+                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event" (success)="initBill()"></bill-check>
             </section>
         </div>
         <div class="tab-pane fade bg-white" [ngClass]="!change?'active show':''" id="productList" role="tabpanel"
