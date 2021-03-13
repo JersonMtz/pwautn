@@ -1,47 +1,111 @@
 <div class="animate__animated animate__fadeIn">
-    <h3>Listado de Ventas <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-sm">Nueva</a></h3>
-    <div class="table-responsive">
-        <table class="table bg-white">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Factura N°</th>
-                    <th>Cliente</th>
-                    <th>Fecha</th>
-                    <th>Vendedor</th>
-                    <th>Total</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let sale of saleList">
-                    <th>1732854231567</th>
-                    <td>{{ sale.client }}</td>
-                    <td>{{ sale.date }}</td>
-                    <td>{{ sale.user }}</td>
-                    <td>₡ {{ sale.subTotal + (sale.subTotal * (sale.tax / 100)) }}</td>
-                    <td>
-                        <div class="btn-group dropleft">
-                            <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip"
-                                title="Despliega el menú de opciones dando clic">
-                                <i class="fas fa-chevron-circle-down"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-divider mb-0"></div>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-eye"></i> Visualizar</a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-pencil-alt"></i> Editar
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                </a>
-                                <div class="dropdown-divider mt-0"></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <section *ngIf="afSale.listSale() | async as saleList" class="animate__animated animate__fadeIn">
+        <div *ngIf="saleList.length > 0; else empty">
+            <h3>Listado de Ventas <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-sm">Nueva</a></h3>
+            <div class="table-responsive">
+                <table class="table bg-white">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Factura N°</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Vendedor</th>
+                            <th>Total</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sale of saleList">
+                            <th>{{ sale.date }}</th>
+                            <td>{{ sale.client }}</td>
+                            <td>{{ sale.date | date:'dd MMMM YYYY' }}</td>
+                            <td>{{ sale.user }}</td>
+                            <td>₡{{total(sale) | currency:' ' }}</td>
+                            <td>
+                                <div class="btn-group dropleft">
+                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip"
+                                        title="Despliega el menú de opciones dando clic">
+                                        <i class="fas fa-chevron-circle-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-divider mb-0"></div>
+                                        <a class="dropdown-item" data-toggle="modal" data-target="#showSale"
+                                            style="cursor: pointer;" (click)="showBill(sale)">
+                                            <i class="fas fa-eye"></i> Visualizar</a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-pencil-alt"></i> Editar
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </a>
+                                        <div class="dropdown-divider mt-0"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <ng-template #empty>
+        <div class="animate__animated animate__fadeIn">
+            <h3>Lista de Ventas</h3>
+            <p class="lead mb-5 text-justify">
+                Haz una nueva venta o espera a que cargue la lista de ventas existente.
+            </p>
+            <div class="w-75 mx-auto">
+                <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-block">
+                    <i class="fas fa-cube"></i> Venta Nueva
+                </a>
+            </div>
+            <br><br><br>
+        </div>
+    </ng-template>
+</div>
+<div class="modal fade" id="showSale" tabindex="-1" role="dialog" aria-labelledby="showPurchaseLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showPurchaseLabel">N° {{ billView.date }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Fecha: {{ billView.date | date:'dd MMMM YYYY h:mm a' }}</li>
+                    <li>Hora: {{ billView.date | date:'hh:mm a' }}</li>
+                    <li>Cliente: {{ billView.client }}</li>
+                    <li>Total: ₡{{total(billView) | currency:' ' }}</li>
+                </ul>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>₡ Costo Unitario</th>
+                            <th>₡ Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>

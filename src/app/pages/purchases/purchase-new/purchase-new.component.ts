@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BillInterface } from '@models/bill.interface';
 import { ProductInterface } from '@models/product.interface';
@@ -7,23 +7,25 @@ import { WarehouseInterface } from '@models/warehouse.interface';
 import { AfWarehouseService } from '@pages/warehouses/services/afWarehouse.service';
 import { afAuthService } from '@auth/services/afAuth.service';
 import { AfProviderService } from '@pages/providers/services/afProvider.service';
-import { AfInventoryService } from '../../components/services/afInventory.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'purchase-new',
-  templateUrl: './purchase-new.component.html'
+  templateUrl: './purchase-new.component.html',
+  providers: [DatePipe]
 })
 export class PurchaseNewComponent implements OnDestroy {
 
   private sub$: Subscription[] = [];
+  @ViewChild('date_bill', { static: true }) dateHTML: ElementRef;
   change: boolean = true;
-  dateNow: number = Date.now();
+  enable: boolean = true;
   product: ProductInterface;
   providerList: ProviderInterface[] = [];
   warehouseList: WarehouseInterface[] = [];
   headBill: BillInterface = {
     user: '',
-    date: this.dateNow,
+    date: 0,
     status: false,
     warehouse: '',
     provider: '',
@@ -32,12 +34,17 @@ export class PurchaseNewComponent implements OnDestroy {
   }
 
   constructor(private afAuth: afAuthService,
+    private datepipe: DatePipe,
     private afWarehouse: AfWarehouseService,
     private afProvider: AfProviderService) {
     document.getElementById('a-purchase').classList.toggle('active');
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
     this.sub$.push(this.afWarehouse.onWarehouse().subscribe(list => this.warehouseList = list));
     this.sub$.push(this.afProvider.list().subscribe(list => this.providerList = list));
+  }
+
+  ngOnInit() {
+    this.initBill();
   }
 
   ngOnDestroy() {
@@ -47,7 +54,7 @@ export class PurchaseNewComponent implements OnDestroy {
 
   /*** Listenner change option ***/
   updateDate(value: string) {
-    let date = new Date(value).getTime() + 21600000 + (new Date().getHours() * 3600000) + (new Date().getMinutes() * 60000) + (new Date().getSeconds() * 1000);
+    let date = new Date(value).getTime() + 21600000 + (new Date().getHours() * 3600000) + (new Date().getMinutes() * 60000) + (new Date().getSeconds() * 1000)
     this.headBill.date = date;
   }
 
@@ -61,5 +68,12 @@ export class PurchaseNewComponent implements OnDestroy {
 
   updateStatus(value: boolean) {
     this.headBill.status = value;
+  }
+
+  initBill() {
+    this.dateHTML.nativeElement.value = this.datepipe.transform(Date.now(), 'yyyy-MM-dd');
+    this.headBill.date = Date.now();
+    this.headBill.tax = 0;
+    this.headBill.subTotal = 0;
   }
 }

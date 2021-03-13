@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ProductInterface } from '@models/product.interface';
 import { BillInterface } from '@models/bill.interface';
 import { TaxInterface } from '@models/tax.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfTaxService } from '@pages/taxes/services/afTax.service';
 import { Subscription } from 'rxjs';
-import { AfInventoryService } from '../services/afInventory.service';
+import { AfInventoryService } from '@pages/components/services/afInventory.service';
 
 @Component({
   selector: 'bill-check',
@@ -14,9 +15,10 @@ import { AfInventoryService } from '../services/afInventory.service';
 export class BillCheckComponent implements OnChanges, OnDestroy {
 
   sub$: Subscription;
-  @Input('head') bill: BillInterface;
+  @Input('head') bill: BillInterface = {};
   @Input('add') product: ProductInterface;
   @Output() delete: EventEmitter<ProductInterface> = new EventEmitter();
+  @Output() success: EventEmitter<boolean> = new EventEmitter();
 
   taxList: TaxInterface[] = [];
   listProduct: ProductInterface[] = [];
@@ -103,16 +105,21 @@ export class BillCheckComponent implements OnChanges, OnDestroy {
       this.popup.smsConfirm('Atención', '¿Desea formalizar el pedido?').then(res => {
         if (res.isConfirmed) {
           this.bill.products = this.listProduct;
-          if (this.bill.client) {
-            console.log('GUARDAR EN SALES');
-            this.afInventary.addSale(this.bill);
+          const data = JSON.parse(JSON.stringify(this.bill));
+          if (data.client) {
+            this.afInventary.addSale(data);
           } else {
-            console.log('GUARDAR EN PURCHASE');
-            this.afInventary.addPurchase(this.bill);
+            this.afInventary.addPurchase(data);
           }
+          this.newBill();
         }
       })
     }
   }
 
+  private newBill() {
+    this.listProduct.length = 0;
+    delete this.bill.products;
+    this.success.emit(true);
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BillInterface } from '@models/bill.interface';
+import { AfInventoryService } from '@pages/components/services/afInventory.service';
+import { MessagesService } from '@shared/services/messages.service';
 
 @Component({
   selector: 'sale-list',
@@ -7,39 +9,30 @@ import { BillInterface } from '@models/bill.interface';
 })
 export class SaleListComponent implements OnDestroy {
 
-  saleList:BillInterface[] = [
-    {
-      id: 'A1',
-      user: 'User 1',
-      date: 0,
-      client: 'Cliente 1',
-      tax: 10,
-      subTotal: 2345
-    },
-    {
-      id: 'B2',
-      user: 'User 2',
-      date: 0,
-      client: 'Cliente 2',
-      tax: 13,
-      subTotal: 3234
-    },
-    {
-      id: 'C3',
-      user: 'User 3',
-      date: 0,
-      client: 'Cliente 3',
-      tax: 13,
-      subTotal: 3034
-    }
-  ]
+  billView: BillInterface = {
+    date: 0,
+    client: '',
+    tax: 0,
+    subTotal: 0,
+    products: []
+  }
 
-  constructor() {
+  constructor(public afSale: AfInventoryService,
+    private popup: MessagesService) {
     document.getElementById('a-sale').classList.toggle('active');
+    this.afSale.collectionSale();
   }
 
   ngOnDestroy() {
     document.getElementById('a-sale').classList.toggle('active');
+  }
+
+  total(bill: BillInterface): number {
+    return bill.subTotal + (bill.subTotal * (bill.tax / 100));
+  }
+
+  showBill(bill: BillInterface) {
+    this.billView = bill;
   }
 
 }

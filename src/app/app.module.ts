@@ -13,6 +13,7 @@ import { NotpagefoundComponent } from './notpagefound/notpagefound.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment.prod';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { environment } from '../environments/environment.prod';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     AuthModule,
     PagesModule,
     AngularFireAuthModule,

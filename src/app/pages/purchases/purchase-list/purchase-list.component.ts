@@ -19,7 +19,8 @@ export class PurchaseListComponent implements OnDestroy {
     products: []
   }
 
-  constructor(public afPurchase: AfInventoryService, private popup:MessagesService) {
+  constructor(public afPurchase: AfInventoryService, 
+    private popup:MessagesService) {
     document.getElementById('a-purchase').classList.toggle('active');
     this.afPurchase.collectionPurchase();
   }

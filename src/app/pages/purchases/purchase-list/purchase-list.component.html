@@ -1,56 +1,71 @@
 <div class="animate__animated animate__fadeIn">
-    <h3>Listado de Compras <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm">Nueva</a></h3>
-    <div class="table-responsive" *ngIf="afPurchase.listPurchase() | async as list">
-        <table class="table bg-white">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Factura N°</th>
-                    <th>Proveedor</th>
-                    <th>Fecha</th>
-                    <th>Administrador</th>
-                    <th>Total</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let purchase of list">
-                    <th>{{ purchase.date }}</th>
-                    <td>{{ purchase.provider }}</td>
-                    <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
-                    <td>{{ purchase.user }}</td>
-                    <td>₡ {{ purchase.subTotal + (purchase.subTotal * (purchase.tax / 100)) | currency:' ' }}</td>
-                    <td>
-                        <div class="btn-group dropleft">
-                            <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip"
-                                title="Despliega el menú de opciones dando clic">
-                                <i class="fas fa-chevron-circle-down"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-divider mb-0"></div>
-                                <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
-                                    data-target="#showPurchase">
-                                    <i class="fas fa-eye"></i> Visualizar</a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-pencil-alt"></i> Editar
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                </a>
-                                <div class="dropdown-divider mt-0"></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <section *ngIf="afPurchase.listPurchase() | async as purchaseList" class="animate__animated animate__fadeIn">
+        <div *ngIf="purchaseList.length > 0; else empty">
+            <h3>Listado de Compras <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm">Nueva</a>
+            </h3>
+            <div class="table-responsive" *ngIf="afPurchase.listPurchase() | async as list">
+                <table class="table bg-white">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Factura N°</th>
+                            <th>Proveedor</th>
+                            <th>Fecha</th>
+                            <th>Administrador</th>
+                            <th>Total</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let purchase of list">
+                            <th>{{ purchase.date }}</th>
+                            <td>{{ purchase.provider }}</td>
+                            <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
+                            <td>{{ purchase.user }}</td>
+                            <td>₡{{ purchase.subTotal + (purchase.subTotal * (purchase.tax / 100)) | currency:' ' }}
+                            </td>
+                            <td>
+                                <div class="btn-group dropleft">
+                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip"
+                                        title="Despliega el menú de opciones dando clic">
+                                        <i class="fas fa-chevron-circle-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-divider mb-0"></div>
+                                        <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
+                                            data-target="#showPurchase">
+                                            <i class="fas fa-eye"></i> Visualizar</a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-pencil-alt"></i> Editar
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </a>
+                                        <div class="dropdown-divider mt-0"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <ng-template #empty>
+        <div class="animate__animated animate__fadeIn">
+            <h3>Lista de Compras</h3>
+            <p class="lead mb-5 text-justify">
+                Haz un nuevo pedido o espera a que cargue la lista de compras existente.
+            </p>
+            <div class="w-75 mx-auto">
+                <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-block">
+                    <i class="fas fa-cube"></i> Compra Nueva
+                </a>
+            </div>
+            <br><br><br>
+        </div>
+    </ng-template>
 </div>
-
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-</button> -->
-
 <div class="modal fade" id="showPurchase" tabindex="-1" role="dialog" aria-labelledby="showPurchaseLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

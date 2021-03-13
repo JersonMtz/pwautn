@@ -5,7 +5,6 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { BillInterface } from '@models/bill.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
-import { ProductInterface } from '../../../models/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class AfInventoryService {
     private popup: MessagesService) { }
 
   collectionPurchase() {
-    this.purchasesCollection = this.afs.collection<BillInterface>('purchases');
+    this.purchasesCollection = this.afs.collection<BillInterface>('purchases', ref => ref.orderBy('date','desc'));
     this.purchasesList = this.purchasesCollection.snapshotChanges().pipe(
       map(res => res.map(item => {
         let id = item.payload.doc.id;
@@ -32,7 +31,7 @@ export class AfInventoryService {
   }
 
   collectionSale() {
-    this.salesCollection = this.afs.collection<BillInterface>('purchases');
+    this.salesCollection = this.afs.collection<BillInterface>('sales', ref => ref.orderBy('date','desc'));
     this.salesList = this.salesCollection.snapshotChanges().pipe(
       map(res => res.map(item => {
         let id = item.payload.doc.id;

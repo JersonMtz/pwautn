@@ -50,18 +50,14 @@ export class AfProductService {
     }).catch(this.error);
   }
 
+  //UPDATE LIST PRODUCT STOCK
   updateStock(products: ProductInterface[], sale: boolean = false) {
     products.forEach(item => {
       this.sub$ = this.getProductStock(item.id).pipe(first()).subscribe(res => {
-        let stock:number = sale? res.stock - item.amount : res.stock + item.amount;
-        this.newStock(res.id, stock);
+        let stock: number = sale ? res.stock - item.amount : res.stock + item.amount;
+        this.productCollection.doc(res.id).update({ stock }).catch(console.log);
       });
     });
-  }
-
-  private newStock(id:string, stock:number) { 
-    this.productCollection.doc(id).update({ stock })
-    .then(() => console.log(`STOCK PRODUCTO ${ id } SE ACTUALIZO`)).catch(console.log);
   }
 
   private getProductStock(id: string) {

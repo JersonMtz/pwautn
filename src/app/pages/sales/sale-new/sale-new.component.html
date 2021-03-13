@@ -19,15 +19,17 @@
                 </a>
             </li>
             <li class="nav-item" (click)="change = false">
-                <a class="nav-link" [ngClass]="!change?'active':''" id="productList-tab" data-toggle="tab" href="#productList" role="tab"
-                    aria-controls="productList" [attr.aria-selected]="!change" [attr.aria-expanded]="!change">
+                <a class="nav-link" [ngClass]="!change?'active':''" id="productList-tab" data-toggle="tab"
+                    href="#productList" role="tab" aria-controls="productList" [attr.aria-selected]="!change"
+                    [attr.aria-expanded]="!change">
                     <i class="fas fa-list-ol"></i> Productos
                 </a>
             </li>
         </ul>
     </section>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade bg-white" [ngClass]="change?'active show':''" id="newSale" role="tabpanel" aria-labelledby="newSale-tab">
+        <div class="tab-pane fade bg-white" [ngClass]="change?'active show':''" id="newSale" role="tabpanel"
+            aria-labelledby="newSale-tab">
             <h3 class="text-center mt-n1">
                 <span style="background:#0094CA;" class="rounded text-white p-2 border">
                     <i class="fas fa-dice-d6"></i> Nueva Venta
@@ -41,8 +43,8 @@
                                 Fecha <span class="text-danger">*</span>
                             </label>
                             <div class="form-group col-sm-9">
-                                <input type="date" class="form-control" #input_date [value]="dateNow | date:'yyyy-MM-dd'"
-                                    (change)="updateDate(input_date.value)">
+                                <input type="date" class="form-control" #input_date
+                                    [value]="dateNow | date:'yyyy-MM-dd'" (change)="updateDate(input_date.value)">
                             </div>
                         </section>
                     </article>
@@ -63,10 +65,12 @@
                         </section>
                     </article>
                 </section>
-                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event"></bill-check>
+                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event"
+                    (date)="dateInit($event)"></bill-check>
             </section>
         </div>
-        <div class="tab-pane fade bg-white" [ngClass]="!change?'active show':''" id="productList" role="tabpanel" aria-labelledby="productList-tab">
+        <div class="tab-pane fade bg-white" [ngClass]="!change?'active show':''" id="productList" role="tabpanel"
+            aria-labelledby="productList-tab">
             <section class="container py-4">
                 <stock (order)="product = $event" [delete]="deleteProduct"></stock>
             </section>
