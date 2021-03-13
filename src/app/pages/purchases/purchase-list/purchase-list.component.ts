@@ -33,4 +33,12 @@ export class PurchaseListComponent implements OnDestroy {
     this.billView = bill;
   }
 
+  deleteBill(bill :BillInterface) {
+    this.popup.smsDelete('registro de compra','Recuerde mantener actualizado el stock de productos').then(res => {
+      if (res.isConfirmed) {
+        this.afPurchase.deletePurchase(bill);
+      }
+    })
+  }
+
 }

@@ -64,6 +64,12 @@ export class AfInventoryService {
     }).catch(this.error);
   }
 
+  deletePurchase(bill: BillInterface) {
+    this.afs.collection<BillInterface>('purchases').doc(bill.id).delete().then(() => {
+        this.popup.notification('success', '<span class="text-white">Se elimino el registro con éxito</span>', '#52B256');
+    }).catch(this.error);
+}
+
   private error(value: string) {
     this.popup.notification('error', `<span class="text-white">Ha ocurrido un error. ${value}</span>`, '#E6242B');
   }

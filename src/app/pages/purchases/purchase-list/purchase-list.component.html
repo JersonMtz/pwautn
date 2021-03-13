@@ -8,6 +8,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>Factura N°</th>
+                            <th>Estado</th>
                             <th>Proveedor</th>
                             <th>Fecha</th>
                             <th>Administrador</th>
@@ -18,6 +19,10 @@
                     <tbody>
                         <tr *ngFor="let purchase of list">
                             <th>{{ purchase.date }}</th>
+                            <th>
+                                <span *ngIf="purchase.status" class="badge badge-success badge-pill">Procesado</span>
+                                <span *ngIf="!purchase.status" class="badge badge-warning badge-pill">Pendidente</span>
+                            </th>
                             <td>{{ purchase.provider }}</td>
                             <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
                             <td>{{ purchase.user }}</td>
@@ -38,7 +43,8 @@
                                         <a class="dropdown-item" href="#">
                                             <i class="fas fa-pencil-alt"></i> Editar
                                         </a>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" (click)="deleteBill(purchase)"
+                                            style="cursor: pointer;">
                                             <i class="fas fa-trash-alt"></i> Eliminar
                                         </a>
                                         <div class="dropdown-divider mt-0"></div>
@@ -71,17 +77,33 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="showPurchaseLabel">N° {{ billView.date }}</h5>
+                <h5 class="modal-title" id="showPurchaseLabel">Factura N° {{ billView.date }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <ul>
-                    <li>Fecha: {{ billView.date | date:'dd MMMM YYYY h:mm a' }}</li>
-                    <li>Sucursal: {{ billView.warehouse }}</li>
-                    <li>Proveedor: {{ billView.provider }}</li>
-                </ul>
+                <h5 class="text-center mb-4">
+                    <span *ngIf="billView.status" class="alert-success p-2 rounded">Pedido procesado</span>
+                    <span *ngIf="!billView.status" class="alert-warning p-2 rounded">Pedido pendiente</span>
+                </h5>
+                <section class="row">
+                    <article class="col-md-6">
+                        <b>Fecha:</b> {{ billView.date | date:'dd MMMM YYYY' }}
+                    </article>
+                    <article class="col-md-6">
+                        <b>Hora:</b> {{ billView.date | date:'h:mm a' }}
+                    </article>
+                </section>
+                <section class="row">
+                    <article class="col-md-6">
+                        <b>Sucursal:</b> {{ billView.warehouse }}
+                    </article>
+                    <article class="col-md-6">
+                        <b>Proveedor:</b> {{ billView.provider }}
+                    </article>
+                </section>
+                <br>
                 <table class="table">
                     <thead>
                         <tr>
@@ -93,12 +115,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
-                            <th>&nbsp;</th>
+                        <tr *ngFor="let product of billView.products">
+                            <th>{{ product.code }}</th>
+                            <th>{{ product.name }}</th>
+                            <th class="text-center">{{ product.amount }}</th>
+                            <th>₡{{ product.price | currency:' ' }}</th>
+                            <th>₡{{ product.total | currency:' ' }}</th>
                         </tr>
                     </tbody>
                 </table>
