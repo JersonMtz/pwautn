@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 })
 export class SaleNewComponent implements OnDestroy {
 
+  private itemHtml: any;
   private sub$: Subscription[] = [];
   @ViewChild('date_bill', { static: true }) dateHTML: ElementRef;
   change: boolean = true;
@@ -31,7 +32,6 @@ export class SaleNewComponent implements OnDestroy {
   constructor(private afAuth: afAuthService,
     private datepipe: DatePipe,
     private afClient: AfClientService) {
-    document.getElementById('a-sale').classList.toggle('active');
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
     this.sub$.push(this.afClient.list().subscribe(list => this.listClient = list));
   }
@@ -40,8 +40,17 @@ export class SaleNewComponent implements OnDestroy {
     this.initBill();
   }
 
+  ngAfterViewInit() {
+    this.itemHtml = document.getElementById('a-sale');
+    if (this.itemHtml) {
+      this.itemHtml.classList.add('active');
+    }
+  }
+
   ngOnDestroy() {
-    document.getElementById('a-sale').classList.toggle('active');
+    if (this.itemHtml) {
+      this.itemHtml.classList.remove('active');
+    }
     this.sub$.forEach(item => item.unsubscribe());
   }
 

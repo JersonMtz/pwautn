@@ -23,7 +23,7 @@
                                 <i rel="tooltip" title="Pedido procesado" *ngIf="purchase.status"
                                     class="fas fa-check text-success"></i>
                                 <i rel="tooltip" title="Pedido pendiente" *ngIf="!purchase.status"
-                                    class="fas fa-exclamation-circle text-secondary"></i>
+                                    class="fas fa-exclamation-circle text-warning"></i>
                             </th>
                             <td>{{ purchase.provider }}</td>
                             <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
@@ -148,18 +148,21 @@
                                 <th>{{ product.amount }}</th>
                                 <th>{{ product.name }}</th>
                                 <th>₡{{ product.price | currency:' ' }}</th>
-                                <th>₡{{ product.total | currency:' ' }}</th>
+                                <th>₡{{ product.price * product.amount | currency:' ' }}</th>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="con_id">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="form.reset()">
                     <i class="fas fa-angle-double-left"></i> Atrás
                 </button>
-                <button type="button" class="btn btn-info">
-                    <i class="fas fa-file-pdf"></i> Exportar a PDF
+                <button type="button" class="btn btn-info" (click)="ticket()">
+                    <i class="fas fa-ticket-alt"></i> Ticket
+                </button>
+                <button type="button" class="btn btn-info" (click)="PDF()">
+                    &nbsp; <i class="fas fa-file-pdf"></i> PDF &nbsp;
                 </button>
             </div>
         </div>

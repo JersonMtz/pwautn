@@ -50,6 +50,7 @@ export class AfInventoryService {
 
   addPurchase(bill: BillInterface) {
     this.purchasesCollection = this.afs.collection<BillInterface>('purchases');
+    bill.products.forEach(item => delete item.total);
     this.purchasesCollection.add(bill).then(() => {
       this.popup.notification('success', '<span class="text-white">Pedido registrado con éxito</span>', '#52B256');
       if (bill.status) {
@@ -60,6 +61,7 @@ export class AfInventoryService {
 
   addSale(bill: BillInterface) {
     this.salesCollection = this.afs.collection<BillInterface>('sales');
+    bill.products.forEach(item => delete item.total);
     this.salesCollection.add(bill).then(() => {
       this.popup.notification('success', '<span class="text-white">Venta registrada con éxito</span>', '#52B256');
       this.afProduct.updateStock(bill.products, true);

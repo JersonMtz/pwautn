@@ -1,17 +1,21 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { BillInterface } from '@models/bill.interface';
 import { AfInventoryService } from '@pages/components/services/afInventory.service';
 import { MessagesService } from '@shared/services/messages.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { afAuthService } from '@auth/services/afAuth.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
+import { ReportPDFService } from '@shared/services/reportPDF.service';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'purchase-list',
-  templateUrl: './purchase-list.component.html'
+  templateUrl: './purchase-list.component.html',
+  providers: [CurrencyPipe, DatePipe]
 })
-export class PurchaseListComponent implements OnDestroy {
+export class PurchaseListComponent implements AfterViewInit, OnDestroy {
 
+  private itemHtml: any;
   form: FormGroup;
   billView: BillInterface = {
     date: 0,
@@ -27,14 +31,25 @@ export class PurchaseListComponent implements OnDestroy {
     public afPurchase: AfInventoryService,
     private afProduct: AfProductService,
     private fb: FormBuilder,
-    private popup: MessagesService) {
-    document.getElementById('a-purchase').classList.toggle('active');
+    private popup: MessagesService,
+    private pdf: ReportPDFService,
+    private currency: CurrencyPipe,
+    private datePipe: DatePipe) {
     this.afPurchase.collectionPurchase();
     this.form = this.fb.group({ id: [''], status: [false, Validators.required] });
   }
 
+  ngAfterViewInit() {
+    this.itemHtml = document.getElementById('a-purchase');
+    if (this.itemHtml) {
+      this.itemHtml.classList.add('active');
+    }
+  }
+
   ngOnDestroy() {
-    document.getElementById('a-purchase').classList.toggle('active');
+    if (this.itemHtml) {
+      this.itemHtml.classList.remove('active');
+    }
   }
 
   showBill(bill: BillInterface) {
@@ -62,6 +77,16 @@ export class PurchaseListComponent implements OnDestroy {
     })
   }
 
+  PDF() {
+    const data = this.transform();
+    this.pdf.createPDF(data);
+  }
+
+  ticket() {
+    const data = this.transform();
+    this.pdf.createTicket(data);
+  }
+
   message(): string {
     if (!this.form.get('status').value) {
       return '<span class="alert-warning p-2 rounded animate__animated animate__fadeIn">Pedido pendiente</span>'
@@ -72,5 +97,42 @@ export class PurchaseListComponent implements OnDestroy {
 
   calculeTotal(sub: number, tax: number): number {
     return sub + (sub * (tax / 100));
+  }
+
+  /* FORMAT FOR CONVERT BILL FOR JSON -> PDF */
+  private transform(): {} {
+    let obj = {
+      num: this.billView.date,
+      buyer: this.billView.user,
+      warehouse: this.billView.warehouse,
+      provider: this.billView.provider,
+      status: this.billView.status,
+      ...this.formatDateCurrency(),
+      tax: this.billView.tax,
+      products: this.formatProducts()
+    } as any;
+    return obj;
+  }
+
+  private formatDateCurrency(): {} {
+    let obj = {
+      date: this.datePipe.transform(this.billView.date, 'dd MMMM YYYY'),
+      hour: this.datePipe.transform(this.billView.date, 'h:mm a'),
+      sub: this.currency.transform(this.billView.subTotal, ' '),
+      total: this.currency.transform(this.calculeTotal(this.billView.subTotal, this.billView.tax), ' ')
+    } as any;
+    return obj;
+  }
+
+  private formatProducts(): [] {
+    let list: any = JSON.parse(JSON.stringify(this.billView.products))
+    list.forEach(element => {
+      element.total = this.currency.transform(element.price * element.amount, ' ');
+      element.price = this.currency.transform(element.price, ' ');
+      delete element.code;
+      delete element.id;
+    });
+
+    return list;
   }
 }

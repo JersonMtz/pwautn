@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BillInterface } from '@models/bill.interface';
 import { ProductInterface } from '@models/product.interface';
@@ -14,8 +14,9 @@ import { DatePipe } from '@angular/common';
   templateUrl: './purchase-new.component.html',
   providers: [DatePipe]
 })
-export class PurchaseNewComponent implements OnDestroy {
+export class PurchaseNewComponent implements  AfterViewInit,OnDestroy {
 
+  private itemHtml: any;
   private sub$: Subscription[] = [];
   @ViewChild('date_bill', { static: true }) dateHTML: ElementRef;
   change: boolean = true;
@@ -36,7 +37,6 @@ export class PurchaseNewComponent implements OnDestroy {
     private datepipe: DatePipe,
     private afWarehouse: AfWarehouseService,
     private afProvider: AfProviderService) {
-    document.getElementById('a-purchase').classList.toggle('active');
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
     this.sub$.push(this.afWarehouse.onWarehouse().subscribe(list => this.warehouseList = list));
     this.sub$.push(this.afProvider.list().subscribe(list => this.providerList = list));
@@ -46,8 +46,17 @@ export class PurchaseNewComponent implements OnDestroy {
     this.initBill();
   }
 
+  ngAfterViewInit() {
+    this.itemHtml = document.getElementById('a-purchase');
+    if (this.itemHtml) {
+      this.itemHtml.classList.add('active');
+    }
+  }
+
   ngOnDestroy() {
-    document.getElementById('a-purchase').classList.toggle('active');
+    if (this.itemHtml) {
+      this.itemHtml.classList.remove('active');
+    }
     this.sub$.forEach(item => item.unsubscribe());
   }
 
