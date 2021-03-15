@@ -20,7 +20,7 @@
                             <td>{{ sale.client }}</td>
                             <td>{{ sale.date | date:'dd MMMM YYYY' }}</td>
                             <td>{{ sale.user }}</td>
-                            <td>₡{{ total(sale) | currency:' ' }}</td>
+                            <td>₡{{ calculeTotal(sale.subTotal, sale.tax) | currency:' ' }}</td>
                             <td>
                                 <div class="btn-group dropleft">
                                     <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
@@ -109,7 +109,7 @@
                                 <th>{{ product.amount }}</th>
                                 <th>{{ product.name }}</th>
                                 <th>₡{{ product.price | currency:' ' }}</th>
-                                <th>₡{{ product.total | currency:' ' }}</th>
+                                <th>₡{{ product.price * product.amount | currency:' ' }}</th>
                             </tr>
                         </tbody>
                     </table>
@@ -119,8 +119,11 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-angle-double-left"></i> Atrás
                 </button>
-                <button type="button" class="btn btn-info">
-                    <i class="fas fa-file-pdf"></i> Exportar a PDF
+                <button type="button" class="btn btn-info" (click)="ticket()">
+                    <i class="fas fa-ticket-alt"></i> Ticket
+                </button>
+                <button type="button" class="btn btn-info" (click)="PDF()">
+                    &nbsp; <i class="fas fa-file-pdf"></i> PDF &nbsp;
                 </button>
             </div>
         </div>

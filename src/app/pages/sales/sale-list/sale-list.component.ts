@@ -1,12 +1,15 @@
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { afAuthService } from '@auth/services/afAuth.service';
 import { BillInterface } from '@models/bill.interface';
 import { AfInventoryService } from '@pages/components/services/afInventory.service';
 import { MessagesService } from '@shared/services/messages.service';
+import { ReportPDFService } from '@shared/services/reportPDF.service';
 
 @Component({
   selector: 'sale-list',
-  templateUrl: './sale-list.component.html'
+  templateUrl: './sale-list.component.html',
+  providers: [DatePipe, CurrencyPipe]
 })
 export class SaleListComponent implements AfterViewInit, OnDestroy {
 
@@ -21,7 +24,10 @@ export class SaleListComponent implements AfterViewInit, OnDestroy {
 
   constructor(public afAuth: afAuthService,
     public afSale: AfInventoryService,
-    private popup: MessagesService) {
+    private popup: MessagesService,
+    private pdf: ReportPDFService,
+    private currency: CurrencyPipe,
+    private datePipe: DatePipe) {
     this.afSale.collectionSale();
   }
 
@@ -38,10 +44,6 @@ export class SaleListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  total(bill: BillInterface): number {
-    return bill.subTotal + (bill.subTotal * (bill.tax / 100));
-  }
-
   showBill(bill: BillInterface) {
     this.billView = JSON.parse(JSON.stringify(bill));
   }
@@ -56,6 +58,51 @@ export class SaleListComponent implements AfterViewInit, OnDestroy {
 
   calculeTotal(sub: number, tax: number): number {
     return sub + (sub * (tax / 100));
+  }
+
+  PDF() {
+    const data = this.transform();
+    this.pdf.createPDF(data, true);
+  }
+
+  ticket() {
+    const data = this.transform();
+    this.pdf.createTicket(data);
+  }
+
+  /* FORMAT FOR CONVERT BILL FOR JSON -> PDF */
+  private transform(): {} {
+    let obj = {
+      num: this.billView.date,
+      buyer: this.billView.user,
+      client: this.billView.client,
+      ...this.formatDateCurrency(),
+      tax: this.billView.tax,
+      products: this.formatProducts()
+    } as any;
+    return obj;
+  }
+
+  private formatDateCurrency(): {} {
+    let obj = {
+      date: this.datePipe.transform(this.billView.date, 'dd MMMM YYYY'),
+      hour: this.datePipe.transform(this.billView.date, 'h:mm a'),
+      sub: this.currency.transform(this.billView.subTotal, ' '),
+      total: this.currency.transform(this.calculeTotal(this.billView.subTotal, this.billView.tax), ' ')
+    } as any;
+    return obj;
+  }
+
+  private formatProducts(): [] {
+    let list: any = JSON.parse(JSON.stringify(this.billView.products))
+    list.forEach(element => {
+      element.total = this.currency.transform(element.price * element.amount, ' ');
+      element.price = this.currency.transform(element.price, ' ');
+      delete element.code;
+      delete element.id;
+    });
+
+    return list;
   }
 
 }
