@@ -50,6 +50,16 @@ ul.collapse.list-unstyled.animate__animated.animate__fadeIn {
     background-color: #222526;
 }
 
+.color-mobil {
+    background-color: #008D4C;
+}
+
+@media only screen and (min-width: 990px) {
+    .color-mobil {
+        background-color: #FFF;
+    }
+}
+
 .loading {
     animation: rotation 2s infinite linear;
 }

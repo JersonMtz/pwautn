@@ -28,7 +28,10 @@ export class afAuthService {
             .then(() => {
               this.popup.logOutMessage().then(res => {
                 if (res) {
-                  this.logOut().then(() => this.router.navigateByUrl('/auth/login'));
+                  this.logOut().then(() => {
+                    window.location.reload();
+                    this.router.navigateByUrl('/auth/login');
+                  });
                 }
               })
             }).catch(this.error);
