@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { Router  } from "@angular/router";
 import { afAuthService } from './services/afAuth.service';
 
@@ -7,10 +7,14 @@ import { afAuthService } from './services/afAuth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent {
+export class AuthComponent implements AfterViewInit {
 
   constructor(private afAuth:afAuthService, private router:Router) { 
     this.redirectDasboard();
+  }
+
+  ngAfterViewInit() {
+    document.getElementById('color').setAttribute('content','#2B79AC');
   }
   
   async redirectDasboard() {

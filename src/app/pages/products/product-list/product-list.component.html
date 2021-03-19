@@ -1,10 +1,11 @@
 <breadcrumb [items]="items"></breadcrumb>
 <div class="animate__animated animate__fadeIn">
     <h2>Listado de Productos
-        <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm" *ngIf="productList.length > 0 && admin">Nuevo</a>
+        <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm"
+            *ngIf="productList.length > 0 && admin">Nuevo</a>
     </h2>
-    <div class="table-responsive animate__animated animate__fadeIn" *ngIf="productList.length > 0; else empty">
-        <table class="table mt-3 bg-white">
+    <div class="animate__animated animate__fadeIn" *ngIf="productList.length > 0; else empty">
+        <table class="table mt-3 bg-white" id="initTable">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -31,12 +32,12 @@
                     <td>₡{{ product.price| currency:' ' }}</td>
                     <td style="border-left: solid 2px #E9ECEF;">
                         <div *ngIf="admin; else notAdmin">
-                            <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1"
-                                rel="tooltip" title="Editar registro">
+                            <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1" 
+                            rel="Editar registro" title="Editar registro">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
-                            <button (click)="deleteProduct(product)" class="btn btn-sm btn-dark rounded-circle mx-1"
-                                rel="tooltip" title="Eliminar registro">
+                            <button (click)="deleteProduct(product)" class="btn btn-sm btn-dark rounded-circle mx-1" 
+                            rel="Eliminar registro" title="Eliminar registro">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>

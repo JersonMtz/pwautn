@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, Output, OnDestroy } from '@angular/core';
 import { ProductInterface } from '@models/product.interface';
 import { BillInterface } from '@models/bill.interface';
 import { TaxInterface } from '@models/tax.interface';

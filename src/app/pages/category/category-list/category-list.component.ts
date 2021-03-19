@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { BreadcrumbInterface } from '@models/breadcrumb.interface';
 import { CategoryInterface } from '@models/category.interface';
 import { AfCategoryService } from '@pages/category/services/afCategory.service';
@@ -10,8 +10,9 @@ import { afAuthService } from '../../../auth/services/afAuth.service';
   selector: 'category-list',
   templateUrl: './category-list.component.html'
 })
-export class CategoryListComponent implements OnDestroy {
+export class CategoryListComponent implements AfterViewInit, OnDestroy {
 
+  private itemHtml: any;
   items: BreadcrumbInterface[] = [
     {
       url: '/dashboard',
@@ -28,7 +29,6 @@ export class CategoryListComponent implements OnDestroy {
       title: 'Categoría'
     }
   ];
-
   edit: boolean = false;
   show: boolean = true;
   categoryEdit: CategoryInterface;
@@ -38,13 +38,21 @@ export class CategoryListComponent implements OnDestroy {
   constructor(public afAuth: afAuthService,
     private afCategory: AfCategoryService,
     private popup: MessagesService) {
-    document.getElementById('a-product').classList.toggle('active');
     this.subscription$ = this.afCategory.list().subscribe(list => this.categoryList = list);
+  }
+
+  ngAfterViewInit() {
+    this.itemHtml = document.getElementById('a-product');
+    if (this.itemHtml) {
+      this.itemHtml.classList.add('active');
+    }
   }
 
   ngOnDestroy() {
     this.subscription$.unsubscribe();
-    document.getElementById('a-product').classList.toggle('active');
+    if (this.itemHtml) {
+      this.itemHtml.classList.remove('active');
+    }
   }
 
   editCategory(category: CategoryInterface) {

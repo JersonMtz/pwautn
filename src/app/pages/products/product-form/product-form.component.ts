@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -15,11 +15,11 @@ import { Subscription } from 'rxjs';
   selector: 'product-form',
   templateUrl: './product-form.component.html'
 })
-export class ProductFormComponent implements OnDestroy {
+export class ProductFormComponent implements AfterViewInit, OnDestroy {
 
   /** File photo **/
   photoFile: any;
-
+  private itemHtml:any
   private expNumber: RegExp = /^([0-9])*$/;
   private local: boolean;
   product: ProductInterface;
@@ -43,16 +43,27 @@ export class ProductFormComponent implements OnDestroy {
     private router: Router,
     private popup: MessagesService,
     private afUpload: AfUploadService) {
-    document.getElementById('a-product').classList.toggle('active');
     this.getCategories();
     this.initForm();
     this.verifyForm();
     this.buildBreadcrumb();
   }
 
+  ngAfterViewInit() {
+    this.itemHtml = document.getElementById('a-product');
+    if (this.itemHtml) {
+      this.itemHtml.classList.add('active');
+    }
+  }
+
   ngOnDestroy() {
     this.afProduct.setProduct = undefined;
-    document.getElementById('a-product').classList.toggle('active');
+    if (this.sub$) {
+      this.sub$.unsubscribe();
+    }
+    if (this.itemHtml) {
+      this.itemHtml.classList.remove('active');
+    }
   }
 
   private initForm() {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { afAuthService } from '@auth/services/afAuth.service';
 import { Subscription } from 'rxjs';
 
@@ -10,6 +10,8 @@ export class NavbarComponent implements OnDestroy {
 
   avatar:string;
   private sub$:Subscription;
+  @Output('logOut') exit: EventEmitter<boolean> = new EventEmitter();
+
   constructor(private afAuth:afAuthService) { 
     this.sub$ = this.afAuth.user$.subscribe(user => this.avatar = user ? user.photo.url : '');
   }
@@ -19,6 +21,7 @@ export class NavbarComponent implements OnDestroy {
   }
 
   onLogOut() {
+    this.exit.emit(true);
     this.afAuth.logOut().then(() => window.location.reload());
   }
 }

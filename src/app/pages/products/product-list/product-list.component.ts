@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BreadcrumbInterface } from '@models/breadcrumb.interface';
@@ -11,8 +11,9 @@ import { afAuthService } from '@auth/services/afAuth.service';
   selector: 'product-list',
   templateUrl: './product-list.component.html'
 })
-export class ProductListComponent implements OnDestroy {
+export class ProductListComponent implements AfterViewInit, OnDestroy {
 
+  private itemHtml: any;
   items: BreadcrumbInterface[] = [
     {
       url: '/dashboard',
@@ -24,24 +25,31 @@ export class ProductListComponent implements OnDestroy {
       title: 'Productos'
     }
   ];
-
   productList: ProductInterface[] = [];
   private sub$: Subscription[] = [];
-  admin:boolean = false;
+  admin: boolean = false;
 
-  constructor(public afAuth:afAuthService,
+  constructor(private afAuth: afAuthService,
     private sms: MessagesService,
     private afProduct: AfProductService,
     private router: Router) {
     sms.showAlert();
-    document.getElementById('a-product').classList.toggle('active');
-    this.sub$.push(this.afProduct.list().subscribe(list => this.productList = list));
     this.sub$.push(this.afAuth.user$.subscribe(user => this.admin = user.role));
+    this.sub$.push(this.afProduct.list().subscribe(list => this.productList = list));
+  }
+
+  ngAfterViewInit() {
+    this.itemHtml = document.getElementById('a-product');
+    if (this.itemHtml) {
+      this.itemHtml.classList.add('active');
+    }
   }
 
   ngOnDestroy() {
-    document.getElementById('a-product').classList.toggle('active');
     this.sub$.forEach(item => item.unsubscribe());
+    if (this.itemHtml) {
+      this.itemHtml.classList.remove('active');
+    }
   }
 
   editProduct(product: ProductInterface) {

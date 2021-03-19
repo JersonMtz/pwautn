@@ -1,7 +1,8 @@
 <div class="wrapper animate__animated animate__fadeIn">
-    <sidebar></sidebar>
+    <spinner *ngIf="exit" [text]="'Cerrando sesión ...'"></spinner>
+    <sidebar (logOut)="exit=$event"></sidebar>
     <div class="main-panel">
-        <navbar></navbar>
+        <navbar (logOut)="exit=$event"></navbar>
         <div class="content">
             <div class="container-fluid">
                 <router-outlet></router-outlet>
