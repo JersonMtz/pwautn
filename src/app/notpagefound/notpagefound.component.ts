@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'notpagefound',
   templateUrl: './notpagefound.component.html',
   styleUrls: ['./notpagefound.component.css']
 })
-export class NotpagefoundComponent {
+export class NotpagefoundComponent implements AfterViewInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
+    document.getElementById('color').setAttribute('content','#ffff');
   }
 
 }
