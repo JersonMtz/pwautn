@@ -1,66 +1,77 @@
 <div class="animate__animated animate__fadeIn">
     <section *ngIf="afPurchase.listPurchase() | async as purchaseList" class="animate__animated animate__fadeIn">
         <div *ngIf="purchaseList.length > 0; else empty">
-            <h3>Listado de Compras <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm">Nueva</a>
+            <h3>Listado de Compras
+                <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm" pRipple
+                    pTooltip="Realizar nuevo pedido">Nueva</a>
             </h3>
-            <div class="table-responsive" *ngIf="afPurchase.listPurchase() | async as list">
-                <table class="table bg-white">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Factura N°</th>
-                            <th>Estado</th>
-                            <th>Proveedor</th>
-                            <th>Fecha</th>
-                            <th>Administrador</th>
-                            <th>Total</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let purchase of list">
-                            <th>{{ purchase.date }}</th>
-                            <th>
-                                <i rel="tooltip" title="Pedido procesado" *ngIf="purchase.status"
-                                    class="fas fa-check text-success"></i>
-                                <i rel="tooltip" title="Pedido pendiente" *ngIf="!purchase.status"
-                                    class="fas fa-exclamation-circle text-warning"></i>
-                            </th>
-                            <td>{{ purchase.provider }}</td>
-                            <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
-                            <td>{{ purchase.user }}</td>
-                            <td>₡{{ calculeTotal(purchase.subTotal, purchase.tax) | currency:' ' }}
-                            </td>
-                            <td>
-                                <div class="btn-group dropleft">
-                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip"
-                                        title="Despliega el menú de opciones dando clic">
-                                        <i class="fas fa-chevron-circle-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
-                                        *ngIf="afAuth.user$ | async as admin">
-                                        <div class="dropdown-divider mb-0"></div>
-                                        <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
-                                            data-target="#showPurchase" style="cursor: pointer;">
-                                            <i class="fas fa-eye"></i> Visualizar</a>
-                                        <a *ngIf="admin.role; else notAdmin" class="dropdown-item"
-                                            (click)="deleteBill(purchase)" style="cursor: pointer;">
+            <p-table [columns]="cols" [value]="afPurchase.listPurchase() | async" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true" [globalFilterFields]="['number','status','provider']"
+                currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} facturas"
+                [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
+                <ng-template pTemplate="caption">
+                    Buscar:
+                    <article class="col-md-6 d-inline-block">
+                        <span [ngSwitch]="'name'">
+                            <input pInputText type="text" class="form-control input-sm"
+                                placeholder="Escriba un indicio de búsqueda"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')">
+                        </span>
+                    </article>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                        <th class="bg-dark">&nbsp;</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-purchase>
+                    <tr>
+                        <th style="border-bottom: solid 2px #E9ECEF;">{{ purchase.date }}</th>
+                        <th style="border-bottom: solid 2px #E9ECEF;">
+                            <i pTooltip="Pedido procesado" *ngIf="purchase.status"
+                                class="fas fa-check text-success"></i>
+                            <i pTooltip="Pedido pendiente" *ngIf="!purchase.status"
+                                class="fas fa-exclamation-circle text-warning"></i>
+                        </th>
+                        <td>{{ purchase.provider }}</td>
+                        <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
+                        <td>{{ purchase.user }}</td>
+                        <td>₡{{ calculeTotal(purchase.subTotal, purchase.tax) | currency:' ' }}
+                        </td>
+                        <td>
+                            <div class="btn-group dropleft">
+                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    pTooltip="Despliegue el menú de opciones" pRipple>
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                    *ngIf="afAuth.user$ | async as admin">
+                                    <div class="dropdown-divider mb-0"></div>
+                                    <a class="dropdown-item" (click)="showBill(purchase)" data-toggle="modal"
+                                        data-target="#showPurchase" style="cursor: pointer;">
+                                        <i class="fas fa-eye"></i> Visualizar</a>
+                                    <a *ngIf="admin.role; else notAdmin" class="dropdown-item"
+                                        (click)="deleteBill(purchase)" style="cursor: pointer;">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </a>
+                                    <ng-template #notAdmin>
+                                        <a class="dropdown-item" style="cursor: pointer;" rel="tooltip"
+                                            title="Inicia sesión en una cuenta administrador">
                                             <i class="fas fa-trash-alt"></i> Eliminar
                                         </a>
-                                        <ng-template #notAdmin>
-                                            <a class="dropdown-item" style="cursor: pointer;" rel="tooltip"
-                                                title="Inicia sesión en una cuenta administrador">
-                                                <i class="fas fa-trash-alt"></i> Eliminar
-                                            </a>
-                                        </ng-template>
-                                        <div class="dropdown-divider mt-0"></div>
-                                    </div>
+                                    </ng-template>
+                                    <div class="dropdown-divider mt-0"></div>
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </section>
     <ng-template #empty>
@@ -70,7 +81,7 @@
                 Haz un nuevo pedido o espera a que cargue la lista de compras existente.
             </p>
             <div class="w-75 mx-auto">
-                <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-block">
+                <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-block" pRipple>
                     <i class="fas fa-cube"></i> Compra Nueva
                 </a>
             </div>
@@ -155,13 +166,13 @@
                 </div>
             </div>
             <div class="modal-footer" id="con_id">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="form.reset()">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="form.reset()" pRipple>
                     <i class="fas fa-angle-double-left"></i> Atrás
                 </button>
-                <button type="button" class="btn btn-info" (click)="ticket()">
+                <button type="button" class="btn btn-info" (click)="ticket()" pRipple>
                     <i class="fas fa-ticket-alt"></i> Ticket
                 </button>
-                <button type="button" class="btn btn-info" (click)="PDF()">
+                <button type="button" class="btn btn-info" (click)="PDF()" pRipple>
                     &nbsp; <i class="fas fa-file-pdf"></i> PDF &nbsp;
                 </button>
             </div>

@@ -10,11 +10,13 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'sale-new',
   templateUrl: './sale-new.component.html',
+  styleUrls: ['../sale-list/sale-list.component.scss'],
   providers: [DatePipe]
 })
 export class SaleNewComponent implements OnDestroy {
 
   private itemHtml: any;
+  cols: any;
   private sub$: Subscription[] = [];
   @ViewChild('date_bill', { static: true }) dateHTML: ElementRef;
   change: boolean = true;
@@ -34,6 +36,7 @@ export class SaleNewComponent implements OnDestroy {
     private afClient: AfClientService) {
     this.sub$.push(this.afAuth.user$.subscribe(user => this.headBill.user = user.name));
     this.sub$.push(this.afClient.list().subscribe(list => this.listClient = list));
+    this.header();
   }
 
   ngOnInit() {
@@ -69,5 +72,13 @@ export class SaleNewComponent implements OnDestroy {
     this.headBill.date = Date.now();
     this.headBill.subTotal = 0;
     this.headBill.client = '';
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'idCard', header: 'Cédula' },
+      { field: 'name', header: 'Nombre' },
+      { field: 'surname', header: 'Apellidos' }
+    ];
   }
 }

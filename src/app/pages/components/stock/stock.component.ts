@@ -3,15 +3,18 @@ import { ProductInterface } from '@models/product.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfProductService } from '../../products/services/afProduct.service';
 import { Subscription } from 'rxjs';
+import { PrimeNGConfig } from 'primeng/api';
 
 
 @Component({
   selector: 'stock',
-  templateUrl: './stock.component.html'
+  templateUrl: './stock.component.html',
+  styleUrls: ['./stock.component.scss']
 })
 export class StockComponent implements OnChanges, OnDestroy {
 
   private sub$: Subscription;
+  cols:any;
   @Input('delete') productDelete: ProductInterface;
   @Input('sale') typeAccion: boolean = true;
   @Output('order') productOut: EventEmitter<ProductInterface> = new EventEmitter();
@@ -20,8 +23,11 @@ export class StockComponent implements OnChanges, OnDestroy {
   listProduct: ProductInterface[] = [];
 
   constructor(private afProduct: AfProductService,
+    private primeng: PrimeNGConfig,
     private popup: MessagesService) {
     this.sub$ = this.afProduct.list().subscribe(list => this.listProduct = list);
+    this.primeng.ripple = true;
+    this.header();
   }
 
   ngOnChanges() {
@@ -90,6 +96,15 @@ export class StockComponent implements OnChanges, OnDestroy {
         this.popup.notification('info', `Verifique la cantidad del producto ${product.name.toUpperCase()} antes de agregar a la factura`);
       }
     }
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'code', header: 'Código' },
+      { field: 'product', header: 'Producto' },
+      { field: 'stock', header: 'Stock' },
+      { field: 'amount', header: 'Cantidad' },
+    ]
   }
 
 }

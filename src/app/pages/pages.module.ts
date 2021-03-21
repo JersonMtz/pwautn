@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RippleModule } from 'primeng/ripple';
+import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from "primeng/table";
 
 /* MODULE ROUTING */
 import { PagesRoutingModule } from './pages-routing.module';
@@ -76,6 +80,10 @@ const pagesComponents = [
   ],
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
+    TooltipModule,
+    RippleModule,
+    TableModule,
     PagesRoutingModule,
     SharedModule,
     ReactiveFormsModule

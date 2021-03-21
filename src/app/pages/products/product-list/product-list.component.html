@@ -1,25 +1,36 @@
 <breadcrumb [items]="items"></breadcrumb>
 <div class="animate__animated animate__fadeIn">
     <h2>Listado de Productos
-        <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm"
+        <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm" pRipple pTooltip="Agrega un nuevo producto"
             *ngIf="productList.length > 0 && admin">Nuevo</a>
     </h2>
     <div class="animate__animated animate__fadeIn" *ngIf="productList.length > 0; else empty">
-        <table class="table mt-3 bg-white" id="initTable">
-            <thead>
+        <p-table [columns]="cols" [value]="productList" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} productos"
+            [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
+            <ng-template pTemplate="caption">
+                Buscar:
+                <article class="col-md-6 d-inline-block">
+                    <span [ngSwitch]="'name'">
+                        <input pInputText type="text" class="form-control input-sm"
+                            placeholder="Escriba el nombre del producto"
+                            (input)="dt.filter($event.target.value, 'name', cols[2].filterMatchMode)">
+                    </span>
+                </article>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th>Código</th>
-                    <th>Imágen</th>
-                    <th>Producto</th>
-                    <th>Disponible</th>
-                    <th>Stock</th>
-                    <th>Precio Venta</th>
-                    <th>&nbsp;</th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th class="bg-dark">&nbsp;</th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of productList">
-                    <th>{{ product.code }}</th>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <th style="border-bottom: solid 2px #E9ECEF;">&nbsp;&nbsp;{{ product.code }}</th>
                     <td>
                         <img [src]="product.photo.url || './../../../assets/img/product.png'" width="50" alt="Producto">
                     </td>
@@ -30,31 +41,29 @@
                     </td>
                     <td>{{ product.stock }}</td>
                     <td>₡{{ product.price| currency:' ' }}</td>
-                    <td style="border-left: solid 2px #E9ECEF;">
+                    <td>
                         <div *ngIf="admin; else notAdmin">
-                            <button (click)="editProduct(product)" class="btn btn-sm btn-warning rounded-circle mx-1" 
-                            rel="Editar registro" title="Editar registro">
+                            <button pRipple pTooltip="Editar registro" (click)="editProduct(product)" 
+                            class="btn btn-sm btn-warning rounded-circle mx-1">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
-                            <button (click)="deleteProduct(product)" class="btn btn-sm btn-dark rounded-circle mx-1" 
-                            rel="Eliminar registro" title="Eliminar registro">
+                            <button pRipple pTooltip="Eliminar registro" (click)="deleteProduct(product)" 
+                            class="btn btn-sm btn-dark rounded-circle mx-1">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
                         <ng-template #notAdmin>
-                            <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
-                                title="Inicie sesión en una cuenta administrador">
+                            <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled pTooltip="Inicie sesión en una cuenta administrador">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
-                            <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
-                                title="Inicie sesión en una cuenta administrador">
+                            <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled pTooltip="Inicie sesión en una cuenta administrador">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </ng-template>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+            </ng-template>
+        </p-table>
     </div>
     <ng-template #empty>
         <div class="animate__animated animate__fadeIn">

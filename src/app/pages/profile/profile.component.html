@@ -3,12 +3,10 @@
         <h2 class="mb-3"><b>Perfil de Usuario</b></h2>
         <img [src]="defaultImg()" style="max-width: 200px;max-height: 200px;" alt="avatar" class="rounded-circle mb-3">
         <br>
-
         <div class="progress" *ngIf="loading && photoFile">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemax="100"
                 [ngStyle]="{width: getPercentage()}">{{ getPercentage() }}</div>
         </div>
-
         <input type="file" class="d-none" #filePhoto (change)="onSelectPhoto($event)" accept="image/*"
             (click)="$event.target.value = ''">
         <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
@@ -38,7 +36,6 @@
                     <input type="text" class="form-control" id="surname" [value]="profile.surname" disabled>
                 </div>
             </article>
-
             <article class="form-group row">
                 <label for="mail" class="col-sm-2 control-label">Correo</label>
                 <div class="col-sm-4 mb-2">
@@ -52,7 +49,6 @@
                     </select>
                 </div>
             </article>
-
             <article class="form-group row">
                 <label for="passNow" class="col-sm-2 control-label">Contraseña Actual</label>
                 <div class="col-sm-4 mb-3">
@@ -84,7 +80,6 @@
                     </section>
                 </div>
             </article>
-
             <article class="form-group row px-3" style="font-size: 0.8em;">
                 <p class="text-dark text-justify">
                     <i class="fas fa-info-circle"></i> Es necesario que la contraseña cumpla las siguientes condiciones:
@@ -104,22 +99,6 @@
                 </button>
             </article>
             <br>
-            <!-- <hr class="text-center text-muted">
-            <h3 class="text-center mb-3"><b>Cambiar Colores</b></h3>
-            <article class="form-group row">
-                <div class="col-sm-3">
-                    VERDE
-                </div>
-                <div class="col-sm-3">
-                    MORADO
-                </div>
-                <div class="col-sm-3">
-                    NARANJA
-                </div>
-                <div class="col-sm-3">
-                    AZUL
-                </div>
-            </article> -->
         </form>
     </div>
 </div>

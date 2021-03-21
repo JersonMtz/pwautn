@@ -1,40 +1,55 @@
 <div class="animate__animated animate__fadeIn">
-    <div class="table-responsive">
-        <table class="table mt-3 bg-white">
-            <thead>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th>Código</th>
-                    <th>Producto</th>
-                    <th>Stock</th>
-                    <th>Cantidad</th>
-                    <th>
-                        Precio 
-                        <span *ngIf="!typeAccion">Costo</span>
-                        <span *ngIf="typeAccion">venta</span> </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let product of listProduct">
-                    <td>
-                        <button class="btn bg-white" [disabled]="product.error" (click)="addToBill(amount_input.value, product)">
-                            <i class="fas fa-cart-plus fa-2x" [ngClass]="product.error?'text-secondary':'text-success'" 
-                            title="Agregar a lista"></i>
-                        </button>
-                    </td>
-                    <th>{{ product.code }}</th>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.stock }}</td>
-                    <td>
-                        <input type="number" class="form-control col-sm-3" [value]="1" [ngClass]="product.error?'is-invalid':''"
-                        #amount_input (change)="stockError(amount_input.value, product)" min="1">
-                    </td>
-                    <td>
-                        <input type="number" class="form-control col-sm-5" [value]="typeAccion?product.price:product.cost" [ngClass]="product.error?'is-invalid':''"
-                        #cost_input (change)="isNegative(cost_input.value, product)" min="1">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <p-table [columns]="cols" [value]="listProduct" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} productos" [globalFilterFields]="['code', 'products']"
+        [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
+        <ng-template pTemplate="caption">
+            Buscar:
+            <article class="col-md-6 d-inline-block">
+                <span [ngSwitch]="'name'">
+                    <input pInputText type="text" class="form-control input-sm"
+                        placeholder="Escriba un indicio de búsqueda"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')">
+                </span>
+            </article>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th class="bg-dark text-white">&nbsp;</th>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th class="bg-dark text-white">
+                    Precio
+                    <span *ngIf="!typeAccion">Costo</span>
+                    <span *ngIf="typeAccion">venta</span>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    <button class="btn bg-white" [disabled]="product.error" pRipple
+                        (click)="addToBill(amount_input.value, product)">
+                        <i class="fas fa-cart-plus fa-2x" [ngClass]="product.error?'text-secondary':'text-success'"
+                            pTooltip="Agregar a lista"></i>
+                    </button>
+                </td>
+                <th style="border-bottom: solid 1px #DEE2E6;">{{ product.code }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.stock }}</td>
+                <td>
+                    <input type="number" class="form-control col-sm-5" [value]="1"
+                        [ngClass]="product.error?'is-invalid':''" #amount_input
+                        (change)="stockError(amount_input.value, product)" min="1">
+                </td>
+                <td>
+                    <input type="number" class="form-control" [value]="typeAccion?product.price:product.cost"
+                        [ngClass]="product.error?'is-invalid':''" #cost_input
+                        (change)="isNegative(cost_input.value, product)" min="1">
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>

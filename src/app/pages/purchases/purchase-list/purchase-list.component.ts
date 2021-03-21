@@ -7,14 +7,17 @@ import { afAuthService } from '@auth/services/afAuth.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
 import { ReportPDFService } from '@shared/services/reportPDF.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'purchase-list',
   templateUrl: './purchase-list.component.html',
+  styleUrls: ['./purchase-list.component.scss'],
   providers: [CurrencyPipe, DatePipe]
 })
 export class PurchaseListComponent implements AfterViewInit, OnDestroy {
 
+  cols: any;
   private itemHtml: any;
   form: FormGroup;
   billView: BillInterface = {
@@ -29,6 +32,7 @@ export class PurchaseListComponent implements AfterViewInit, OnDestroy {
 
   constructor(public afAuth: afAuthService,
     public afPurchase: AfInventoryService,
+    private primeng: PrimeNGConfig,
     private afProduct: AfProductService,
     private fb: FormBuilder,
     private popup: MessagesService,
@@ -37,6 +41,8 @@ export class PurchaseListComponent implements AfterViewInit, OnDestroy {
     private datePipe: DatePipe) {
     this.afPurchase.collectionPurchase();
     this.form = this.fb.group({ id: [''], status: [false, Validators.required] });
+    this.primeng.ripple = true;
+    this.header();
   }
 
   ngAfterViewInit() {
@@ -50,6 +56,17 @@ export class PurchaseListComponent implements AfterViewInit, OnDestroy {
     if (this.itemHtml) {
       this.itemHtml.classList.remove('active');
     }
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'number', header: 'Factura N°' },
+      { field: 'status', header: 'Estado' },
+      { field: 'provider', header: 'Proveedor' },
+      { field: 'date', header: 'Fecha' },
+      { field: 'admin', header: 'Administrador' },
+      { field: 'total', header: 'Total' },
+    ];
   }
 
   showBill(bill: BillInterface) {

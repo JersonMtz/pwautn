@@ -3,8 +3,7 @@ body {
     width: 100%;
 }
 
-.sidebar .nav .nav-link,
-body>.navbar-collapse .nav li .nav-link  {
+.sidebar .nav .nav-link, body>.navbar-collapse .nav li .nav-link {
     border-left: solid 3px transparent;
 }
 
@@ -44,6 +43,10 @@ ul.collapse.list-unstyled.animate__animated.animate__fadeIn {
 
 .dropdown-menu {
     font-size: .9125rem;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+    padding: 0.2rem 0.5rem !important;
 }
 
 #buySubmenu, #productSubmenu, #saleSubmenu {

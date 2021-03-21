@@ -43,7 +43,8 @@
                                 Fecha <span class="text-danger">*</span>
                             </label>
                             <div class="form-group col-sm-9">
-                                <input type="date" class="form-control" #date_bill (change)="updateDate(date_bill.value)">
+                                <input type="date" class="form-control" #date_bill
+                                    (change)="updateDate(date_bill.value)">
                             </div>
                         </section>
                     </article>
@@ -64,7 +65,8 @@
                         </section>
                     </article>
                 </section>
-                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event" (success)="initBill()"></bill-check>
+                <bill-check [head]="headBill" [add]="product" (delete)="deleteProduct = $event" (success)="initBill()">
+                </bill-check>
             </section>
         </div>
         <div class="tab-pane fade bg-white" [ngClass]="!change?'active show':''" id="productList" role="tabpanel"
@@ -86,26 +88,41 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr class="bg-dark">
-                            <th>&nbsp;</th>
-                            <th class="text-white">Cédula</th>
-                            <th class="text-white">Nombre Completo</th>
+                <p-table [columns]="cols" [value]="listClient" [paginator]="true" [rows]="5"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} clientes"
+                    [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        Buscar:
+                        <article class="d-inline-block">
+                            <input pInputText type="text" class="form-control input-sm"
+                                placeholder="Escriba un indicio de búsqueda"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')">
+                        </article>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th class="bg-dark">&nbsp;</th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let client of listClient">
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-client>
+                        <tr>
                             <td>
                                 <button class="bg-white btn" data-dismiss="modal" (click)="clientSelect(client)">
                                     <i class="fas fa-plus-circle text-success"></i>
                                 </button>
                             </td>
-                            <th>{{ client.idCard }}</th>
-                            <td>{{ client.name }} {{ client.surname }}</td>
+                            <th style="border-bottom: solid 1px #E9ECEF;">{{ client.idCard }}</th>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.surname }}</td>
                         </tr>
-                    </tbody>
-                </table>
+                    </ng-template>
+                </p-table>
             </div>
             <div class="modal-footer">
                 <small class="text-muted float-left">

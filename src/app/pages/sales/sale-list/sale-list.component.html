@@ -1,57 +1,68 @@
 <div class="animate__animated animate__fadeIn">
     <section *ngIf="afSale.listSale() | async as saleList" class="animate__animated animate__fadeIn">
         <div *ngIf="saleList.length > 0; else empty">
-            <h3>Listado de Ventas <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-sm">Nueva</a></h3>
-            <div class="table-responsive">
-                <table class="table bg-white">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Factura N°</th>
-                            <th>Cliente</th>
-                            <th>Fecha</th>
-                            <th>Vendedor</th>
-                            <th>Total</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let sale of saleList">
-                            <th>{{ sale.date }}</th>
-                            <td>{{ sale.client }}</td>
-                            <td>{{ sale.date | date:'dd MMMM YYYY' }}</td>
-                            <td>{{ sale.user }}</td>
-                            <td>₡{{ calculeTotal(sale.subTotal, sale.tax) | currency:' ' }}</td>
-                            <td>
-                                <div class="btn-group dropleft">
-                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" rel="tooltip"
-                                        title="Despliega el menú de opciones dando clic">
-                                        <i class="fas fa-chevron-circle-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
-                                        *ngIf="afAuth.user$ | async as admin">
-                                        <div class="dropdown-divider mb-0"></div>
-                                        <a class="dropdown-item" (click)="showBill(sale)" data-toggle="modal"
-                                            data-target="#showSale" style="cursor: pointer;">
-                                            <i class="fas fa-eye"></i> Visualizar</a>
-                                        <a *ngIf="admin.role; else notAdmin" class="dropdown-item"
-                                            (click)="deleteBill(sale)" style="cursor: pointer;">
+            <h3>Listado de Ventas
+                <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-sm" pRipple
+                    pTooltip="Realizar nueva venta">Nueva</a>
+            </h3>
+            <p-table [columns]="cols" [value]="afSale.listSale() | async" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true" styleClass="p-datatable-responsive-demo"
+                currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} facturas"
+                [rowsPerPageOptions]="[5,10,25]" #dt>
+                <ng-template pTemplate="caption">
+                    Buscar:
+                    <article class="col-md-6 d-inline-block">
+                        <input pInputText type="text" class="form-control input-sm"
+                            placeholder="Escriba un indicio de búsqueda"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </article>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                        <th class="bg-dark">&nbsp;</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-sale>
+                    <tr>
+                        <th style="border-bottom: solid 1px #E9ECEF;">{{ sale.date }}</th>
+                        <td>{{ sale.client }}</td>
+                        <td>{{ sale.date | date:'dd MMMM YYYY' }}</td>
+                        <td>{{ sale.user }}</td>
+                        <td>₡{{ calculeTotal(sale.subTotal, sale.tax) | currency:' ' }}</td>
+                        <td>
+                            <div class="btn-group dropleft">
+                                <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    pTooltip="Despliegue el menú de opciones" pRipple>
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"
+                                    *ngIf="afAuth.user$ | async as admin">
+                                    <div class="dropdown-divider mb-0"></div>
+                                    <a class="dropdown-item" (click)="showBill(sale)" data-toggle="modal"
+                                        data-target="#showSale" style="cursor: pointer;">
+                                        <i class="fas fa-eye"></i> Visualizar</a>
+                                    <a *ngIf="admin.role; else notAdmin" class="dropdown-item"
+                                        (click)="deleteBill(sale)" style="cursor: pointer;">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </a>
+                                    <ng-template #notAdmin>
+                                        <a class="dropdown-item" style="cursor: pointer;" rel="tooltip"
+                                            title="Inicia sesión en una cuenta administrador">
                                             <i class="fas fa-trash-alt"></i> Eliminar
                                         </a>
-                                        <ng-template #notAdmin>
-                                            <a class="dropdown-item" style="cursor: pointer;" rel="tooltip"
-                                                title="Inicia sesión en una cuenta administrador">
-                                                <i class="fas fa-trash-alt"></i> Eliminar
-                                            </a>
-                                        </ng-template>
-                                        <div class="dropdown-divider mt-0"></div>
-                                    </div>
+                                    </ng-template>
+                                    <div class="dropdown-divider mt-0"></div>
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </section>
     <ng-template #empty>
@@ -116,13 +127,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                <button pRipple type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-angle-double-left"></i> Atrás
                 </button>
-                <button type="button" class="btn btn-info" (click)="ticket()">
+                <button pRipple type="button" class="btn btn-info" (click)="ticket()">
                     <i class="fas fa-ticket-alt"></i> Ticket
                 </button>
-                <button type="button" class="btn btn-info" (click)="PDF()">
+                <button pRipple type="button" class="btn btn-info" (click)="PDF()">
                     &nbsp; <i class="fas fa-file-pdf"></i> PDF &nbsp;
                 </button>
             </div>

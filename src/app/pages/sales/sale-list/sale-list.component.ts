@@ -5,14 +5,17 @@ import { BillInterface } from '@models/bill.interface';
 import { AfInventoryService } from '@pages/components/services/afInventory.service';
 import { MessagesService } from '@shared/services/messages.service';
 import { ReportPDFService } from '@shared/services/reportPDF.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'sale-list',
   templateUrl: './sale-list.component.html',
+  styleUrls: ['./sale-list.component.scss'],
   providers: [DatePipe, CurrencyPipe]
 })
 export class SaleListComponent implements AfterViewInit, OnDestroy {
 
+  cols: any;
   private itemHtml: any;
   billView: BillInterface = {
     date: 0,
@@ -27,8 +30,21 @@ export class SaleListComponent implements AfterViewInit, OnDestroy {
     private popup: MessagesService,
     private pdf: ReportPDFService,
     private currency: CurrencyPipe,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe,
+    private primeng: PrimeNGConfig) {
     this.afSale.collectionSale();
+    this.header();
+    this.primeng.ripple = true;
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'number', header: 'Factura N°' },
+      { field: 'client', header: 'Cliente' },
+      { field: 'date', header: 'Fecha' },
+      { field: 'buyerman', header: 'Vendedor' },
+      { field: 'total', header: 'Total' },
+    ];
   }
 
   ngAfterViewInit() {

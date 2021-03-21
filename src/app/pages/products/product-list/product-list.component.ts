@@ -6,10 +6,12 @@ import { ProductInterface } from '@models/product.interface';
 import { MessagesService } from '@shared/services/messages.service';
 import { AfProductService } from '@pages/products/services/afProduct.service';
 import { afAuthService } from '@auth/services/afAuth.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'product-list',
-  templateUrl: './product-list.component.html'
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements AfterViewInit, OnDestroy {
 
@@ -28,14 +30,18 @@ export class ProductListComponent implements AfterViewInit, OnDestroy {
   productList: ProductInterface[] = [];
   private sub$: Subscription[] = [];
   admin: boolean = false;
+  cols: any;
 
   constructor(private afAuth: afAuthService,
+    private primeng: PrimeNGConfig,
     private sms: MessagesService,
     private afProduct: AfProductService,
     private router: Router) {
     sms.showAlert();
     this.sub$.push(this.afAuth.user$.subscribe(user => this.admin = user.role));
     this.sub$.push(this.afProduct.list().subscribe(list => this.productList = list));
+    this.primeng.ripple = true;
+    this.header();
   }
 
   ngAfterViewInit() {
@@ -50,6 +56,17 @@ export class ProductListComponent implements AfterViewInit, OnDestroy {
     if (this.itemHtml) {
       this.itemHtml.classList.remove('active');
     }
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'code', header: 'Código' },
+      { field: 'image', header: 'Imagén' },
+      { field: 'name', header: 'Producto' },
+      { field: 'status', header: 'Disponible' },
+      { field: 'stock', header: 'Stock' },
+      { field: 'price', header: 'Precio' }
+    ];
   }
 
   editProduct(product: ProductInterface) {
