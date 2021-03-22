@@ -37,44 +37,52 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade bg-white p-4" [ngClass]="show?'active show':''" id="categories" role="tabpanel"
             aria-labelledby="categories-tab">
-            <div class="table-responsive animate__animated animate__fadeIn" *ngIf="categoryList.length > 0; else empty">
-                <table class="table">
-                    <thead>
+            <div class="animate__animated animate__fadeIn" *ngIf="categoryList.length > 0; else empty">
+                <p-table [columns]="cols" [value]="categoryList" [paginator]="true" [rows]="5"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} categorías"
+                    [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        <article class="col-md-4">
+                            <input pInputText type="text" class="form-control d-inline-block"
+                                placeholder="Buscar categoría"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')">
+                        </article>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Detalles</th>
-                            <th>&nbsp;</th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                            <th class="bg-dark">&nbsp;</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let category of categoryList">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-category>
+                        <tr>
                             <td>{{ category.name }}</td>
                             <td>{{ category.detail }}</td>
                             <td *ngIf="afAuth.user$ | async as admin">
                                 <div *ngIf="admin.role; else notAdmin">
-                                    <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
-                                        title="Editar registro" (click)="editCategory(category)">
+                                    <button class="rounded-circle btn btn-warning btn-sm mx-1" pTooltip="Editar registro" (click)="editCategory(category)">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
-                                    <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
-                                        title="Eliminar registro" (click)="deleteCategory(category)">
+                                    <button class="rounded-circle btn btn-dark btn-sm mx-1" pTooltip="Eliminar registro" (click)="deleteCategory(category)">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
                                 <ng-template #notAdmin>
-                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled rel="tooltip"
-                                        title="Inicie sesión en una cuenta administrador">
+                                    <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled pTooltip="Inicie sesión en una cuenta administrador"                                      title="Inicie sesión en una cuenta administrador">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
-                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled rel="tooltip"
-                                        title="Inicie sesión en una cuenta administrador">
+                                    <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled pTooltip="Inicie sesión en una cuenta administrador">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </ng-template>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                    </ng-template>
+                </p-table>
             </div>
             <ng-template #empty>
                 <div class="animate__animated animate__fadeIn">

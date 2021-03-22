@@ -7,33 +7,36 @@ import { afAuthService } from '@auth/services/afAuth.service';
 
 @Component({
   selector: 'client-list',
-  templateUrl: './client-list.component.html'
+  templateUrl: './client-list.component.html',
+  styleUrls: ['../../products/product-list/product-list.component.scss']
 })
 export class ClientListComponent implements OnDestroy {
 
-  edit:boolean = false;
-  show:boolean = true;
-  clientEdit:ClientInterface;
-  clientList:ClientInterface[] = [];
-  private suscription$:Subscription;
+  cols: any;
+  edit: boolean = false;
+  show: boolean = true;
+  clientEdit: ClientInterface;
+  clientList: ClientInterface[] = [];
+  private sub$: Subscription;
 
-  constructor(public afAuth:afAuthService,
-    private afClient:AfClientService, 
-    private popup:MessagesService) {
-    this.suscription$ = this.afClient.list().subscribe(list => this.clientList = list);
+  constructor(public afAuth: afAuthService,
+    private afClient: AfClientService,
+    private popup: MessagesService) {
+    this.sub$ = this.afClient.list().subscribe(list => this.clientList = list);
+    this.header();
   }
 
   ngOnDestroy() {
-    this.suscription$.unsubscribe();
+    this.sub$.unsubscribe();
   }
 
-  editClient(person:ClientInterface) {
+  editClient(person: ClientInterface) {
     this.edit = true;
     this.show = false;
     this.clientEdit = person;
   }
 
-  deleteClient(person:ClientInterface) {
+  deleteClient(person: ClientInterface) {
     this.popup.smsDelete(person.name).then(resp => {
       if (resp.isConfirmed) {
         this.afClient.delete(person);
@@ -43,10 +46,19 @@ export class ClientListComponent implements OnDestroy {
 
   showTab() {
     this.show = true;
-    if (this.edit){ 
-      setTimeout(() => { 
+    if (this.edit) {
+      setTimeout(() => {
         this.edit = false;
       }, 500);
     }
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'idCard', header: 'Cédula' },
+      { field: 'name', header: 'Nombre' },
+      { field: 'surname', header: 'Apellidos' },
+      { field: 'contact', header: 'Contacto' }
+    ];
   }
 }

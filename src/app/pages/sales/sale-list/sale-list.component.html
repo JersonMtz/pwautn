@@ -1,21 +1,23 @@
 <div class="animate__animated animate__fadeIn">
     <section *ngIf="afSale.listSale() | async as saleList" class="animate__animated animate__fadeIn">
         <div *ngIf="saleList.length > 0; else empty">
-            <h3>Listado de Ventas
-                <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-sm" pRipple
-                    pTooltip="Realizar nueva venta">Nueva</a>
-            </h3>
-            <p-table [columns]="cols" [value]="afSale.listSale() | async" [paginator]="true" [rows]="5"
+            <p-table [columns]="cols" [value]="saleList" [paginator]="true" [rows]="5"
                 [showCurrentPageReport]="true" styleClass="p-datatable-responsive-demo"
                 currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} facturas"
                 [rowsPerPageOptions]="[5,10,25]" #dt>
                 <ng-template pTemplate="caption">
-                    Buscar:
-                    <article class="col-md-6 d-inline-block">
-                        <input pInputText type="text" class="form-control input-sm"
-                            placeholder="Escriba un indicio de búsqueda"
-                            (input)="dt.filterGlobal($event.target.value, 'contains')">
-                    </article>
+                    <div class="row">
+                        <article class="col-md-8">
+                            <h2>Listado de Ventas
+                                <a routerLink="/dashboard/sales/new" class="btn btn-primary btn-sm mb-2" pRipple
+                                    pTooltip="Realizar nueva venta">Nueva</a>
+                            </h2>
+                        </article>
+                        <article class="col-md-4 d-inline-block">
+                            <input pInputText type="text" class="form-control input-sm" placeholder="Buscar factura"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')">
+                        </article>
+                    </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
                     <tr>
@@ -28,7 +30,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-sale>
                     <tr>
-                        <th style="border-bottom: solid 1px #E9ECEF;">{{ sale.date }}</th>
+                        <th style="border-bottom: solid 1px #E9ECEF;font-weight: 400;">{{ sale.date }}</th>
                         <td>{{ sale.client }}</td>
                         <td>{{ sale.date | date:'dd MMMM YYYY' }}</td>
                         <td>{{ sale.user }}</td>
@@ -67,7 +69,7 @@
     </section>
     <ng-template #empty>
         <div class="animate__animated animate__fadeIn">
-            <h3>Lista de Ventas</h3>
+            <h2>Lista de Ventas</h2>
             <p class="lead mb-5 text-justify">
                 Haz una nueva venta o espera a que cargue la lista de ventas existente.
             </p>

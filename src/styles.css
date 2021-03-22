@@ -25,6 +25,11 @@ ul#tab.nav li.nav-item a.nav-link[aria-expanded="true"] {
     font-size: 0.9em;
 }
 
+.p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.5rem 0.5rem !important; 
+    font-size: 0.9em !important;
+}
+
 button.rounded-circle.btn.btn-warning.mx-1.btn-sm, .btn {
     cursor: pointer;
 }

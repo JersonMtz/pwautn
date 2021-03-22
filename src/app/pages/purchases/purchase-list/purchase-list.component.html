@@ -1,23 +1,23 @@
 <div class="animate__animated animate__fadeIn">
     <section *ngIf="afPurchase.listPurchase() | async as purchaseList" class="animate__animated animate__fadeIn">
         <div *ngIf="purchaseList.length > 0; else empty">
-            <h3>Listado de Compras
-                <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm" pRipple
-                    pTooltip="Realizar nuevo pedido">Nueva</a>
-            </h3>
-            <p-table [columns]="cols" [value]="afPurchase.listPurchase() | async" [paginator]="true" [rows]="5"
+            <p-table [columns]="cols" [value]="purchaseList" [paginator]="true" [rows]="5"
                 [showCurrentPageReport]="true" [globalFilterFields]="['number','status','provider']"
                 currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} facturas"
                 [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
                 <ng-template pTemplate="caption">
-                    Buscar:
-                    <article class="col-md-6 d-inline-block">
-                        <span [ngSwitch]="'name'">
-                            <input pInputText type="text" class="form-control input-sm"
-                                placeholder="Escriba un indicio de búsqueda"
+                    <div class="row">
+                        <article class="col-md-8">
+                            <h2>Listado de Compras
+                                <a routerLink="/dashboard/purchases/new" class="btn btn-primary btn-sm mb-2" pRipple
+                                    pTooltip="Realizar nuevo pedido">Nueva</a>
+                            </h2>
+                        </article>
+                        <article class="col-md-4 d-inline-block">
+                            <input pInputText type="text" class="form-control input-sm" placeholder="Buscar factura"
                                 (input)="dt.filterGlobal($event.target.value, 'contains')">
-                        </span>
-                    </article>
+                        </article>
+                    </div>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
                     <tr>
@@ -30,18 +30,17 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-purchase>
                     <tr>
-                        <th style="border-bottom: solid 2px #E9ECEF;">{{ purchase.date }}</th>
-                        <th style="border-bottom: solid 2px #E9ECEF;">
+                        <th style="border-bottom: solid 1px #E9ECEF;font-weight: 400;">
                             <i pTooltip="Pedido procesado" *ngIf="purchase.status"
                                 class="fas fa-check text-success"></i>
                             <i pTooltip="Pedido pendiente" *ngIf="!purchase.status"
-                                class="fas fa-exclamation-circle text-warning"></i>
+                                class="fas fa-exclamation-circle text-warning"></i>&nbsp;
+                            {{ purchase.date }}
                         </th>
                         <td>{{ purchase.provider }}</td>
                         <td>{{ purchase.date | date:'dd MMMM YYYY' }}</td>
                         <td>{{ purchase.user }}</td>
-                        <td>₡{{ calculeTotal(purchase.subTotal, purchase.tax) | currency:' ' }}
-                        </td>
+                        <td>₡{{ calculeTotal(purchase.subTotal, purchase.tax) | currency:' ' }}</td>
                         <td>
                             <div class="btn-group dropleft">
                                 <button type="button" class="btn btn-warning btn-sm dropdown-toggle border"
@@ -76,7 +75,7 @@
     </section>
     <ng-template #empty>
         <div class="animate__animated animate__fadeIn">
-            <h3>Lista de Compras</h3>
+            <h2>Lista de Compras</h2>
             <p class="lead mb-5 text-justify">
                 Haz un nuevo pedido o espera a que cargue la lista de compras existente.
             </p>

@@ -21,7 +21,7 @@ export class AfInventoryService {
     private popup: MessagesService) { }
 
   collectionPurchase() {
-    this.purchasesCollection = this.afs.collection<BillInterface>('purchases', ref => ref.orderBy('date', 'desc'));
+    this.purchasesCollection = this.afs.collection<BillInterface>('purchases', ref => ref.orderBy('status', 'asc'));
     this.purchasesList = this.purchasesCollection.snapshotChanges().pipe(
       map(res => res.map(item => {
         let id = item.payload.doc.id;

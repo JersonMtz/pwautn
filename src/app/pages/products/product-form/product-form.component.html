@@ -3,19 +3,17 @@
     <div class="col-md-4 text-center">
         <h2 *ngIf="!editing" class="text-warning mb-3">Nuevo Producto <i class="far fa-clipboard"></i></h2>
         <h2 *ngIf="editing" class="text-warning mb-3">Editar Producto <i class="far fa-clipboard"></i></h2>
-        <img [src]="defaultImg()" alt="product" class="img-thumbnail mb-3" style="max-height: 250px; max-width: 250px;">
-
+        <img [src]="defaultImg()" alt="product" class="img-thumbnail mb-3" style="max-height: 250px; max-width: 250px;"
+            NotImage>
         <div class="progress" *ngIf="loading && photoFile">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-            aria-valuemax="100" [ngStyle]="{width: getPercentage()+'%'}">{{ getPercentage() }}%</div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemax="100"
+                [ngStyle]="{width: getPercentage()+'%'}">{{ getPercentage() }}%</div>
         </div>
-
         <br>
         <input type="file" class="d-none" #controlPhoto (change)="onSelectPhoto($event)" accept="image/*"
             (click)="$event.target.value = ''">
         <small class="text-muted">Tamaño de imágen máximo recomendado 720x720 pixeles</small>
         <br><br>
-
         <button class="btn btn-warning btn-sm mb-3 text-white mx-1" *ngIf="!btnDelete" (click)="controlPhoto.click()"
             [disabled]="!formValid()">
             <i class="fas fa-image"></i> Imágen
@@ -23,22 +21,22 @@
         <button class="btn btn-dark btn-sm mb-3 mx-1" (click)="deletePhoto()" *ngIf="btnDelete" [disabled]="loading">
             <i class="fas fa-minus-circle"></i> Remover
         </button>
-
     </div>
     <div class="col-md-8 bg-white rounded">
         <form action="#" class="px-3 pt-5" [formGroup]="form">
             <article class="form-group row">
                 <label for="code" class="col-sm-2 control-label">Código</label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="err.existCode ? 'is-invalid':''" 
-                    placeholder="A4DF" formControlName="code" #code  (keyup)="valueCheck('code', code.value)">
+                    <input type="text" class="form-control" [ngClass]="err.existCode ? 'is-invalid':''"
+                        placeholder="A4DF" formControlName="code" #code (keyup)="valueCheck('code', code.value)">
                     <div class="invalid-feedback" *ngIf="err.existCode">Código ya registrado</div>
                 </div>
 
                 <label for="name" class="col-sm-2 control-label">Nombre <span class="text-danger">*</span></label>
                 <div class="col-sm-4 mb-2">
-                    <input type="text" class="form-control" [ngClass]="hasErrorField('name') || err.existName ? 'is-invalid':''"
-                        placeholder="Caja vacía" formControlName="name" #name (keyup)="valueCheck('name', name.value)">
+                    <input type="text" class="form-control"
+                        [ngClass]="hasErrorField('name') || err.existName ? 'is-invalid':''" placeholder="Caja vacía"
+                        formControlName="name" #name (keyup)="valueCheck('name', name.value)">
                     <div class="invalid-feedback" *ngIf="hasErrorField('name')">
                         <span *ngIf="requiredField('name')">Nombre es requerido</span>
                     </div>

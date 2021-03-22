@@ -19,7 +19,7 @@
                         <tr *ngFor="let user of userList">
                             <th>
                                 <img [src]="user.photo.url || './../../../assets/img/avatar.png'" alt="avatar"
-                                    width="50px" class="rounded-circle">
+                                    width="50px" class="rounded-circle" NotImage>
                             </th>
                             <th>{{ user.name }} {{ user.surname || ''}}</th>
                             <td>{{ user.mail }}</td>

@@ -16,7 +16,6 @@ import { environment } from '../environments/environment.prod';
 import { FormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-
 @NgModule({
   declarations: [
     AppComponent,

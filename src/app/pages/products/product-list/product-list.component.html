@@ -1,24 +1,23 @@
 <breadcrumb [items]="items"></breadcrumb>
 <div class="animate__animated animate__fadeIn">
-    <h2>Listado de Productos
-        <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm" pRipple pTooltip="Agrega un nuevo producto"
-            *ngIf="productList.length > 0 && admin">Nuevo</a>
-    </h2>
     <div class="animate__animated animate__fadeIn" *ngIf="productList.length > 0; else empty">
         <p-table [columns]="cols" [value]="productList" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
             currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} productos"
             [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
             <ng-template pTemplate="caption">
-                Buscar:
-                <article class="col-md-6 d-inline-block">
-                    <span [ngSwitch]="'name'">
-                        <input pInputText type="text" class="form-control input-sm"
-                            placeholder="Escriba el nombre del producto"
-                            (input)="dt.filter($event.target.value, 'name', cols[2].filterMatchMode)">
-                    </span>
-                </article>
+                <div class="row">
+                    <article class="col-md-8">
+                        <h2>Listado de Productos
+                            <a routerLink="/dashboard/products/add" class="btn btn-primary btn-sm mb-2" pRipple
+                                pTooltip="Agrega un nuevo producto" *ngIf="productList.length > 0 && admin">Nuevo</a>
+                        </h2>
+                    </article>
+                    <article class="col-md-4">
+                        <input pInputText type="text" class="form-control d-inline-block" placeholder="Buscar producto"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </article>
+                </div>
             </ng-template>
-
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
@@ -30,9 +29,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-product>
                 <tr>
-                    <th style="border-bottom: solid 2px #E9ECEF;">&nbsp;&nbsp;{{ product.code }}</th>
+                    <th style="border-bottom: solid 1px #E9ECEF;">&nbsp;&nbsp;{{ product.code }}</th>
                     <td>
-                        <img [src]="product.photo.url || './../../../assets/img/product.png'" width="50" alt="Producto">
+                        <img [src]="product.photo.url || './../../../assets/img/product.png'" width="50" alt="Producto"
+                            NotImage>
                     </td>
                     <td>{{ product.name }}</td>
                     <td>
@@ -43,20 +43,22 @@
                     <td>₡{{ product.price| currency:' ' }}</td>
                     <td>
                         <div *ngIf="admin; else notAdmin">
-                            <button pRipple pTooltip="Editar registro" (click)="editProduct(product)" 
-                            class="btn btn-sm btn-warning rounded-circle mx-1">
+                            <button pRipple pTooltip="Editar registro" (click)="editProduct(product)"
+                                class="btn btn-sm btn-warning rounded-circle mx-1">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
-                            <button pRipple pTooltip="Eliminar registro" (click)="deleteProduct(product)" 
-                            class="btn btn-sm btn-dark rounded-circle mx-1">
+                            <button pRipple pTooltip="Eliminar registro" (click)="deleteProduct(product)"
+                                class="btn btn-sm btn-dark rounded-circle mx-1">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
                         <ng-template #notAdmin>
-                            <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled pTooltip="Inicie sesión en una cuenta administrador">
+                            <button class="rounded-circle btn btn-warning mx-1 btn-sm" disabled
+                                pTooltip="Inicie sesión en una cuenta administrador">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
-                            <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled pTooltip="Inicie sesión en una cuenta administrador">
+                            <button class="rounded-circle btn btn-dark mx-1 btn-sm" disabled
+                                pTooltip="Inicie sesión en una cuenta administrador">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </ng-template>
@@ -67,6 +69,7 @@
     </div>
     <ng-template #empty>
         <div class="animate__animated animate__fadeIn">
+            <h2>Listado de Productos</h2>
             <p class="lead mb-5 text-justify">
                 Al parecer aún no tienes productos, para iniciar agrega unos cuantos productos ó espera a que se cargue
                 la lista.

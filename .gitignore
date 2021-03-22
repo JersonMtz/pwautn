@@ -46,5 +46,4 @@ testem.log
 Thumbs.db
 
 # Firebase Hosting
-.firebaserc
-firebase-debug.log
+.firebase/*

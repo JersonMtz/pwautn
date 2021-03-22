@@ -41,36 +41,47 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade bg-white p-4" [ngClass]="show?'active show':''" id="clientList" role="tabpanel"
             aria-labelledby="clientList-tab">
-            <div class="table-responsive animate__animated animate__fadeIn" *ngIf="clientList.length > 0; else empty">
-                <table class="table">
-                    <thead>
+            <div class="animate__animated animate__fadeIn" *ngIf="clientList.length > 0; else empty">
+                <p-table [columns]="cols" [value]="clientList" [paginator]="true" [rows]="5"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} clientes" [rowsPerPageOptions]="[5,10,25]" #dt
+                    styleClass="p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        Buscar:
+                        <article class="col-md-6 d-inline-block">
+                            <input pInputText type="text" class="form-control input-sm"
+                                placeholder="Escriba un indicio de búsqueda"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')">
+                        </article>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th>Cédula</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Contacto</th>
-                            <th>&nbsp;</th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                            <th class="bg-dark">&nbsp;</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let person of clientList">
-                            <th>{{ person.idCard }}</th>
-                            <td>{{ person.name }}</td>
-                            <td>{{ person.surname }}</td>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-client>
+                        <tr>
+                            <th style="border-bottom: 1px solid #dee2e6;">{{ client.idCard }}</th>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.surname }}</td>
                             <td>
                                 <ul>
-                                    <li><b>Teléfono:</b> {{ person.phone }}</li>
-                                    <li><b>Correo:</b> {{ person.mail }}</li>
+                                    <li><b>Teléfono:</b> {{ client.phone }}</li>
+                                    <li><b>Correo:</b> {{ client.mail }}</li>
                                 </ul>
                             </td>
                             <td *ngIf="afAuth.user$ | async as admin">
                                 <div *ngIf="admin.role; else notAdmin">
                                     <button class="rounded-circle btn btn-warning btn-sm mx-1" rel="tooltip"
-                                        title="Editar registro" (click)="editClient(person)">
+                                        title="Editar registro" (click)="editClient(client)">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
                                     <button class="rounded-circle btn btn-dark btn-sm mx-1" rel="tooltip"
-                                        title="Eliminar registro" (click)="deleteClient(person)">
+                                        title="Eliminar registro" (click)="deleteClient(client)">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -86,8 +97,8 @@
                                 </ng-template>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                    </ng-template>
+                </p-table>
             </div>
             <ng-template #empty>
                 <div class="animate__animated animate__fadeIn">

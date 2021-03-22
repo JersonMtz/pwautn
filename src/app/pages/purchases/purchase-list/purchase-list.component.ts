@@ -61,7 +61,6 @@ export class PurchaseListComponent implements AfterViewInit, OnDestroy {
   private header() {
     this.cols = [
       { field: 'number', header: 'Factura N°' },
-      { field: 'status', header: 'Estado' },
       { field: 'provider', header: 'Proveedor' },
       { field: 'date', header: 'Fecha' },
       { field: 'admin', header: 'Administrador' },

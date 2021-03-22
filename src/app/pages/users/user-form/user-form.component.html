@@ -4,7 +4,7 @@
         <h2 *ngIf="!editing" class="mb-3"><i class="fas fa-plus-circle"></i> Usuario Nuevo</h2>
         <h2 *ngIf="editing" class="mb-3"><i class="fas fa-edit"></i> Editar Usuario</h2>
         <img [src]="user.photo.url" style="max-width: 200px; max-height: 200px;" alt="product"
-            class="rounded-circle mb-3">
+            class="rounded-circle mb-3" NotImage>
 
         <div class="progress" *ngIf="loading && photoFile">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemax="100"

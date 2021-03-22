@@ -8,7 +8,8 @@ import { afAuthService } from '../../../auth/services/afAuth.service';
 
 @Component({
   selector: 'category-list',
-  templateUrl: './category-list.component.html'
+  templateUrl: './category-list.component.html',
+  styleUrls: ['../../products/product-list/product-list.component.scss']
 })
 export class CategoryListComponent implements AfterViewInit, OnDestroy {
 
@@ -33,12 +34,14 @@ export class CategoryListComponent implements AfterViewInit, OnDestroy {
   show: boolean = true;
   categoryEdit: CategoryInterface;
   categoryList: CategoryInterface[] = [];
-  private subscription$: Subscription;
+  private sub$: Subscription;
+  cols: any;
 
   constructor(public afAuth: afAuthService,
     private afCategory: AfCategoryService,
     private popup: MessagesService) {
-    this.subscription$ = this.afCategory.list().subscribe(list => this.categoryList = list);
+    this.sub$ = this.afCategory.list().subscribe(list => this.categoryList = list);
+    this.header();
   }
 
   ngAfterViewInit() {
@@ -49,7 +52,7 @@ export class CategoryListComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription$.unsubscribe();
+    this.sub$.unsubscribe();
     if (this.itemHtml) {
       this.itemHtml.classList.remove('active');
     }
@@ -76,5 +79,12 @@ export class CategoryListComponent implements AfterViewInit, OnDestroy {
         this.edit = false;
       }, 500);
     }
+  }
+
+  private header() {
+    this.cols = [
+      { field: 'name', header: 'Categoría' },
+      { field: 'detail', header: 'Detalles' }
+    ];
   }
 }

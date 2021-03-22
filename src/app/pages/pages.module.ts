@@ -8,7 +8,6 @@ import { TableModule } from "primeng/table";
 
 /* MODULE ROUTING */
 import { PagesRoutingModule } from './pages-routing.module';
-
 /* COMPONENTS PAGES */
 import { SharedModule } from '@shared/shared.module';
 import { PagesComponent  } from "./pages.component";
@@ -38,12 +37,15 @@ import { ProviderFormComponent } from './providers/provider-form/provider-form.c
 /* COMPONENTS MODULE WAREHOUSES */
 import { WarehouseFormComponent } from './warehouses/warehouse-form/warehouse-form.component';
 import { WarehouseListComponent } from './warehouses/warehouse-list/warehouse-list.component';
+/* COMPONENTS MODULE CATEGORIES */
+import { CategoryListComponent } from './category/category-list/category-list.component';
+import { CategoryFormComponent } from './category/category-form/category-form.component';
 
 /* COMPONENTS */
 import { BillCheckComponent } from './components/bill-check/bill-check.component';
 import { StockComponent } from './components/stock/stock.component';
-import { CategoryListComponent } from './category/category-list/category-list.component';
-import { CategoryFormComponent } from './category/category-form/category-form.component';
+
+import { NotImageDirective } from './directive/notImage.directive';
 
 const pagesComponents = [
   BillCheckComponent,
@@ -69,11 +71,12 @@ const pagesComponents = [
   UserListComponent,
   WarehouseFormComponent,
   WarehouseListComponent
-]
+];
 
 @NgModule({
   declarations: [
-    pagesComponents
+    pagesComponents,
+    NotImageDirective
   ],
   exports: [
     pagesComponents

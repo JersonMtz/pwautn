@@ -8,7 +8,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { SpinnerComponent } from './spinner/spinner.component';
-
+import { NotImageDirective } from './directive/notImage.directive';
 
 const sharedComponents = [
   BreadcrumbComponent,
@@ -20,7 +20,8 @@ const sharedComponents = [
 
 @NgModule({
   declarations: [
-    sharedComponents
+    sharedComponents,
+    NotImageDirective
   ],
   exports: [
     sharedComponents
