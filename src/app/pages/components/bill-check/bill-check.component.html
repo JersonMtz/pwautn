@@ -18,7 +18,7 @@
                 <td>₡{{ product.price | currency:' ' }}</td>
                 <td>₡{{ product.total | currency:' ' }}</td>
                 <td><i class="fas fa-trash-alt" style="cursor: pointer;" 
-                    title="Eliminar producto" (click)="deleteProduct(i, product)"></i>
+                    pTooltip="Eliminar producto" (click)="deleteProduct(i, product)"></i>
                 </td>
             </tr>
             <tr>

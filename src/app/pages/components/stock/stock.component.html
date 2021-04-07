@@ -1,15 +1,13 @@
 <div class="animate__animated animate__fadeIn">
     <p-table [columns]="cols" [value]="listProduct" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
         currentPageReportTemplate="Listado del {first} al {last} de {totalRecords} productos"
-        [globalFilterFields]="['code', 'products']" [rowsPerPageOptions]="[5,10,25]" #dt
-        styleClass="p-datatable-responsive-demo">
+        [rowsPerPageOptions]="[5,10,25]" #dt styleClass="p-datatable-responsive-demo">
         <ng-template pTemplate="caption">
             <article class="col-md-6 d-inline-block">
-                <input pInputText type="text" class="form-control input-sm" placeholder="Buscar producto"
+                <input pInputText type="text" class="form-control input-sm" placeholder="Código de producto"
                     (input)="dt.filterGlobal($event.target.value, 'contains')">
             </article>
         </ng-template>
-
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="bg-dark text-white">
